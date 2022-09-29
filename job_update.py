@@ -13,7 +13,7 @@ at_obj = AirtableWrapper("appNj4kFlbJGa6IOm",key)
 filter_out = [
     "https://twitter.com/premint_nft"
 ]
-root_path = "C:\\Users\\Administrator\\Desktop\\autoRaffle\\"
+root_path = "C:\\Users\\Administrator\\Desktop\\autoRaffle-master\\"
 import json
 import twitter_job
 import time
