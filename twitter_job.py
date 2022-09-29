@@ -32,13 +32,14 @@ class twitterJobs():
         followed_btn = "css-18t94o4.css-1dbjc4n.r-1niwhzg.r-2yi16"
         time.sleep(5)
         elements = self.driver.find_elements(By.CLASS_NAME, followed_btn)
-        return elements
+        followd = self._get_following_btn(elements)
+        return followd
 
     def _get_follow_btn(self,elements):
-        temp = None
         for item in elements:
             if item.text == "Follow":
                 return item
+
     def _get_following_btn(self,elements):
         for item in elements:
             if item.text == "Following":
