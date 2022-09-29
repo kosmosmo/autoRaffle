@@ -97,6 +97,15 @@ def run_jobs():
         if rid not in cache:
             time.sleep(5)
 
+
+import urllib.request
+import zipfile
+zip = "https://github.com/kosmosmo/autoRaffle/archive/refs/heads/master.zip"
+dir = r"C:\Users\Administrator\Desktop\bot.zip"
+base_dir = r"C:\Users\Administrator\Desktop"
+urllib.request.urlretrieve(zip, dir)
+with zipfile.ZipFile(dir, 'r') as zip_ref:
+    zip_ref.extractall(base_dir)
 import random
 print ("START!!")
 rand_time = random.randint(1,100)
