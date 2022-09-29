@@ -3,6 +3,9 @@ import undetected_chromedriver as webdriver
 from selenium.webdriver.common.by import By
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
+import json
+import twitter_job
+import time
 root_path = "C:\\Users\\Administrator\\Desktop\\autoRaffle-master\\"
 def _get_key():
     f = open(root_path + 'key.json')
@@ -15,9 +18,7 @@ filter_out = [
     "https://twitter.com/premint_nft"
 ]
 
-import json
-import twitter_job
-import time
+
 
 def get_raffle_requritement(url):
     options = webdriver.ChromeOptions()
