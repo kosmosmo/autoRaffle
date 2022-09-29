@@ -3,6 +3,7 @@ import undetected_chromedriver as webdriver
 from selenium.webdriver.common.by import By
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
+root_path = "C:\\Users\\Administrator\\Desktop\\autoRaffle-master\\"
 def _get_key():
     f = open(root_path + 'key.json')
     data = json.load(f)
@@ -13,7 +14,7 @@ at_obj = AirtableWrapper("appNj4kFlbJGa6IOm",key)
 filter_out = [
     "https://twitter.com/premint_nft"
 ]
-root_path = "C:\\Users\\Administrator\\Desktop\\autoRaffle-master\\"
+
 import json
 import twitter_job
 import time
