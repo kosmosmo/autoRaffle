@@ -49,18 +49,18 @@ class twitterJobs():
 
     def follow(self):
         follow_btn = "css-18t94o4.css-1dbjc4n.r-42olwf.r-2yi16"
-        check_follow = "css-18t94o4.css-1dbjc4n"
         for link in self.follow_links:
             self.driver.get(link)
             timeout = 15
             try:
-                element_present = EC.presence_of_element_located((By.CLASS_NAME, check_follow))
+                element_present = EC.presence_of_element_located((By.CSS_SELECTOR,'.css-18t94o4[data-testid ="userActions"]'))
                 WebDriverWait(self.driver, timeout).until(element_present)
             except TimeoutException:
+                time.sleep(8)
                 pass
             finally:
                 pass
-            time.sleep(5)
+            time.sleep(8)
             checker = self._check_followed()
             while not checker:
                 try:
@@ -114,10 +114,11 @@ class twitterJobs():
                 element_present = EC.presence_of_element_located((By.CSS_SELECTOR,'.css-18t94o4[data-testid ="reply"]'))
                 WebDriverWait(self.driver, timeout).until(element_present)
             except TimeoutException:
+                time.sleep(8)
                 pass
             finally:
                 pass
-            time.sleep(5)
+            time.sleep(8)
             checker = self._check_retweet()
             while not checker[0] or not checker[1]:
                 try:
