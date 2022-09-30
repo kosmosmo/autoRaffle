@@ -23,6 +23,7 @@ class twitterJobs():
 
     def run(self):
         self.driver.get("https://twitter.com/")
+        self.driver.maximize_window()
         self.follow()
         self.retweet()
         self.driver.close()
