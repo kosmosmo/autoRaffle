@@ -74,9 +74,9 @@ def run_jobs():
     cache = _get_cache()
     all_list = at_obj.get_all("raffle list").get('records')
     for item in all_list:
-        i = 0
+        j = 0
         flag = False
-        while i < 3 and not flag:
+        while j < 3 and not flag:
             try:
                 print ("starting job Number " + str(i) + " ........................")
                 fields = item.get('fields')
@@ -102,7 +102,7 @@ def run_jobs():
                     time.sleep(5)
                 flag = True
             except:
-                i += 1
+                j += 1
 
 
 import urllib.request
