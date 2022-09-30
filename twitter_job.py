@@ -31,7 +31,10 @@ class twitterJobs():
     def _check_followed(self):
         followed_btn = "css-18t94o4.css-1dbjc4n.r-1niwhzg.r-2yi16"
         time.sleep(5)
-        elements = self.driver.find_elements(By.CLASS_NAME, followed_btn)
+        try:
+            elements = self.driver.find_elements(By.CLASS_NAME, followed_btn)
+        except:
+            elements = []
         followd = self._get_following_btn(elements)
         return followd
 
@@ -51,15 +54,7 @@ class twitterJobs():
         follow_btn = "css-18t94o4.css-1dbjc4n.r-42olwf.r-2yi16"
         for link in self.follow_links:
             self.driver.get(link)
-            timeout = 15
-            try:
-                element_present = EC.presence_of_element_located((By.CSS_SELECTOR,'.css-18t94o4[data-testid ="userActions"]'))
-                WebDriverWait(self.driver, timeout).until(element_present)
-            except TimeoutException:
-                time.sleep(8)
-                pass
-            finally:
-                pass
+            element = WebDriverWait(self.driver, 15).until(EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="userActions"]')))
             time.sleep(8)
             checker = self._check_followed()
             while not checker:
