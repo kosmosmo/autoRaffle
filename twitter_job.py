@@ -54,7 +54,10 @@ class twitterJobs():
         follow_btn = "css-18t94o4.css-1dbjc4n.r-42olwf.r-2yi16"
         for link in self.follow_links:
             self.driver.get(link)
-            element = WebDriverWait(self.driver, 15).until(EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="userActions"]')))
+            try:
+                WebDriverWait(self.driver, 15).until(EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="userActions"]')))
+            except:
+                time.sleep(10)
             time.sleep(8)
             checker = self._check_followed()
             while not checker:
