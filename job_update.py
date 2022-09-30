@@ -71,11 +71,12 @@ def _write_cache(data):
 
 def run_jobs():
     i = 1
+
     cache = _get_cache()
     all_list = at_obj.get_all("raffle list").get('records')
     for item in all_list:
-        j = 0
         flag = False
+        j = 0
         while j < 3 and not flag:
             try:
                 print ("starting job Number " + str(i) + " ........................")
@@ -103,6 +104,7 @@ def run_jobs():
                 i += 1
             except:
                 j += 1
+                print ("retry.................." + str(j))
 
 
 import urllib.request
