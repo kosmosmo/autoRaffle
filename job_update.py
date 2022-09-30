@@ -74,28 +74,35 @@ def run_jobs():
     cache = _get_cache()
     all_list = at_obj.get_all("raffle list").get('records')
     for item in all_list:
-        print ("starting job Number " + str(i) + " ........................")
-        fields = item.get('fields')
-        status = fields.get('status',None)
-        rid = item.get('id')
-        if status == "Ready" and rid not in cache:
-            retweet_links = fields.get('retweet_links')
-            if retweet_links:
-                retweet_links = retweet_links.split('\n')
-            else:
-                retweet_links = []
-            follow_links =  fields.get('follow_links')
-            if follow_links:
-                follow_links = follow_links.split('\n')
-            else:
-                follow_links = []
-            tw_job = twitter_job.twitterJobs(retweet_links,follow_links)
-            tw_job.run()
-            cache[rid] = ''
-            _write_cache(cache)
-        i += 1
-        if rid not in cache:
-            time.sleep(5)
+        i = 0
+        flag = False
+        while i < 3 or not flag:
+            try:
+                print ("starting job Number " + str(i) + " ........................")
+                fields = item.get('fields')
+                status = fields.get('status',None)
+                rid = item.get('id')
+                if status == "Ready" and rid not in cache:
+                    retweet_links = fields.get('retweet_links')
+                    if retweet_links:
+                        retweet_links = retweet_links.split('\n')
+                    else:
+                        retweet_links = []
+                    follow_links =  fields.get('follow_links')
+                    if follow_links:
+                        follow_links = follow_links.split('\n')
+                    else:
+                        follow_links = []
+                    tw_job = twitter_job.twitterJobs(retweet_links,follow_links)
+                    tw_job.run()
+                    cache[rid] = ''
+                    _write_cache(cache)
+                i += 1
+                if rid not in cache:
+                    time.sleep(5)
+                flag = True
+            except:
+                i += 1
 
 
 import urllib.request
