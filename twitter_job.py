@@ -15,7 +15,6 @@ class twitterJobs():
 
     def get_driver(self):
         options = webdriver.ChromeOptions()
-        options.add_argument("start-maximized")
         options.add_argument(r"user-data-dir=C:\Users\\Administrator\AppData\Local\Google\Chrome\User Data")
         options.add_argument(r'--profile-directory=Default')
         return webdriver.Chrome(options=options,use_subprocess=True)
@@ -24,6 +23,7 @@ class twitterJobs():
     def run(self):
         self.driver.get("https://twitter.com/")
         self.driver.maximize_window()
+        time.sleep(5)
         self.follow()
         self.retweet()
         self.driver.close()
