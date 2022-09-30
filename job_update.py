@@ -76,7 +76,7 @@ def run_jobs():
     for item in all_list:
         i = 0
         flag = False
-        while i < 3 or not flag:
+        while i < 3 and not flag:
             try:
                 print ("starting job Number " + str(i) + " ........................")
                 fields = item.get('fields')
