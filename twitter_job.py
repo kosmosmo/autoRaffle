@@ -55,10 +55,10 @@ class twitterJobs():
         for link in self.follow_links:
             self.driver.get(link)
             try:
-                WebDriverWait(self.driver, 15).until(EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="userActions"]')))
+                WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="userActions"]')))
             except:
-                time.sleep(10)
-            time.sleep(8)
+                time.sleep(20)
+            time.sleep(20)
             checker = self._check_followed()
             while not checker:
                 try:
@@ -76,6 +76,7 @@ class twitterJobs():
                         print('sleeping.......' + str(sleep_time))
                         time.sleep(sleep_time)
                 except:
+                    time.sleep(5)
                     self.driver.get(link)
                     time.sleep(5)
                     pass
@@ -135,6 +136,7 @@ class twitterJobs():
                         time.sleep(sleep_time)
                         self.driver.refresh()
                 except:
+                    time.sleep(5)
                     self.driver.get(link)
                     time.sleep(5)
 
