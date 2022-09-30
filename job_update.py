@@ -97,10 +97,10 @@ def run_jobs():
                     tw_job.run()
                     cache[rid] = ''
                     _write_cache(cache)
-                i += 1
                 if rid not in cache:
                     time.sleep(5)
                 flag = True
+                i += 1
             except:
                 j += 1
 
