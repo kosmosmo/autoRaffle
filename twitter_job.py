@@ -39,11 +39,13 @@ class twitterJobs():
         for item in elements:
             if item.text == "Follow":
                 return item
+        return []
 
     def _get_following_btn(self,elements):
         for item in elements:
             if item.text == "Following":
                 return item
+        return []
 
     def follow(self):
         follow_btn = "css-18t94o4.css-1dbjc4n.r-42olwf.r-2yi16"
