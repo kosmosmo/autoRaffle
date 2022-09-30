@@ -105,6 +105,8 @@ def run_jobs():
             except:
                 j += 1
                 print ("retry.................." + str(j))
+                import os
+                os.system("taskkill /im chrome.exe /f")
 
 
 import urllib.request
