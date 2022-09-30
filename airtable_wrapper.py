@@ -51,5 +51,3 @@ class AirtableWrapper(airtable.Airtable):
         return None
 
 
-#at =AirtableWrapper('appwwDPteWc7xn2Ns', 'keyjOuS4tcdZXj9jU')
-#print (at.update('MAIN TRACKER',"recjo5mk0ngQRxrQ0",{"Status":'Ingesting'}))
