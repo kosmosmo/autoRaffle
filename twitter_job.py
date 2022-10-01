@@ -51,14 +51,17 @@ class twitterJobs():
         return url.replace("intent/retweet","intent/like")
 
     def _get_user_name(self,url):
+        print ('hey.............')
         parsed_url = urlparse(url)
         duser = parse_qs(parsed_url.query)['screen_name'][0]
         elems = self.driver.find_elements(by=By.XPATH, value="//a[@href]")
-        for item in elems:
-            print (item)
+        print('hey.............2')
+        for elem in elems:
+            url = elem.get_attribute("href")
+            print(url)
             photo_url = "https://twitter.com/" + duser + "/photo"
-            if item.lower() == photo_url.lower():
-                return item.replace('', "https://twitter.com/").replace('', "/photo")
+            if url.lower() == photo_url.lower():
+                return url.replace('', "https://twitter.com/").replace('', "/photo")
         return duser
 
     def actions(self,url,status):
