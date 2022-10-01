@@ -71,7 +71,7 @@ class twitterJobs():
                     EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="confirmationSheetConfirm"]')))
             except:
                 time.sleep(20)
-            sleep_time = random.randint(5, 10)
+            sleep_time = random.randint(10, 20)
             time.sleep(sleep_time)
             retweet_btn = self.driver.find_element(By.CSS_SELECTOR,'.css-18t94o4[data-testid ="confirmationSheetConfirm"]')
             retweet_btn.click()
