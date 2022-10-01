@@ -27,10 +27,13 @@ class twitterJobs():
         try:
             if status == "followed":
                 user = self._get_user_name(url)
-                print (user)
                 checking = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[aria-label ="Following @{}"]'.format(user))
+                print('find checking..........')
+                print(user)
             else:
                 checking = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[data-testid ="{}"]'.format(status))
+                print ('find checking..........')
+                print (checking)
             if checking:
                 return True
             return False
@@ -39,11 +42,12 @@ class twitterJobs():
 
     def run(self):
         time.sleep(2)
-        for item in self.retweet_links:
-            self.actions(item,"unretweet")
-            self.actions(item, "unlike")
         for item in self.follow_links:
             self.actions(item, "followed")
+        for item in self.retweet_links:
+            self.actions(item,"unretweet")
+            #self.actions(item, "unlike")
+
 
 
     def _get_user_name(self,url):
