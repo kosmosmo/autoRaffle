@@ -75,6 +75,7 @@ class twitterJobs():
             retweet_btn = self.driver.find_element(By.CSS_SELECTOR,'.css-18t94o4[data-testid ="confirmationSheetConfirm"]')
             retweet_btn.click()
             time.sleep(10)
+            print ('clicked.............!!!!!!')
             if self._check_status(status,url):
                 flag = False
             else:
