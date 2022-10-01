@@ -28,6 +28,7 @@ class twitterJobs():
         try:
             if status == "followed":
                 user = self._get_user_name(url)
+                print (user)
                 checking = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[aria-label ="Following @{}"]'.format(user))
             else:
                 checking = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[data-testid ="{}"]'.format(status))
@@ -49,13 +50,14 @@ class twitterJobs():
         return url.replace("intent/retweet","intent/like")
 
     def _get_user_name(self,url):
+        parsed_url = urlparse(url)
+        duser = parse_qs(parsed_url.query)['screen_name'][0]
         elems = self.driver.find_elements(by=By.XPATH, value="//a[@href]")
         for item in elems:
-            if item.startswith("https://twitter.com/") and item.endswith("/photo"):
+            photo_url = "https://twitter.com/" + duser + "/photo"
+            if item.lower() == photo_url.lower():
                 return item.replace('', "https://twitter.com/").replace('', "/photo")
-        parsed_url = urlparse(url)
-        user = parse_qs(parsed_url.query)['screen_name'][0]
-        return user
+        return duser
 
     def actions(self,url,status):
         #status "unretweet" for retweet
