@@ -80,9 +80,9 @@ def delet_bad_pref():
     if os.path.exists(filePath):
         os.remove(filePath)
         print ("deleted bad pref!!")
-    else:
-        print("Can not delete???????????????")
-    time.sleep(30)
+        time.sleep(10)
+
+
 
 def run_jobs():
     i = 1
