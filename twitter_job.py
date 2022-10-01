@@ -66,18 +66,20 @@ class twitterJobs():
             time.sleep(3)
             self.driver.maximize_window()
             time.sleep(3)
-            self.driver.execute_script("window.open('{}')".format(url))
+            self.driver.execute_script('''window.open("{}","_blank");'''.format(url))
             time.sleep(3)
             try:
                 WebDriverWait(self.driver, 30).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="confirmationSheetConfirm"]')))
             except:
                 time.sleep(20)
+            print ('found')
             sleep_time = random.randint(10, 20)
             time.sleep(sleep_time)
             retweet_btn = self.driver.find_element(By.CSS_SELECTOR,'.css-18t94o4[data-testid ="confirmationSheetConfirm"]')
             retweet_btn.click()
             time.sleep(10)
+            print ('clicked')
             if self._check_status(status,url):
                 flag = False
             else:
