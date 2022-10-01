@@ -21,17 +21,47 @@ class twitterJobs():
         time.sleep(2)
         return webdriver.Chrome(options=options,use_subprocess=True)
 
-    def follow(self,url):
+    def check_retweeted(self):
+        try:
+            retweeted = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[data-testid ="unretweet"]')
+            if retweeted:
+                return True
+            return False
+        except:
+            return False
+
+    def check_test(self,url):
         self.driver.get(url)
         self.driver.maximize_window()
+        timeout = 15
         try:
-            WebDriverWait(self.driver, 30).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="confirmationSheetConfirm"]')))
-        except:
-            time.sleep(20)
-        retweet_btn = self.driver.find_element(By.CSS_SELECTOR,'.css-18t94o4[data-testid ="confirmationSheetConfirm"]')
-        retweet_btn.click()
-        time.sleep(300)
+            element_present = EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="reply"]'))
+            WebDriverWait(self.driver, timeout).until(element_present)
+        except TimeoutException:
+            time.sleep(8)
+            pass
+        finally:
+            pass
+        time.sleep(5)
+        print (self.check_retweeted())
+
+    def follow(self,urls):
+        for url in urls:
+            flag = True
+            while flag:
+                self.driver.get(url)
+                self.driver.maximize_window()
+                try:
+                    WebDriverWait(self.driver, 30).until(
+                        EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="confirmationSheetConfirm"]')))
+                except:
+                    time.sleep(20)
+                retweet_btn = self.driver.find_element(By.CSS_SELECTOR,'.css-18t94o4[data-testid ="confirmationSheetConfirm"]')
+                retweet_btn.click()
+                time.sleep(10)
+                if self.check_retweeted():
+                    flag = False
 
 a = twitterJobs([],[])
-a.follow('https://twitter.com/intent/retweet?tweet_id=1566915113436827649')
+a.check_test(['https://twitter.com/intent/retweet?tweet_id=1566915113436827649'])
+a.check_test(['https://twitter.com/intent/retweet?tweet_id=1572352772598824961'])
