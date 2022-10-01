@@ -31,18 +31,20 @@ def get_raffle_requritement(url):
     for elem in elems:
         url = elem.get_attribute("href")
         print(url)
-        if url.startswith("https://twitter.com/") and "screen_name=" in url:
+        if not url.startswith("https://twitter.com/"):
+            continue
+        if  "screen_name=" in url:#alpha follow
             parsed_url = urlparse(url)
             user = parse_qs(parsed_url.query)['screen_name'][0]
-            follow_links.add("https://twitter.com/" + user)
-        elif  url.startswith("https://twitter.com/") and  "tweet_id=" in url:
-            parsed_url = urlparse(url)
-            status = parse_qs(parsed_url.query)['tweet_id'][0]
-            follow_links.add("https://twitter.com/user/status/" + status)
-        elif url.startswith("https://twitter.com/") and "status" in url:
+            follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
+        elif "tweet_id=" in url:#alpha retweet
             retweet_links.add(url)
-        elif url.startswith("https://twitter.com/") and url not in filter_out:
-            retweet_links.add(url)
+        elif "/status/" in url: #premint retweet
+            tweet_id = url.split("/status/")[1]
+            retweet_links.add("https://twitter.com/intent/retweet?tweet_id="+tweet_id)
+        elif url not in filter_out:#premint follow
+            user = url.split("https://twitter.com/")[1]
+            follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
 
     return [list(retweet_links),list(follow_links)]
 
@@ -62,7 +64,6 @@ def get_links():
                 "retweet_links":retweet_links,
                 "follow_links":follow_links
             })
-
 
 
 

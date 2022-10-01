@@ -6,6 +6,8 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 import time,random
+from urllib.parse import urlparse
+from urllib.parse import parse_qs
 
 class twitterJobs():
     def __init__(self,retweet_links,follow_links):
@@ -22,126 +24,62 @@ class twitterJobs():
         time.sleep(2)
         return webdriver.Chrome(options=options,use_subprocess=True)
 
+    def _check_status(self,status,url):
+        try:
+            if status == "followed":
+                user = self._get_user_name(url)
+                checking = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[aria-label ="Following @{}"]'.format(user))
+                print('find checking..........')
+                print(user)
+            else:
+                checking = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[data-testid ="{}"]'.format(status))
+                print ('find checking..........')
+                print (checking)
+            if checking:
+                return True
+            return False
+        except:
+            return False
 
     def run(self):
         time.sleep(2)
-        self.driver.get("https://twitter.com/")
-        self.driver.maximize_window()
-        time.sleep(5)
-        self.follow()
-        self.retweet()
-        self.driver.close()
-        self.driver.quit()
+        for item in self.follow_links:
+            self.actions(item, "followed")
+        for item in self.retweet_links:
+            self.actions(item,"unretweet")
+            self.actions(self._convert_like_url(item), "unlike")
 
-    def _check_followed(self):
-        followed_btn = "css-18t94o4.css-1dbjc4n.r-1niwhzg.r-2yi16"
-        time.sleep(5)
-        try:
-            elements = self.driver.find_elements(By.CLASS_NAME, followed_btn)
-        except:
-            elements = []
-        followd = self._get_following_btn(elements)
-        return followd
+    def _convert_like_url(self,url):
+        return url.replace("intent/retweet","intent/like")
 
-    def _get_follow_btn(self,elements):
-        for item in elements:
-            if item.text == "Follow":
-                return item
-        return []
+    def _get_user_name(self,url):
+        parsed_url = urlparse(url)
+        user = parse_qs(parsed_url.query)['screen_name'][0]
+        return user
 
-    def _get_following_btn(self,elements):
-        for item in elements:
-            if item.text == "Following":
-                return item
-        return []
-
-    def follow(self):
-        follow_btn = "css-18t94o4.css-1dbjc4n.r-42olwf.r-2yi16"
-        for link in self.follow_links:
-            self.driver.get(link)
+    def actions(self,url,status):
+        #status "unretweet" for retweet
+        #status "unlike" for like
+        #status "followed" for follow
+        flag = True
+        while flag:
+            self.driver.get(url)
+            self.driver.maximize_window()
             try:
-                WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="userActions"]')))
+                WebDriverWait(self.driver, 30).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="confirmationSheetConfirm"]')))
             except:
                 time.sleep(20)
-            time.sleep(20)
-            checker = self._check_followed()
-            while not checker:
-                try:
-                    elements = self.driver.find_elements(By.CLASS_NAME,
-                                                 follow_btn
-                                                 )
-                    follow = self._get_follow_btn(elements)
-                    follow.click()
-                    time.sleep(5)
-                    self.driver.refresh()
-                    time.sleep(5)
-                    checker = self._check_followed()
-                    if not checker:
-                        sleep_time = random.randint(120, 360)
-                        print('sleeping.......' + str(sleep_time))
-                        time.sleep(sleep_time)
-                except:
-                    time.sleep(5)
-                    self.driver.get(link)
-                    time.sleep(5)
-                    pass
+            sleep_time = random.randint(5, 10)
+            time.sleep(sleep_time)
+            retweet_btn = self.driver.find_element(By.CSS_SELECTOR,'.css-18t94o4[data-testid ="confirmationSheetConfirm"]')
+            retweet_btn.click()
+            time.sleep(10)
+            if self._check_status(status,url):
+                flag = False
+            else:
+                sleep_time = random.randint(180, 460)
+                print('sleeping.......' + str(sleep_time))
+                time.sleep(sleep_time)
 
-
-    def _check_retweet(self):
-        try:
-            retweeted = self.driver.find_element(By.CSS_SELECTOR,'.css-18t94o4[data-testid ="unretweet"]')
-        except:
-            retweeted = None
-        try:
-            liked = self.driver.find_element(By.CSS_SELECTOR,'.css-18t94o4[data-testid ="unlike"]')
-        except:
-            liked = None
-        return [retweeted,liked]
-
-    def _retweet_action(self):
-        self.driver.find_element(By.CSS_SELECTOR,
-                                 '.css-18t94o4[data-testid ="retweet"]'
-                                 ).click()
-        actions = ActionChains(self.driver)
-        actions.send_keys(Keys.RETURN).perform()
-
-    def _like_action(self):
-        self.driver.find_element(By.CSS_SELECTOR,
-                                 '.css-18t94o4[data-testid ="like"]'
-                                 ).click()
-
-    def retweet(self):
-        for link in self.retweet_links:
-            self.driver.get(link)
-            timeout = 15
-            try:
-                element_present = EC.presence_of_element_located((By.CSS_SELECTOR,'.css-18t94o4[data-testid ="reply"]'))
-                WebDriverWait(self.driver, timeout).until(element_present)
-            except TimeoutException:
-                time.sleep(8)
-                pass
-            finally:
-                pass
-            time.sleep(8)
-            checker = self._check_retweet()
-            while not checker[0] or not checker[1]:
-                try:
-                    if not checker[0]:
-                        self._retweet_action()
-                    if not checker[1]:
-                        self._like_action()
-                    time.sleep(10)
-                    time.sleep(5)
-                    self.driver.refresh()
-                    time.sleep(5)
-                    checker = self._check_retweet()
-                    if not checker[0] or not checker[1]:
-                        sleep_time = random.randint(120, 360)
-                        print('sleeping.......' + str(sleep_time))
-                        time.sleep(sleep_time)
-                        self.driver.refresh()
-                except:
-                    time.sleep(5)
-                    self.driver.get(link)
-                    time.sleep(5)
 

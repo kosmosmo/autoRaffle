@@ -46,9 +46,10 @@ class twitterJobs():
             self.actions(item, "followed")
         for item in self.retweet_links:
             self.actions(item,"unretweet")
-            #self.actions(item, "unlike")
+            self.actions(self._convert_like_url(item), "unlike")
 
-
+    def _convert_like_url(self,url):
+        return url.replace("intent/retweet","intent/like")
 
     def _get_user_name(self,url):
         parsed_url = urlparse(url)
@@ -76,17 +77,8 @@ class twitterJobs():
             if self._check_status(status,url):
                 flag = False
             else:
-                sleep_time = random.randint(20, 100)
+                sleep_time = random.randint(180, 460)
                 print('sleeping.......' + str(sleep_time))
                 time.sleep(sleep_time)
 
 
-a = twitterJobs(["https://twitter.com/intent/retweet?tweet_id=1566915113436827649",
-                 "https://twitter.com/intent/retweet?tweet_id=1575581391504347136",
-                 "https://twitter.com/intent/retweet?tweet_id=1531095577228091395",
-                 ],
-                ["https://twitter.com/intent/user?screen_name=DuelRealms&utm_source=alphabot.app",
-                 "https://twitter.com/intent/user?screen_name=etofficialnft&utm_source=alphabot.app",
-                 "https://twitter.com/intent/user?screen_name=theabysswtf&utm_source=alphabot.app",
-                 "https://twitter.com/intent/user?screen_name=Machina_NFT&utm_source=alphabot.app"])
-a.run()

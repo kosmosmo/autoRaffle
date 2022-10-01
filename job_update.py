@@ -6,6 +6,7 @@ from urllib.parse import parse_qs
 import json
 import twitter_job
 import time
+import os
 root_path = "C:\\Users\\Administrator\\Desktop\\autoRaffle-master\\"
 def _get_key():
     f = open(root_path + 'key.json')
@@ -73,12 +74,22 @@ def _write_cache(data):
     with open(root_path + "cache.json", "w") as outfile:
         json.dump(data, outfile, indent=4)
 
+def delet_bad_pref():
+    import os
+    filePath = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences.bad'
+    if os.path.exists(filePath):
+        os.remove(filePath)
+        print ("deleted bad pref!!")
+    else:
+        print("Can not delete???????????????")
+    time.sleep(30)
+
 def run_jobs():
     i = 1
-
     cache = _get_cache()
     all_list = at_obj.get_all("raffle list").get('records')
     for item in all_list:
+        delet_bad_pref()
         flag = False
         j = 0
         while j < 3 and not flag:
