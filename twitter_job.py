@@ -66,8 +66,10 @@ class twitterJobs():
             time.sleep(3)
             self.driver.maximize_window()
             time.sleep(3)
-            self.driver.execute_script('''window.open("{}","_blank");'''.format(url))
+            self.driver.get(url)
             time.sleep(3)
+            main = self.driver.window_handles[0]
+            self.driver.switch_to.window(main)
             try:
                 WebDriverWait(self.driver, 30).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="confirmationSheetConfirm"]')))
