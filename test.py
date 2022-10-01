@@ -23,13 +23,15 @@ class twitterJobs():
 
     def follow(self,url):
         self.driver.get(url)
+        self.driver.maximize_window()
         try:
             WebDriverWait(self.driver, 30).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="confirmationSheetConfirm"]')))
         except:
             time.sleep(20)
-        retweet_btn = self.driver.find_element(By.CSS_SELECTOR,'.css-18t94o4[data-testid ="unretweet"]')
+        retweet_btn = self.driver.find_element(By.CSS_SELECTOR,'.css-18t94o4[data-testid ="confirmationSheetConfirm"]')
         retweet_btn.click()
+        time.sleep(300)
 
 a = twitterJobs([],[])
 a.follow('https://twitter.com/intent/retweet?tweet_id=1566915113436827649')
