@@ -25,11 +25,10 @@ class twitterJobs():
         return webdriver.Chrome(options=options,use_subprocess=True)
 
     def _check_status(self,status,url):
-        user = self._get_user_name(url)
-        print(user)
+        time.sleep(5)
         try:
             if status == "followed":
-
+                user = self._get_user_name(url)
                 checking = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[aria-label ="Following @{}"]'.format(user))
             else:
                 checking = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[data-testid ="{}"]'.format(status))
