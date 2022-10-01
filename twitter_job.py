@@ -29,12 +29,8 @@ class twitterJobs():
             if status == "followed":
                 user = self._get_user_name(url)
                 checking = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[aria-label ="Following @{}"]'.format(user))
-                print('find checking..........')
-                print(user)
             else:
                 checking = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[data-testid ="{}"]'.format(status))
-                print ('find checking..........')
-                print (checking)
             if checking:
                 return True
             return False
@@ -63,8 +59,13 @@ class twitterJobs():
         #status "followed" for follow
         flag = True
         while flag:
+            time.sleep(3)
             self.driver.get(url)
+            time.sleep(3)
             self.driver.maximize_window()
+            time.sleep(3)
+            main = self.driver.window_handles[0]
+            self.driver.switch_to.window(main)
             try:
                 WebDriverWait(self.driver, 30).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="confirmationSheetConfirm"]')))
