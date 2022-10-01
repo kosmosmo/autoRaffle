@@ -28,8 +28,7 @@ class twitterJobs():
         try:
             if status == "followed":
                 user = self._get_user_name(url)
-                find = ".//css-18t94o4[translate(@aria-label, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = ''Following @{}']".format(user)
-                checking = self.driver.find_element(By.CSS_SELECTOR, find)
+                checking = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[aria-label ="Following @{}"]'.format(user))
             else:
                 checking = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[data-testid ="{}"]'.format(status))
             if checking:
@@ -50,6 +49,10 @@ class twitterJobs():
         return url.replace("intent/retweet","intent/like")
 
     def _get_user_name(self,url):
+        elems = self.driver.find_elements(by=By.XPATH, value="//a[@href]")
+        for item in elems:
+            if item.startswith("https://twitter.com/") and item.endswith("/photo"):
+                return item.replace('', "https://twitter.com/").replace('', "/photo")
         parsed_url = urlparse(url)
         user = parse_qs(parsed_url.query)['screen_name'][0]
         return user
@@ -70,14 +73,11 @@ class twitterJobs():
                     EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="confirmationSheetConfirm"]')))
             except:
                 time.sleep(20)
-            print ('found!!!!!!!!')
             sleep_time = random.randint(10, 20)
             time.sleep(sleep_time)
             retweet_btn = self.driver.find_element(By.CSS_SELECTOR,'.css-18t94o4[data-testid ="confirmationSheetConfirm"]')
             retweet_btn.click()
             time.sleep(10)
-            print ('clicked.............!!!!!!')
-            time.sleep(20)
             if self._check_status(status,url):
                 flag = False
             else:
