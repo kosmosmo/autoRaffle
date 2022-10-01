@@ -51,17 +51,14 @@ class twitterJobs():
         return url.replace("intent/retweet","intent/like")
 
     def _get_user_name(self,url):
-        print ('hey.............')
         parsed_url = urlparse(url)
         duser = parse_qs(parsed_url.query)['screen_name'][0]
         elems = self.driver.find_elements(by=By.XPATH, value="//a[@href]")
-        print('hey.............2')
         for elem in elems:
             url = elem.get_attribute("href")
-            print(url)
             photo_url = "https://twitter.com/" + duser + "/photo"
             if url.lower() == photo_url.lower():
-                return url.replace('', "https://twitter.com/").replace('', "/photo")
+                return url.replace("https://twitter.com/",'').replace("/photo",'')
         return duser
 
     def actions(self,url,status):
@@ -83,15 +80,11 @@ class twitterJobs():
                     EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="confirmationSheetConfirm"]')))
             except:
                 time.sleep(20)
-            print ('found')
             sleep_time = random.randint(10, 20)
             time.sleep(sleep_time)
             retweet_btn = self.driver.find_element(By.CSS_SELECTOR,'.css-18t94o4[data-testid ="confirmationSheetConfirm"]')
             retweet_btn.click()
             time.sleep(10)
-            print ('clicked')
-            a = self._get_user_name(url)
-            print (a)
             if self._check_status(status,url):
                 flag = False
             else:
