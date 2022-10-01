@@ -77,6 +77,7 @@ class twitterJobs():
             retweet_btn.click()
             time.sleep(10)
             print ('clicked.............!!!!!!')
+            time.sleep(20)
             if self._check_status(status,url):
                 flag = False
             else:
