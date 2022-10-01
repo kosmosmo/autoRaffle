@@ -5,6 +5,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
+from urllib.parse import urlparse
+from urllib.parse import parse_qs
 import time,random
 class twitterJobs():
     def __init__(self,retweet_links,follow_links):
@@ -21,12 +23,15 @@ class twitterJobs():
         time.sleep(2)
         return webdriver.Chrome(options=options,use_subprocess=True)
 
-    def _check_status(self,status):
-        if status == "followed":
-            return self._check_followed()
+    def _check_status(self,status,url):
         try:
-            retweeted = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[data-testid ="{}"]'.format(status))
-            if retweeted:
+            if status == "followed":
+                user = self._get_user_name(url)
+                print (user)
+                checking = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[aria-label ="Following @{}"]'.format(user))
+            else:
+                checking = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[data-testid ="{}"]'.format(status))
+            if checking:
                 return True
             return False
         except:
@@ -34,24 +39,21 @@ class twitterJobs():
 
     def run(self):
         time.sleep(2)
-        for item in self.follow_links:
+        for item in self.retweet_links:
             self.actions(item,"unretweet")
             self.actions(item, "unlike")
+        for item in self.follow_links:
+            self.actions(item, "followed")
 
-    def _check_followed(self):
-        followed_btn = "css-18t94o4.css-1dbjc4n.r-1niwhzg.r-2yi16"
-        time.sleep(5)
-        try:
-            elements = self.driver.find_elements(By.CLASS_NAME, followed_btn)
-        except:
-            elements = []
-        return self._get_following_btn(elements)
+    def follow_test(self):
+        for item in self.follow_links:
+            print (self._check_status("followed",item))
 
-    def _get_following_btn(self,elements):
-        for item in elements:
-            if item.text == "Following":
-                return True
-        return False
+
+    def _get_user_name(self,url):
+        parsed_url = urlparse(url)
+        user = parse_qs(parsed_url.query)['screen_name'][0]
+        return user
 
     def actions(self,url,status):
         #status "unretweet" for retweet
@@ -69,7 +71,7 @@ class twitterJobs():
             retweet_btn = self.driver.find_element(By.CSS_SELECTOR,'.css-18t94o4[data-testid ="confirmationSheetConfirm"]')
             retweet_btn.click()
             time.sleep(10)
-            if self._check_status(status):
+            if self._check_status(status,url):
                 flag = False
             else:
                 sleep_time = random.randint(20, 100)
@@ -85,4 +87,4 @@ a = twitterJobs(["https://twitter.com/intent/retweet?tweet_id=156691511343682764
                  "https://twitter.com/intent/user?screen_name=etofficialnft&utm_source=alphabot.app",
                  "https://twitter.com/intent/user?screen_name=theabysswtf&utm_source=alphabot.app",
                  "https://twitter.com/intent/user?screen_name=Machina_NFT&utm_source=alphabot.app"])
-a.run()
+a.follow_test()
