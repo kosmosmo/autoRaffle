@@ -12,6 +12,11 @@ from urllib.parse import parse_qs
 class twitterJobs():
     def __init__(self,retweet_links,follow_links):
         self.driver = self.get_driver()
+        time.sleep(3)
+        self.driver.maximize_window()
+        time.sleep(3)
+        self.driver.get("https://www.google.com/")
+        time.sleep(3)
         self.retweet_links = retweet_links
         self.follow_links = follow_links
 
@@ -66,9 +71,6 @@ class twitterJobs():
         #status "followed" for follow
         flag = True
         while flag:
-            time.sleep(3)
-            self.driver.maximize_window()
-            time.sleep(3)
             self.driver.get(url)
             time.sleep(3)
             main = self.driver.window_handles[0]
