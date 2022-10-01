@@ -28,7 +28,8 @@ class twitterJobs():
         try:
             if status == "followed":
                 user = self._get_user_name(url)
-                checking = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[aria-label ="Following @{}"]'.format(user))
+                find = ".//css-18t94o4[translate(@aria-label, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = ''Following @{}']".format(user)
+                checking = self.driver.find_element(By.CSS_SELECTOR, find)
             else:
                 checking = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[data-testid ="{}"]'.format(status))
             if checking:
