@@ -134,7 +134,7 @@ with zipfile.ZipFile(dir, 'r') as zip_ref:
     zip_ref.extractall(base_dir)
 import random
 print ("START!!")
-rand_time = random.randint(1,2)
+rand_time = random.randint(1,100)
 time.sleep(rand_time)
 run_jobs()
 print ("DONE")
