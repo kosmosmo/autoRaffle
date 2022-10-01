@@ -21,47 +21,67 @@ class twitterJobs():
         time.sleep(2)
         return webdriver.Chrome(options=options,use_subprocess=True)
 
-    def check_retweeted(self):
+    def _check_status(self,status):
+        if status == "followed":
+            return self._check_followed()
         try:
-            retweeted = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[data-testid ="unretweet"]')
+            retweeted = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[data-testid ="{}"]'.format(status))
             if retweeted:
                 return True
             return False
         except:
             return False
 
-    def check_test(self,url):
-        self.driver.get(url)
-        self.driver.maximize_window()
-        timeout = 15
-        try:
-            element_present = EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="reply"]'))
-            WebDriverWait(self.driver, timeout).until(element_present)
-        except TimeoutException:
-            time.sleep(8)
-            pass
-        finally:
-            pass
+    def run(self):
+        time.sleep(2)
+        for item in self.follow_links:
+            self.actions(item,"unretweet")
+            self.actions(item, "unlike")
+
+    def _check_followed(self):
+        followed_btn = "css-18t94o4.css-1dbjc4n.r-1niwhzg.r-2yi16"
         time.sleep(5)
-        print (self.check_retweeted())
+        try:
+            elements = self.driver.find_elements(By.CLASS_NAME, followed_btn)
+        except:
+            elements = []
+        return self._get_following_btn(elements)
 
-    def follow(self,urls):
-        for url in urls:
-            flag = True
-            while flag:
-                self.driver.get(url)
-                self.driver.maximize_window()
-                try:
-                    WebDriverWait(self.driver, 30).until(
-                        EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="confirmationSheetConfirm"]')))
-                except:
-                    time.sleep(20)
-                retweet_btn = self.driver.find_element(By.CSS_SELECTOR,'.css-18t94o4[data-testid ="confirmationSheetConfirm"]')
-                retweet_btn.click()
-                time.sleep(10)
-                if self.check_retweeted():
-                    flag = False
+    def _get_following_btn(self,elements):
+        for item in elements:
+            if item.text == "Following":
+                return True
+        return False
 
-a = twitterJobs([],[])
-a.check_test('https://twitter.com/DuelRealms/status/1566915113436827649')
-a.check_test('https://twitter.com/SeasonsNFT_/status/1572352772598824961')
+    def actions(self,url,status):
+        #status "unretweet" for retweet
+        #status "unlike" for like
+        #status "followed" for follow
+        flag = True
+        while flag:
+            self.driver.get(url)
+            self.driver.maximize_window()
+            try:
+                WebDriverWait(self.driver, 30).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="confirmationSheetConfirm"]')))
+            except:
+                time.sleep(20)
+            retweet_btn = self.driver.find_element(By.CSS_SELECTOR,'.css-18t94o4[data-testid ="confirmationSheetConfirm"]')
+            retweet_btn.click()
+            time.sleep(10)
+            if self._check_status(status):
+                flag = False
+            else:
+                sleep_time = random.randint(20, 100)
+                print('sleeping.......' + str(sleep_time))
+                time.sleep(sleep_time)
+
+
+a = twitterJobs(["https://twitter.com/intent/retweet?tweet_id=1566915113436827649",
+                 "https://twitter.com/intent/retweet?tweet_id=1575581391504347136",
+                 "https://twitter.com/intent/retweet?tweet_id=1531095577228091395",
+                 ],
+                ["https://twitter.com/intent/user?screen_name=DuelRealms&utm_source=alphabot.app",
+                 "https://twitter.com/intent/user?screen_name=etofficialnft&utm_source=alphabot.app",
+                 "https://twitter.com/intent/user?screen_name=theabysswtf&utm_source=alphabot.app",
+                 "https://twitter.com/intent/user?screen_name=Machina_NFT&utm_source=alphabot.app"])
