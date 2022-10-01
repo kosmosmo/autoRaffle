@@ -55,6 +55,7 @@ class twitterJobs():
         duser = parse_qs(parsed_url.query)['screen_name'][0]
         elems = self.driver.find_elements(by=By.XPATH, value="//a[@href]")
         for item in elems:
+            print (item)
             photo_url = "https://twitter.com/" + duser + "/photo"
             if item.lower() == photo_url.lower():
                 return item.replace('', "https://twitter.com/").replace('', "/photo")
@@ -86,6 +87,8 @@ class twitterJobs():
             retweet_btn.click()
             time.sleep(10)
             print ('clicked')
+            a = self._get_user_name(url)
+            print (a)
             if self._check_status(status,url):
                 flag = False
             else:
