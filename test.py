@@ -63,5 +63,5 @@ class twitterJobs():
                     flag = False
 
 a = twitterJobs([],[])
-a.check_test(['https://twitter.com/intent/retweet?tweet_id=1566915113436827649'])
-a.check_test(['https://twitter.com/intent/retweet?tweet_id=1572352772598824961'])
+a.check_test('https://twitter.com/DuelRealms/status/1566915113436827649')
+a.check_test('https://twitter.com/SeasonsNFT_/status/1572352772598824961')
