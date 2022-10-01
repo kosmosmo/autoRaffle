@@ -38,6 +38,10 @@ def get_raffle_requritement(url):
             retweet_links.add(url)
         elif url.startswith("https://twitter.com/") and url not in filter_out:
             follow_links.add(url)
+        elif  url.startswith("https://twitter.com/") and  "tweet_id=" in url:
+            parsed_url = urlparse(url)
+            status = parse_qs(parsed_url.query)['tweet_id'][0]
+            follow_links.add("https://twitter.com/user/status/" + status)
     return [list(retweet_links),list(follow_links)]
 
 def get_links():
