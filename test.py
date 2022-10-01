@@ -85,3 +85,4 @@ a = twitterJobs(["https://twitter.com/intent/retweet?tweet_id=156691511343682764
                  "https://twitter.com/intent/user?screen_name=etofficialnft&utm_source=alphabot.app",
                  "https://twitter.com/intent/user?screen_name=theabysswtf&utm_source=alphabot.app",
                  "https://twitter.com/intent/user?screen_name=Machina_NFT&utm_source=alphabot.app"])
+a.run()
