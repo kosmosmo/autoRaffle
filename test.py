@@ -45,10 +45,6 @@ class twitterJobs():
         for item in self.follow_links:
             self.actions(item, "followed")
 
-    def follow_test(self):
-        for item in self.follow_links:
-            print (self._check_status("followed",item))
-
 
     def _get_user_name(self,url):
         parsed_url = urlparse(url)
@@ -87,4 +83,4 @@ a = twitterJobs(["https://twitter.com/intent/retweet?tweet_id=156691511343682764
                  "https://twitter.com/intent/user?screen_name=etofficialnft&utm_source=alphabot.app",
                  "https://twitter.com/intent/user?screen_name=theabysswtf&utm_source=alphabot.app",
                  "https://twitter.com/intent/user?screen_name=Machina_NFT&utm_source=alphabot.app"])
-a.follow_test()
+a.run()
