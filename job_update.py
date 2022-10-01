@@ -88,8 +88,8 @@ def run_jobs():
     i = 1
     cache = _get_cache()
     all_list = at_obj.get_all("raffle list").get('records')
+    delet_bad_pref()
     for item in all_list:
-        delet_bad_pref()
         flag = False
         j = 0
         while j < 3 and not flag:
