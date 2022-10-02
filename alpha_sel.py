@@ -24,6 +24,15 @@ key = _get_key()
 
 at_obj = AirtableWrapper("appNj4kFlbJGa6IOm",key)
 
+def _get_cache():
+    f = open(root_path + 'alpha_cache.json')
+    data = json.load(f)
+    return data
+
+def _write_cache(data):
+    with open(root_path + "alpha_cache.json", "w") as outfile:
+        json.dump(data, outfile, indent=4)
+
 class alphaJobs():
     def __init__(self,url):
         self.url = url
@@ -120,10 +129,10 @@ class alphaJobs():
         return [list(retweet_links), list(follow_links)]
 
     def _click_reg(self):
-        if self._check_success_reg():
-            self.driver.quit()
+        try:
+            reg_btn = self.driver.find_element(By.CSS_SELECTOR, '.MuiButton-root[data-action ="view-project-register"]')
+        except:
             return
-        reg_btn = self.driver.find_element(By.CSS_SELECTOR, '.MuiButton-root[data-action ="view-project-register"]')
         time.sleep(10)
         reg_btn.click()
         time.sleep(15)
@@ -149,15 +158,32 @@ class alphaJobs():
                 })
         self.driver.quit()
 
+def run_all_jobs():
+    job_list = at_obj.get_all("alpha list").get('records')
+    cache = _get_cache()
+    for item in job_list:
+        fields = item.get('fields')
+        url = fields.get('url')
+        if url not in cache:
+            job = alphaJobs(url)
+            job.run()
+            cache[url] = ""
+            _write_cache(cache)
+        time.sleep(10)
 
 
+def delet_bad_pref():
+    import os
+    bad_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences.bad'
+    pref_file_path =  r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences'
+    if os.path.exists(bad_file_path):
+        os.remove(bad_file_path)
+        print ("deleted bad pref!!")
+        time.sleep(10)
+    if os.path.exists(pref_file_path):
+        os.remove(pref_file_path)
+        print ("deleted bad pref!!")
+        time.sleep(10)
 
-
-b = alphaJobs('https://www.alphabot.app/kiddoy00ts-paid-spots-zc8lo3')
-b.run()
-
-c = alphaJobs('https://www.alphabot.app/thegalanft-wl-giveaway-uaa1sk')
-c.run()
-
-a = alphaJobs('https://www.alphabot.app/mc-nuos-wl-giveaway-yzeakj')
-a.run()
+delet_bad_pref()
+run_all_jobs()
