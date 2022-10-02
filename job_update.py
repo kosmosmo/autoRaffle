@@ -84,7 +84,7 @@ def delet_bad_pref():
         time.sleep(10)
     if os.path.exists(pref_file_path):
         os.remove(pref_file_path)
-        print ("deleted bad pref!!")
+        print ("deleted pref!!")
         time.sleep(10)
 
 
@@ -95,6 +95,8 @@ def run_jobs():
     cache = _get_cache()
     all_list = at_obj.get_all("raffle list").get('records')
     delet_bad_pref()
+    rand_time = random.randint(1, 100)
+    time.sleep(rand_time)
     for item in all_list:
         flag = False
         j = 0
@@ -140,7 +142,5 @@ with zipfile.ZipFile(dir, 'r') as zip_ref:
     zip_ref.extractall(base_dir)
 import random
 print ("START!!")
-rand_time = random.randint(1,100)
-time.sleep(rand_time)
 run_jobs()
 print ("DONE")
