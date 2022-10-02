@@ -155,11 +155,11 @@ class alphaJobs():
             self.driver = self.get_driver()
             time.sleep(10)
             try:
-                reg_btn = self.driver.find_element(By.CSS_SELECTOR,
+                reg_btn_new = self.driver.find_element(By.CSS_SELECTOR,
                                                    '.MuiButton-root[data-action ="view-project-register"]')
+                reg_btn_new.click()
             except:
-                return
-            reg_btn.click()
+                pass
         if not self._check_success_reg():
             find_rec = at_obj.get("alpha fails", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
                 'records')
