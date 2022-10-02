@@ -19,8 +19,10 @@ root_path = "C:\\Users\\Administrator\\Desktop\\autoRaffle-master\\"
 def _get_key():
     f = open(root_path + 'key.json')
     data = json.load(f)
-    return data['key']
-key = _get_key()
+    return data
+data = _get_key()
+key = data['key']
+machine_name = data['name']
 
 at_obj = AirtableWrapper("appNj4kFlbJGa6IOm",key)
 
@@ -167,18 +169,20 @@ def run_all_jobs():
     cache = _get_cache()
     i = 1
     for item in job_list:
-        print ("ALPHA job ............" + str(i))
+
         fields = item.get('fields')
         url = fields.get('url')
-        if url not in cache:
-            job = alphaJobs(url)
-            job.run()
-            cache[url] = ""
-            _write_cache(cache)
-            time.sleep(10)
-        i += 1
-
-
+        machines = fields.get('machine (from alpha index)')
+        name = fields.get('Name (from alpha index)')
+        print("ALPHA job ............" + str(i) + '........'+name)
+        if "All" in machines or machine_name in machines:
+            if url not in cache:
+                job = alphaJobs(url)
+                job.run()
+                cache[url] = ""
+                _write_cache(cache)
+                time.sleep(10)
+            i += 1
 
 def delet_bad_pref():
     import os
@@ -192,8 +196,6 @@ def delet_bad_pref():
         os.remove(pref_file_path)
         print ("deleted bad pref!!")
         time.sleep(10)
-
-
 
 delet_bad_pref()
 run_all_jobs()

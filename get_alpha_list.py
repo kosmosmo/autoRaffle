@@ -17,16 +17,7 @@ msgs_history = []
 at_obj = AirtableWrapper("appNj4kFlbJGa6IOm",key)
 history_ct = 10
 
-def bot_clicker(alpha_job,label):
-    buts = Buttoner(alpha_job.components)
-    test = bot.click(
-        alpha_job.m["author"]["id"],
-        channelID=alpha_job.channelID,
-        guildID=dc_id,
-        messageID=alpha_job.message_id,
-        messageFlags=alpha_job.flags,
-        data=buts.getButton(label=label),
-    )
+
 
 def get_alpha_index():
     index_list = at_obj.get_all("alpha index").get('records')
