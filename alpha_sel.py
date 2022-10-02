@@ -20,8 +20,6 @@ class alphaJobs():
         time.sleep(3)
         self.driver.maximize_window()
         time.sleep(3)
-        self.driver.get()
-        time.sleep(3)
 
     def get_driver(self):
         options = webdriver.ChromeOptions()
