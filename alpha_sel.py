@@ -86,6 +86,16 @@ class alphaJobs():
                 return False
         return True
 
+    def _check_success_reg(self):
+        time.sleep(10)
+        try:
+            checking = self.driver.find_element(By.CLASS_NAME, 'MuiTypography-root.MuiTypography-h5.css-1l3cl22')
+        except:
+            return False
+        if checking:
+            return True
+        return False
+
     def _get_raffle_requritement(self):
         retweet_links = set()
         follow_links = set()
@@ -116,6 +126,9 @@ class alphaJobs():
         time.sleep(15)
         checker = self._find_error()
         if checker:
+            if self._check_success_reg():
+                self.driver.quit()
+                return
             req = self._get_raffle_requritement()
             self.driver.quit()
             tw_job = twitter_job.twitterJobs(req[0], req[1])
@@ -123,6 +136,14 @@ class alphaJobs():
             self.driver.get(self.url)
             time.sleep(10)
             reg_btn.click()
+        if not self._check_success_reg():
+            find_rec = at_obj.get("alpha fails", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
+                'records')
+            if not find_rec:
+                at_obj.create("alpha fails", {
+                    "Url": self.url,
+                    "Notes": "unknown"
+                })
         self.driver.quit()
 
 
