@@ -76,10 +76,13 @@ class alphaJobs():
         errors = self.driver.find_elements(By.CLASS_NAME, 'MuiAlert-standardError')
         for item in errors:
             if "join" in item.text.lower() and "discord" in item.text.lower():
-                at_obj.create("alpha fails",{
-                    "Url":self.url,
-                    "Notes":item.text
-                })
+                find_rec = at_obj.get("alpha fails", filter_by_formula='FIND("Url", {})'.format(self.url)).get(
+                    'records')
+                if not find_rec:
+                    at_obj.create("alpha fails",{
+                        "Url":self.url,
+                        "Notes":item.text
+                    })
                 return False
         return True
 
@@ -117,6 +120,10 @@ class alphaJobs():
             self.driver.quit()
             tw_job = twitter_job.twitterJobs(req[0], req[1])
             tw_job.run()
+            self.driver.get(self.url)
+            time.sleep(10)
+            reg_btn.click()
+        self.driver.quit()
 
 
 
