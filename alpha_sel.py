@@ -111,9 +111,9 @@ class alphaJobs():
 
     def _click_reg(self):
         reg_btn = self.driver.find_element(By.CSS_SELECTOR, '.MuiButton-root[data-action ="view-project-register"]')
-        time.sleep(5)
+        time.sleep(10)
         reg_btn.click()
-        time.sleep(5)
+        time.sleep(15)
         checker = self._find_error()
         if checker:
             req = self._get_raffle_requritement()
