@@ -115,7 +115,6 @@ class alphaJobs():
         elems = self.driver.find_elements(by=By.XPATH, value="//a[@href]")
         for elem in elems:
             url = elem.get_attribute("href")
-            print(url)
             if not url.startswith("https://twitter.com/"):
                 continue
             if "screen_name=" in url:  # alpha follow
@@ -165,7 +164,9 @@ class alphaJobs():
 def run_all_jobs():
     job_list = at_obj.get_all("alpha list").get('records')
     cache = _get_cache()
+    i = 1
     for item in job_list:
+        print ("ALPHA job ............" + str(i))
         fields = item.get('fields')
         url = fields.get('url')
         if url not in cache:
@@ -173,6 +174,7 @@ def run_all_jobs():
             job.run()
             cache[url] = ""
             _write_cache(cache)
+        i += 1
         time.sleep(10)
 
 
