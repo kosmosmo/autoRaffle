@@ -46,7 +46,6 @@ class alphaJobs():
     def run(self):
         self._click_reg()
         self.driver.quit()
-        self.driver.close()
 
     def get_raffle_requritement(self,url):
         options = webdriver.ChromeOptions()
@@ -116,7 +115,6 @@ class alphaJobs():
         if checker:
             req = self._get_raffle_requritement()
             self.driver.quit()
-            self.driver.close()
             tw_job = twitter_job.twitterJobs(req[0], req[1])
             tw_job.run()
 
