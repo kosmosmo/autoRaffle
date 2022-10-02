@@ -76,11 +76,17 @@ def _write_cache(data):
 
 def delet_bad_pref():
     import os
-    filePath = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences.bad'
-    if os.path.exists(filePath):
-        os.remove(filePath)
+    bad_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences.bad'
+    pref_file_path =  r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences'
+    if os.path.exists(bad_file_path):
+        os.remove(bad_file_path)
         print ("deleted bad pref!!")
         time.sleep(10)
+    if os.path.exists(pref_file_path):
+        os.remove(pref_file_path)
+        print ("deleted bad pref!!")
+        time.sleep(10)
+
 
 
 
