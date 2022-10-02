@@ -148,7 +148,8 @@ class alphaJobs():
             self.driver.quit()
             tw_job = twitter_job.twitterJobs(req[0], req[1])
             tw_job.run()
-            self.driver.get(self.url)
+            time.sleep(10)
+            self.driver = self.get_driver()
             time.sleep(10)
             reg_btn.click()
         if not self._check_success_reg():
