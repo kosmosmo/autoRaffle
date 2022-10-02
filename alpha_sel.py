@@ -76,7 +76,7 @@ class alphaJobs():
         errors = self.driver.find_elements(By.CLASS_NAME, 'MuiAlert-standardError')
         for item in errors:
             if "join" in item.text.lower() and "discord" in item.text.lower():
-                find_rec = at_obj.get("alpha fails", filter_by_formula='FIND("Url", {})'.format(self.url)).get(
+                find_rec = at_obj.get("alpha fails", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
                     'records')
                 if not find_rec:
                     at_obj.create("alpha fails",{
