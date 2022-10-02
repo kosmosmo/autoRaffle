@@ -40,8 +40,9 @@ def _write_cache(data):
         json.dump(data, outfile, indent=4)
 
 class alphaJobs():
-    def __init__(self,url):
+    def __init__(self,url,keyword):
         self.url = url
+        self.keyword= keyword
         self.driver = self.get_driver()
         time.sleep(3)
         self.driver.maximize_window()
@@ -90,7 +91,7 @@ class alphaJobs():
     def _find_error(self):
         errors = self.driver.find_elements(By.CLASS_NAME, 'MuiAlert-standardError')
         for item in errors:
-            if "join" in item.text.lower() and "discord" in item.text.lower():
+            if "join" in item.text.lower() and "discord" in item.text.lower() and self.keyword.lower() not in item.text.lower():
                 find_rec = at_obj.get("alpha fails", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
                     'records')
                 if not find_rec:
@@ -174,10 +175,11 @@ def run_all_jobs():
         url = fields.get('url')
         machines = fields.get('machine (from alpha index)')
         name = fields.get('Name (from alpha index)')
+        keyword = fields.get('keyword (from alpha index)')
         print("ALPHA job ............" + str(i) + '........'+name)
         if "All" in machines or machine_name in machines:
             if url not in cache:
-                job = alphaJobs(url)
+                job = alphaJobs(url,keyword)
                 job.run()
                 cache[url] = ""
                 _write_cache(cache)
