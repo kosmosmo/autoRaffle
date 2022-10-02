@@ -62,8 +62,11 @@ class twitterJobs():
         for elem in elems:
             url = elem.get_attribute("href")
             photo_url = "https://twitter.com/" + duser + "/photo"
+            nft_url  = "https://twitter.com/" + duser + "/nft"
             if url.lower() == photo_url.lower():
                 return url.replace("https://twitter.com/",'').replace("/photo",'')
+            if url.lower() == nft_url.lower():
+                return url.replace("https://twitter.com/",'').replace("/nft",'')
         return duser
 
     def actions(self,url,status):
