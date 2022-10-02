@@ -50,6 +50,8 @@ class twitterJobs():
         for item in self.retweet_links:
             self.actions(item,"unretweet")
             self.actions(self._convert_like_url(item), "unlike")
+        self.driver.quit()
+        self.driver.close()
 
     def _convert_like_url(self,url):
         return url.replace("intent/retweet","intent/like")
