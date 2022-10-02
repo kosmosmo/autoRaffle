@@ -175,8 +175,9 @@ def run_all_jobs():
             job.run()
             cache[url] = ""
             _write_cache(cache)
+            time.sleep(10)
         i += 1
-        time.sleep(10)
+
 
 
 def delet_bad_pref():
