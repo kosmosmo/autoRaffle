@@ -121,7 +121,8 @@ class alphaJobs():
 
 
 a = alphaJobs('https://www.alphabot.app/mc-nuos-wl-giveaway-yzeakj')
-b = alphaJobs('https://www.alphabot.app/tentacular-wl-giveaway-6nynn2')
 a.run()
+
+b = alphaJobs('https://www.alphabot.app/tentacular-wl-giveaway-6nynn2')
 b.run()
 
