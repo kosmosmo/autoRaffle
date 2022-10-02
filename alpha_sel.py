@@ -33,7 +33,7 @@ class alphaJobs():
         return webdriver.Chrome(options=options,use_subprocess=True)
 
     def run(self):
-        self.click_reg()
+        self._click_reg()
 
     def get_raffle_requritement(self,url):
         options = webdriver.ChromeOptions()
@@ -73,8 +73,8 @@ class alphaJobs():
         reg_btn = self.driver.find_element(By.CSS_SELECTOR, '.MuiButton-root[data-action ="view-project-register"]')
         time.sleep(5)
         reg_btn.click()
-        time.sleep(10)
-        self.find_error()
+        time.sleep(5)
+        self._find_error()
 
 a = alphaJobs('https://www.alphabot.app/mc-nuos-wl-giveaway-yzeakj')
 a.run()
