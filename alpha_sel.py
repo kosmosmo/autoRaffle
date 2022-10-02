@@ -60,11 +60,18 @@ class alphaJobs():
                 follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
         return [list(retweet_links), list(follow_links)]
 
+    def find_error(self):
+        errors = self.driver.find_elements(By.CLASS_NAME, 'MuiAlert-standardError')
+        for item in errors:
+            print (item.text)
+        time.sleep(30)
+
     def click_reg(self):
         reg_btn = self.driver.find_element(By.CSS_SELECTOR, '.MuiButton-root[data-action ="view-project-register"]')
         time.sleep(5)
         reg_btn.click()
         time.sleep(10)
+        self.find_error()
 
 a = alphaJobs('https://www.alphabot.app/mc-nuos-wl-giveaway-yzeakj')
 a.run()
