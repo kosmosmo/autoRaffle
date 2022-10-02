@@ -133,3 +133,5 @@ a.run()
 b = alphaJobs('https://www.alphabot.app/tentacular-wl-giveaway-6nynn2')
 b.run()
 
+c = alphaJobs('https://www.alphabot.app/thegalanft-wl-giveaway-uaa1sk')
+c.run()
