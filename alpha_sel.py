@@ -45,6 +45,8 @@ class alphaJobs():
 
     def run(self):
         self._click_reg()
+        self.driver.quit()
+        self.driver.close()
 
     def get_raffle_requritement(self,url):
         options = webdriver.ChromeOptions()
