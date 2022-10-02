@@ -129,6 +129,9 @@ class alphaJobs():
         time.sleep(15)
         checker = self._find_error()
         if checker:
+            if self._check_success_reg():
+                self.driver.quit()
+                return
             req = self._get_raffle_requritement()
             self.driver.quit()
             tw_job = twitter_job.twitterJobs(req[0], req[1])
@@ -148,11 +151,13 @@ class alphaJobs():
 
 
 
-a = alphaJobs('https://www.alphabot.app/mc-nuos-wl-giveaway-yzeakj')
-a.run()
 
-b = alphaJobs('https://www.alphabot.app/tentacular-wl-giveaway-6nynn2')
+
+b = alphaJobs('https://www.alphabot.app/kiddoy00ts-paid-spots-zc8lo3')
 b.run()
 
 c = alphaJobs('https://www.alphabot.app/thegalanft-wl-giveaway-uaa1sk')
 c.run()
+
+a = alphaJobs('https://www.alphabot.app/mc-nuos-wl-giveaway-yzeakj')
+a.run()
