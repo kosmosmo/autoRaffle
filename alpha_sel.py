@@ -22,7 +22,7 @@ def _get_key():
     return data
 data = _get_key()
 key = data['key']
-machine_name = data['name']
+machine_name = data.get('name','All')
 
 at_obj = AirtableWrapper("appNj4kFlbJGa6IOm",key)
 
