@@ -120,15 +120,15 @@ class alphaJobs():
         return [list(retweet_links), list(follow_links)]
 
     def _click_reg(self):
+        if self._check_success_reg():
+            self.driver.quit()
+            return
         reg_btn = self.driver.find_element(By.CSS_SELECTOR, '.MuiButton-root[data-action ="view-project-register"]')
         time.sleep(10)
         reg_btn.click()
         time.sleep(15)
         checker = self._find_error()
         if checker:
-            if self._check_success_reg():
-                self.driver.quit()
-                return
             req = self._get_raffle_requritement()
             self.driver.quit()
             tw_job = twitter_job.twitterJobs(req[0], req[1])
