@@ -25,6 +25,10 @@ key = _get_key()
 at_obj = AirtableWrapper("appNj4kFlbJGa6IOm",key)
 
 def _get_cache():
+    import os
+    if not os.path.exists(root_path + 'alpha_cache.json'):
+        data = {}
+        _write_cache(data)
     f = open(root_path + 'alpha_cache.json')
     data = json.load(f)
     return data
@@ -184,6 +188,8 @@ def delet_bad_pref():
         os.remove(pref_file_path)
         print ("deleted bad pref!!")
         time.sleep(10)
+
+
 
 delet_bad_pref()
 run_all_jobs()
