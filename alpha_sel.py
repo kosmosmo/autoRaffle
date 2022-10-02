@@ -63,7 +63,7 @@ class alphaJobs():
     def _find_error(self):
         errors = self.driver.find_elements(By.CLASS_NAME, 'MuiAlert-standardError')
         for item in errors:
-            print (item.herf)
+            print (item.get_attribute('href'))
         time.sleep(30)
 
     def _log_failed_job(self):
