@@ -154,6 +154,11 @@ class alphaJobs():
             time.sleep(10)
             self.driver = self.get_driver()
             time.sleep(10)
+            try:
+                reg_btn = self.driver.find_element(By.CSS_SELECTOR,
+                                                   '.MuiButton-root[data-action ="view-project-register"]')
+            except:
+                return
             reg_btn.click()
         if not self._check_success_reg():
             find_rec = at_obj.get("alpha fails", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
@@ -170,7 +175,6 @@ def run_all_jobs():
     cache = _get_cache()
     i = 1
     for item in job_list:
-
         fields = item.get('fields')
         url = fields.get('url')
         machines = fields.get('machine (from alpha index)')
