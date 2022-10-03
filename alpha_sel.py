@@ -114,7 +114,7 @@ class alphaJobs():
         return True
 
     def _check_success_reg(self):
-        time.sleep(10)
+        time.sleep(7)
         try:
             checking = self.driver.find_element(By.CLASS_NAME, 'MuiTypography-root.MuiTypography-h5.css-1l3cl22')
         except:
@@ -157,9 +157,9 @@ class alphaJobs():
             reg_btn = self.driver.find_element(By.CSS_SELECTOR, '.MuiButton-root[data-action ="view-project-register"]')
         except:
             return
-        time.sleep(10)
+        time.sleep(7)
         reg_btn.click()
-        time.sleep(15)
+        time.sleep(12)
         checker = self._find_error()
         if checker:
             if self._check_success_reg():
@@ -169,7 +169,7 @@ class alphaJobs():
             self.driver.quit()
             tw_job = twitter_job.twitterJobs(req[0], req[1])
             tw_job.run()
-            time.sleep(10)
+            time.sleep(5)
             self.driver = self.get_driver()
             time.sleep(10)
             try:
@@ -224,11 +224,11 @@ def delet_bad_pref():
     if os.path.exists(bad_file_path):
         os.remove(bad_file_path)
         print ("deleted bad pref!!")
-        time.sleep(10)
+        time.sleep(5)
     if os.path.exists(pref_file_path):
         os.remove(pref_file_path)
         print ("deleted bad pref!!")
-        time.sleep(10)
+        time.sleep(5)
 
 delet_bad_pref()
 run_all_jobs()
