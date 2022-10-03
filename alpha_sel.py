@@ -178,16 +178,22 @@ def run_all_jobs():
         fields = item.get('fields')
         url = fields.get('url')
         machines = fields.get('machine (from alpha index)')
-        name = fields.get('Name (from alpha index)')[0]
-        keyword = fields.get('keyword (from alpha index)')[0]
+        name = fields.get('Name (from alpha index)',['All'])[0]
+        keyword = fields.get('keyword (from alpha index)',['keywordkeywordkeyword'])[0]
         print("ALPHA job ............" + str(i) + '........'+name)
         if "All" in machines or machine_name in machines:
-            if url not in cache:
-                job = alphaJobs(url,keyword)
-                job.run()
-                cache[url] = ""
-                _write_cache(cache)
-                time.sleep(10)
+            tried = 0
+            while tried < 3:
+                try:
+                    if url not in cache:
+                        job = alphaJobs(url,keyword)
+                        job.run()
+                        cache[url] = ""
+                        _write_cache(cache)
+                        time.sleep(10)
+                    tried = 4
+                except:
+                    tried += 1
             i += 1
 
 def delet_bad_pref():
