@@ -40,9 +40,10 @@ def _write_cache(data):
         json.dump(data, outfile, indent=4)
 
 class alphaJobs():
-    def __init__(self,url,keyword):
+    def __init__(self,url,keyword,rid):
         self.url = url
         self.keyword= keyword
+        self.rid = rid
         self.driver = self.get_driver()
         time.sleep(3)
         self.driver.maximize_window()
@@ -87,6 +88,16 @@ class alphaJobs():
                 user = url.split("https://twitter.com/")[1]
                 follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
         return [list(retweet_links), list(follow_links)]
+
+    def _check_over(self):
+        try:
+            over = self.driver.find_element(By.CLASS_NAME, 'MuiTypography-root.MuiTypography-h5')
+            if "You're not a winner. Maybe next time!" in over.text or "You're a winner! Congratulations" in over.text or "Raffle is over." in over.text:
+                return False
+            return True
+        except:
+            return True
+
 
     def _find_error(self):
         errors = self.driver.find_elements(By.CLASS_NAME, 'MuiAlert-standardError')
@@ -135,6 +146,12 @@ class alphaJobs():
         return [list(retweet_links), list(follow_links)]
 
     def _click_reg(self):
+        if not self._check_over():
+            try:
+                at_obj.delete("alpha list",self.rid)
+            except:
+                pass
+            return
         try:
             reg_btn = self.driver.find_element(By.CSS_SELECTOR, '.MuiButton-root[data-action ="view-project-register"]')
         except:
@@ -175,6 +192,7 @@ def run_all_jobs():
     cache = _get_cache()
     i = 1
     for item in job_list:
+        rid = item.get('id')
         fields = item.get('fields')
         url = fields.get('url')
         machines = fields.get('machine (from alpha index)')
@@ -186,7 +204,7 @@ def run_all_jobs():
             while tried < 3:
                 try:
                     if url not in cache:
-                        job = alphaJobs(url,keyword)
+                        job = alphaJobs(url,keyword,rid)
                         job.run()
                         cache[url] = ""
                         _write_cache(cache)
