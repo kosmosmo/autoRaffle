@@ -199,8 +199,8 @@ def run_all_jobs():
         machines = fields.get('machine (from alpha index)')
         name = fields.get('Name (from alpha index)')[0]
         keyword = fields.get('keyword (from alpha index)')[0]
-        print("ALPHA job ............" + str(i) + '........'+name)
         if "All" in machines or machine_name in machines:
+            print("ALPHA job ............" + str(i) + '........' + name)
             tried = 0
             while tried < 3:
                 try:
@@ -214,6 +214,8 @@ def run_all_jobs():
                 except:
                     tried += 1
             i += 1
+        else:
+            print ('skip ' + name)
 
 def delet_bad_pref():
     import os
