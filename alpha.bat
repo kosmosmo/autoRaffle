@@ -1,2 +1,2 @@
-python C:\Users\Administrator\Desktop\autoRaffle-master\alpha_sel.py &&
+python C:\Users\Administrator\Desktop\autoRaffle-master\alpha_sel.py
 pause
