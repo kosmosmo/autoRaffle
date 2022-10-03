@@ -178,8 +178,8 @@ def run_all_jobs():
         fields = item.get('fields')
         url = fields.get('url')
         machines = fields.get('machine (from alpha index)')
-        name = fields.get('Name (from alpha index)',['All'])[0]
-        keyword = fields.get('keyword (from alpha index)',['keywordkeywordkeyword'])[0]
+        name = fields.get('Name (from alpha index)')[0]
+        keyword = fields.get('keyword (from alpha index)')[0]
         print("ALPHA job ............" + str(i) + '........'+name)
         if "All" in machines or machine_name in machines:
             tried = 0
