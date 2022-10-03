@@ -149,6 +149,7 @@ class alphaJobs():
         if not self._check_over():
             try:
                 at_obj.delete("alpha list",self.rid)
+                print ('raffl over!')
             except:
                 pass
             return
