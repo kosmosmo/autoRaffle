@@ -152,6 +152,7 @@ class alphaJobs():
                 print ('raffl over!')
             except:
                 pass
+            self.driver.quit()
             return
         try:
             reg_btn = self.driver.find_element(By.CSS_SELECTOR, '.MuiButton-root[data-action ="view-project-register"]')
