@@ -1,0 +1,1 @@
+python C:\Users\Administrator\Desktop\autoRaffle-master\deployer.py
