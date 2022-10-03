@@ -45,19 +45,15 @@ class alphaJobs():
         self.keyword= keyword
         self.rid = rid
         self.driver = self.get_driver()
-        time.sleep(3)
+        time.sleep(2)
         self.driver.maximize_window()
-        time.sleep(3)
+        time.sleep(2)
 
     def get_driver(self):
         options = webdriver.ChromeOptions()
-        time.sleep(2)
         options.add_argument(self.url)
-        time.sleep(2)
         options.add_argument(r"user-data-dir=C:\Users\\Administrator\AppData\Local\Google\Chrome\User Data")
-        time.sleep(2)
         options.add_argument(r'--profile-directory=Default')
-        time.sleep(2)
         return webdriver.Chrome(options=options,use_subprocess=True)
 
     def run(self):
@@ -114,7 +110,7 @@ class alphaJobs():
         return True
 
     def _check_success_reg(self):
-        time.sleep(7)
+        time.sleep(4)
         try:
             checking = self.driver.find_element(By.CLASS_NAME, 'MuiTypography-root.MuiTypography-h5.css-1l3cl22')
         except:
