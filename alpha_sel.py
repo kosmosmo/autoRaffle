@@ -134,6 +134,8 @@ class alphaJobs():
             if "screen_name=" in url:  # alpha follow
                 parsed_url = urlparse(url)
                 user = parse_qs(parsed_url.query)['screen_name'][0]
+                if "?" in user:
+                    user = user.split("?")[0]
                 follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
             elif "tweet_id=" in url:  # alpha retweet
                 retweet_links.add(url)
@@ -142,6 +144,8 @@ class alphaJobs():
                 retweet_links.add("https://twitter.com/intent/retweet?tweet_id=" + tweet_id)
             elif url not in filter_out:  # premint follow
                 user = url.split("https://twitter.com/")[1]
+                if "?" in user:
+                    user = user.split("?")[0]
                 follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
         return [list(retweet_links), list(follow_links)]
 
