@@ -73,7 +73,6 @@ class twitterJobs():
         #status "unretweet" for retweet
         #status "unlike" for like
         #status "followed" for follow
-        print (url)
         flag = True
         while flag:
             self.driver.get(url)
