@@ -74,6 +74,12 @@ def _write_cache(data):
     with open(root_path + "cache.json", "w") as outfile:
         json.dump(data, outfile, indent=4)
 
+def clean_pref():
+    pref_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences'
+    to_address = "C:\\Users\\Administrator\\Desktop\\autoRaffle-master\\Preferences"
+    import shutil
+    shutil.copyfile(to_address, pref_file_path)
+
 def delet_bad_pref():
     import os
     bad_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences.bad'
@@ -83,8 +89,11 @@ def delet_bad_pref():
         print ("deleted bad pref!!")
         time.sleep(10)
     if os.path.exists(pref_file_path):
-        os.remove(pref_file_path)
-        print ("deleted pref!!")
+        try:
+            clean_pref()
+            print("clean pref!!")
+        except:
+            pass
         time.sleep(10)
 
 

@@ -218,6 +218,12 @@ def run_all_jobs():
         else:
             print ('skip ' + name)
 
+def clean_pref():
+    pref_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences'
+    to_address = "C:\\Users\\Administrator\\Desktop\\autoRaffle-master\\Preferences"
+    import shutil
+    shutil.copyfile(to_address, pref_file_path)
+
 def delet_bad_pref():
     import os
     bad_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences.bad'
@@ -227,9 +233,13 @@ def delet_bad_pref():
         print ("deleted bad pref!!")
         time.sleep(5)
     if os.path.exists(pref_file_path):
-        os.remove(pref_file_path)
-        print ("deleted bad pref!!")
+        try:
+            clean_pref()
+            print("clean pref!!")
+        except:
+            pass
         time.sleep(5)
+
 
 delet_bad_pref()
 run_all_jobs()
