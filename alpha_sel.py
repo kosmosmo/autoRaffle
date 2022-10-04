@@ -203,11 +203,13 @@ class alphaJobs():
         reg_btn.click()
         time.sleep(12)
         checker = self._find_error()
+        print ('find_error')
         if checker:
             if self._check_success_reg():
                 self.driver.quit()
                 return
             req = self._get_raffle_requritement()
+            print (req)
             self.driver.quit()
             tw_job = twitter_job.twitterJobs(req[0], req[1])
             tw_job.run()
