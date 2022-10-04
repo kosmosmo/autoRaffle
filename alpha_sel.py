@@ -69,10 +69,9 @@ class alphaJobs():
         self._click_reg()
         self.driver.quit()
 
-    def get_raffle_requritement(self,url):
+    def get_raffle_requritement(self):
         options = webdriver.ChromeOptions()
         driver = webdriver.Chrome(options=options, use_subprocess=True)
-        driver.get(url)
         retweet_links = set()
         follow_links = set()
         elems = driver.find_elements(by=By.XPATH, value="//a[@href]")
@@ -143,7 +142,6 @@ class alphaJobs():
         elems = self.driver.find_elements(by=By.XPATH, value="//a[@href]")
         for elem in elems:
             url = elem.get_attribute("href")
-            print ('hihihihi')
             print (url)
             if not url.startswith("https://twitter.com/"):
                 continue
@@ -211,7 +209,6 @@ class alphaJobs():
                 self.driver.quit()
                 return
             req = self._get_raffle_requritement()
-            print (req)
             self.driver.quit()
             tw_job = twitter_job.twitterJobs(req[0], req[1])
             tw_job.run()
