@@ -113,15 +113,11 @@ class alphaJobs():
         return False
 
     def get_raffle_requritement(self,url):
-        options = webdriver.ChromeOptions()
-        options.add_argument(r"user-data-dir=C:\Users\\Administrator\AppData\Local\Google\Chrome\User Data")
-        options.add_argument(r'--profile-directory=Default')
-        driver = webdriver.Chrome(options=options, use_subprocess=True)
-        driver.get(url)
+        self.driver.get(url)
         time.sleep(5)
         retweet_links = set()
         follow_links = set()
-        elems = driver.find_elements(by=By.XPATH, value="//a[@href]")
+        elems = self.driver.find_elements(by=By.XPATH, value="//a[@href]")
         for elem in elems:
             url = elem.get_attribute("href")
             print(url)
