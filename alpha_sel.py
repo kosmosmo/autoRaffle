@@ -150,6 +150,9 @@ class alphaJobs():
                 if "?" in user:
                     user = user.split("?")[0]
                 follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
+            elif "like?" in url and "tweet_id=" in url:  # alpha like
+                url = url.replace("like?","retweet?")
+                retweet_links.add(url)
             elif "tweet_id=" in url:  # alpha retweet
                 retweet_links.add(url)
             elif "/status/" in url:  # premint retweet
