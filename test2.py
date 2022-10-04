@@ -7,6 +7,7 @@ import json
 import twitter_job
 import time
 root_path = "C:\\Users\\kosmo\\PycharmProjects\\autoRaffle\\"
+root_path = "C:\\Users\\Administrator\\Desktop\\autoRaffle-master\\"
 def _get_key():
     f = open(root_path + 'key.json')
     data = json.load(f)
