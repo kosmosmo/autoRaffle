@@ -30,8 +30,6 @@ class twitterJobs():
         return webdriver.Chrome(options=options,use_subprocess=True)
 
     def _check_status(self,status,url):
-        time.sleep(5)
-        self.driver.refresh()
         time.sleep(8)
         try:
             if status == "followed":
