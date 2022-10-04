@@ -104,20 +104,12 @@ class alphaJobs():
             return True
 
     def _check_captcha(self):
-        print ('checking.....captcha')
         try:
             over = self.driver.find_element(By.CLASS_NAME, 'g-recaptcha-response')
-
             if over:
-                print('found captcha!!!!!!!!!!!!!!!!!')
-                print(over)
-                print(over.text)
                 return True
-            print('nope!!!!!!!!!!!!!!!')
-
             return False
         except:
-            print('nope!!!!!!!!!!!!!!!')
             return False
 
     def _find_error(self):
@@ -171,14 +163,13 @@ class alphaJobs():
         return [list(retweet_links), list(follow_links)]
 
     def _click_reg(self):
-        if self._check_captcha:
-            print ("checked!!!")
+        if self._check_captcha():
             find_rec = at_obj.get("alpha fails", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
                 'records')
             if not find_rec:
                 at_obj.create("alpha fails", {
                     "Url": self.url,
-                    "Notes":"captcha????"
+                    "Notes":"captcha"
                 })
             self.driver.quit()
             return
