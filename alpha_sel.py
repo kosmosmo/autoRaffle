@@ -140,6 +140,7 @@ class alphaJobs():
         retweet_links = set()
         follow_links = set()
         self.driver.get(self.url)
+        time.sleep(8)
         elems = self.driver.find_elements(by=By.XPATH, value="//a[@href]")
         for elem in elems:
             url = elem.get_attribute("href")
