@@ -163,7 +163,17 @@ class alphaJobs():
                 if "?" in user:
                     user = user.split("?")[0]
                 follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
-        return [list(retweet_links), list(follow_links)]
+            return [self.remove_case_insenstive(list(retweet_links)), self.remove_case_insenstive(list(follow_links))]
+
+    def remove_case_insenstive(self,org_list):
+        res = []
+        marker = set()
+        for item in org_list:
+            item_low = item.lower()
+            if item_low not in marker:
+                marker.add(item_low)
+                res.append(item)
+        return res
 
     def _click_reg(self):
         if self._check_captcha():

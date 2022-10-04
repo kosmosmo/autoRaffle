@@ -24,13 +24,13 @@ filter_out = [
 def get_raffle_requritement(url):
     options = webdriver.ChromeOptions()
     driver = webdriver.Chrome(options=options, use_subprocess=True)
+    print (url)
     driver.get(url)
     retweet_links = set()
     follow_links = set()
     elems = driver.find_elements(by=By.XPATH, value="//a[@href]")
     for elem in elems:
         url = elem.get_attribute("href")
-        print(url)
         if not url.startswith("https://twitter.com/"):
             continue
         if  "screen_name=" in url:#alpha follow
@@ -45,8 +45,20 @@ def get_raffle_requritement(url):
         elif url not in filter_out:#premint follow
             user = url.split("https://twitter.com/")[1]
             follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
+    return [remove_case_insenstive(list(retweet_links)),remove_case_insenstive(list(follow_links))]
 
-    return [list(retweet_links),list(follow_links)]
+def remove_case_insenstive(org_list):
+    res = []
+    marker = set()
+    for item in org_list:
+        item_low = item.lower()
+        if item_low not in marker:
+            marker.add(item_low)
+            res.append(item)
+    return res
+
+
+
 
 def get_links():
     all_list = at_obj.get_all("raffle list").get('records')
