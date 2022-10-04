@@ -53,6 +53,7 @@ class alphaJobs():
             try:
                 WebDriverWait(self.driver, 10).until(
                     EC.presence_of_element_located((By.CLASS_NAME, 'MuiPaper-root')))
+                loaded = True
             except:
                 time.sleep(5)
         time.sleep(5)
