@@ -31,6 +31,8 @@ class twitterJobs():
 
     def _check_status(self,status,url):
         time.sleep(5)
+        self.driver.refresh()
+        time.sleep(8)
         try:
             if status == "followed":
                 user = self._get_user_name(url)
@@ -89,7 +91,7 @@ class twitterJobs():
             time.sleep(sleep_time)
             retweet_btn = self.driver.find_element(By.CSS_SELECTOR,'.css-18t94o4[data-testid ="confirmationSheetConfirm"]')
             retweet_btn.click()
-            time.sleep(10)
+            time.sleep(5)
             if self._check_status(status,url):
                 flag = False
             else:
