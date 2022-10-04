@@ -309,7 +309,7 @@ def auto_clean_pref():
             pass
         time.sleep(5)
 
-rand_time = random.randint(1, 100)
+rand_time = random.randint(1, 2)
 time.sleep(rand_time)
 delet_bad_pref()
 run_all_jobs()
