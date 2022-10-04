@@ -112,19 +112,51 @@ class alphaJobs():
             return True
         return False
 
+    def get_raffle_requritement(self,url):
+        options = webdriver.ChromeOptions()
+        options.add_argument(r"user-data-dir=C:\Users\\Administrator\AppData\Local\Google\Chrome\User Data")
+        options.add_argument(r'--profile-directory=Default')
+        driver = webdriver.Chrome(options=options, use_subprocess=True)
+        driver.get(url)
+        time.sleep(5)
+        retweet_links = set()
+        follow_links = set()
+        elems = driver.find_elements(by=By.XPATH, value="//a[@href]")
+        for elem in elems:
+            url = elem.get_attribute("href")
+            print(url)
+            if not url.startswith("https://twitter.com/"):
+                continue
+            if "screen_name=" in url:  # alpha follow
+                parsed_url = urlparse(url)
+                user = parse_qs(parsed_url.query)['screen_name'][0]
+                follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
+            elif "tweet_id=" in url:  # alpha retweet
+                retweet_links.add(url)
+            elif "/status/" in url:  # premint retweet
+                tweet_id = url.split("/status/")[1]
+                retweet_links.add("https://twitter.com/intent/retweet?tweet_id=" + tweet_id)
+            elif url not in filter_out:  # premint follow
+                user = url.split("https://twitter.com/")[1]
+                follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
+        return [self.remove_case_insenstive(list(retweet_links)), self.remove_case_insenstive(list(follow_links))]
+
+    def remove_case_insenstive(self,org_list):
+        res = []
+        marker = set()
+        for item in org_list:
+            item_low = item.lower()
+            if item_low not in marker:
+                marker.add(item_low)
+                res.append(item)
+        return res
+
     def _get_raffle_requritement(self):
         retweet_links = set()
         follow_links = set()
         elems = self.driver.find_elements(by=By.XPATH, value="//a[@href]")
-        print (elems)
-        print (len(elems))
         for elem in elems:
-            url = ""
-            try:
-                url = elem.get_attribute("href")
-            except:
-                continue
-            print (url)
+            url = elem.get_attribute("href")
             if not url.startswith("https://twitter.com/"):
                 continue
             if "screen_name=" in url:  # alpha follow
@@ -190,7 +222,7 @@ class alphaJobs():
             if self._check_success_reg():
                 self.driver.quit()
                 return
-            req = self._get_raffle_requritement()
+            req = self.get_raffle_requritement(self.url)
             self.driver.quit()
             tw_job = twitter_job.twitterJobs(req[0], req[1])
             tw_job.run()
