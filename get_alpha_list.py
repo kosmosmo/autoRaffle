@@ -73,7 +73,7 @@ def monitoring(resp):
     global msgs_history
     if resp.event.ready_supplemental:
         get_alpha_index()
-        clean_alpha_index()
+        #clean_alpha_index()
 
 
 class dc_monitor():
