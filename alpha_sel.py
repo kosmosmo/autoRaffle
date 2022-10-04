@@ -118,6 +118,7 @@ class alphaJobs():
         elems = self.driver.find_elements(by=By.XPATH, value="//a[@href]")
         for elem in elems:
             url = elem.get_attribute("href")
+            print (url)
             if not url.startswith("https://twitter.com/"):
                 continue
             if "screen_name=" in url:  # alpha follow
@@ -144,34 +145,34 @@ class alphaJobs():
                 res.append(item)
         return res
 
-    def _get_raffle_requritement(self):
-        retweet_links = set()
-        follow_links = set()
-        elems = self.driver.find_elements(by=By.XPATH, value="//a[@href]")
-        for elem in elems:
-            url = elem.get_attribute("href")
-            if not url.startswith("https://twitter.com/"):
-                continue
-            if "screen_name=" in url:  # alpha follow
-                parsed_url = urlparse(url)
-                user = parse_qs(parsed_url.query)['screen_name'][0]
-                if "?" in user:
-                    user = user.split("?")[0]
-                follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
-            elif "like?" in url and "tweet_id=" in url:  # alpha like
-                url = url.replace("like?","retweet?")
-                retweet_links.add(url)
-            elif "tweet_id=" in url:  # alpha retweet
-                retweet_links.add(url)
-            elif "/status/" in url:  # premint retweet
-                tweet_id = url.split("/status/")[1]
-                retweet_links.add("https://twitter.com/intent/retweet?tweet_id=" + tweet_id)
-            elif url not in filter_out:  # premint follow
-                user = url.split("https://twitter.com/")[1]
-                if "?" in user:
-                    user = user.split("?")[0]
-                follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
-            return [self.remove_case_insenstive(list(retweet_links)), self.remove_case_insenstive(list(follow_links))]
+    #def _get_raffle_requritement(self):
+    #    retweet_links = set()
+    #    follow_links = set()
+    #    elems = self.driver.find_elements(by=By.XPATH, value="//a[@href]")
+    #    for elem in elems:
+    #        url = elem.get_attribute("href")
+    #        if not url.startswith("https://twitter.com/"):
+    #            continue
+    #        if "screen_name=" in url:  # alpha follow
+    #            parsed_url = urlparse(url)
+    #            user = parse_qs(parsed_url.query)['screen_name'][0]
+    #            if "?" in user:
+    #                user = user.split("?")[0]
+    #            follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
+    #        elif "like?" in url and "tweet_id=" in url:  # alpha like
+    #            url = url.replace("like?","retweet?")
+    #            retweet_links.add(url)
+    #        elif "tweet_id=" in url:  # alpha retweet
+    #            retweet_links.add(url)
+    #        elif "/status/" in url:  # premint retweet
+    #            tweet_id = url.split("/status/")[1]
+    #            retweet_links.add("https://twitter.com/intent/retweet?tweet_id=" + tweet_id)
+    #        elif url not in filter_out:  # premint follow
+    #            user = url.split("https://twitter.com/")[1]
+    #            if "?" in user:
+    #                user = user.split("?")[0]
+    #            follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
+    #        return [self.remove_case_insenstive(list(retweet_links)), self.remove_case_insenstive(list(follow_links))]
 
     def remove_case_insenstive(self,org_list):
         res = []
@@ -215,7 +216,7 @@ class alphaJobs():
             if self._check_success_reg():
                 self.driver.quit()
                 return
-            req = self.get_raffle_requritement(self.url)
+            req = self.get_raffle_requritement()
             self.driver.quit()
             tw_job = twitter_job.twitterJobs(req[0], req[1])
             tw_job.run()
