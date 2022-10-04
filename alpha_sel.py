@@ -172,12 +172,13 @@ class alphaJobs():
 
     def _click_reg(self):
         if self._check_captcha:
+            print ("checked!!!")
             find_rec = at_obj.get("alpha fails", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
                 'records')
             if not find_rec:
                 at_obj.create("alpha fails", {
                     "Url": self.url,
-                    "Notes":"captcha"
+                    "Notes":"captcha????"
                 })
             self.driver.quit()
             return
