@@ -112,9 +112,7 @@ class alphaJobs():
             return True
         return False
 
-    def get_raffle_requritement(self,url):
-        self.driver.get(url)
-        time.sleep(5)
+    def get_raffle_requritement(self):
         retweet_links = set()
         follow_links = set()
         elems = self.driver.find_elements(by=By.XPATH, value="//a[@href]")
