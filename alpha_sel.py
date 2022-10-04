@@ -106,10 +106,17 @@ class alphaJobs():
     def _check_captcha(self):
         try:
             over = self.driver.find_element(By.CLASS_NAME, 'g-recaptcha-response')
+
             if over:
+                print('found captcha!!!!!!!!!!!!!!!!!')
+                print(over)
+                print(over.text)
                 return True
+            print('nope!!!!!!!!!!!!!!!')
+
             return False
         except:
+            print('nope!!!!!!!!!!!!!!!')
             return False
 
     def _find_error(self):
