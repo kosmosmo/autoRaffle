@@ -69,30 +69,6 @@ class alphaJobs():
         self._click_reg()
         self.driver.quit()
 
-    def get_raffle_requritement(self):
-        options = webdriver.ChromeOptions()
-        driver = webdriver.Chrome(options=options, use_subprocess=True)
-        retweet_links = set()
-        follow_links = set()
-        elems = driver.find_elements(by=By.XPATH, value="//a[@href]")
-        for elem in elems:
-            url = elem.get_attribute("href")
-            print (url)
-            if not url.startswith("https://twitter.com/"):
-                continue
-            if "screen_name=" in url:  # alpha follow
-                parsed_url = urlparse(url)
-                user = parse_qs(parsed_url.query)['screen_name'][0]
-                follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
-            elif "tweet_id=" in url:  # alpha retweet
-                retweet_links.add(url)
-            elif "/status/" in url:  # premint retweet
-                tweet_id = url.split("/status/")[1]
-                retweet_links.add("https://twitter.com/intent/retweet?tweet_id=" + tweet_id)
-            elif url not in filter_out:  # premint follow
-                user = url.split("https://twitter.com/")[1]
-                follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
-        return [list(retweet_links), list(follow_links)]
 
     def _check_over(self):
         try:
@@ -139,9 +115,9 @@ class alphaJobs():
     def _get_raffle_requritement(self):
         retweet_links = set()
         follow_links = set()
-        self.driver.get(self.url)
-        time.sleep(8)
         elems = self.driver.find_elements(by=By.XPATH, value="//a[@href]")
+        print (elems)
+        print (len(elems))
         for elem in elems:
             url = elem.get_attribute("href")
             print (url)
