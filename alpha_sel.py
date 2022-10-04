@@ -48,6 +48,14 @@ class alphaJobs():
         time.sleep(2)
         self.driver.maximize_window()
         time.sleep(2)
+        loaded = False
+        while not loaded:
+            try:
+                WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.CLASS_NAME, 'MuiPaper-root')))
+            except:
+                time.sleep(5)
+        time.sleep(5)
 
     def get_driver(self):
         options = webdriver.ChromeOptions()
@@ -189,6 +197,8 @@ class alphaJobs():
                 })
         self.driver.quit()
 
+
+
 def run_all_jobs():
     job_list = at_obj.get_all("alpha list").get('records')
     cache = _get_cache()
@@ -203,6 +213,8 @@ def run_all_jobs():
         if "All" in machines or machine_name in machines:
             print("ALPHA job ............" + str(i) + '........' + name)
             tried = 0
+            import os
+            auto_clean_pref()
             while tried < 3:
                 try:
                     if url not in cache:
@@ -227,12 +239,28 @@ def clean_pref():
 def delet_bad_pref():
     import os
     bad_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences.bad'
-    pref_file_path =  r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences'
+    pref_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences'
     if os.path.exists(bad_file_path):
         os.remove(bad_file_path)
         print ("deleted bad pref!!")
         time.sleep(5)
     if os.path.exists(pref_file_path):
+        try:
+            clean_pref()
+            print("clean pref!!")
+        except:
+            pass
+        time.sleep(5)
+
+def auto_clean_pref():
+    import os
+    bad_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences.bad'
+    pref_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences'
+    if os.path.exists(bad_file_path) and os.path.getsize(bad_file_path) > 100000:
+        os.remove(bad_file_path)
+        print("deleted bad pref!!")
+        time.sleep(5)
+    if os.path.exists(pref_file_path)  and os.path.getsize(pref_file_path) > 100000:
         try:
             clean_pref()
             print("clean pref!!")

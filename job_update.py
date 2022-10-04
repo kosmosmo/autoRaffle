@@ -96,7 +96,21 @@ def delet_bad_pref():
             pass
         time.sleep(10)
 
-
+def auto_clean_pref():
+    import os
+    bad_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences.bad'
+    pref_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences'
+    if os.path.exists(bad_file_path) and os.path.getsize(bad_file_path) > 100000:
+        os.remove(bad_file_path)
+        print("deleted bad pref!!")
+        time.sleep(5)
+    if os.path.exists(pref_file_path)  and os.path.getsize(pref_file_path) > 100000:
+        try:
+            clean_pref()
+            print("clean pref!!")
+        except:
+            pass
+        time.sleep(5)
 
 
 def run_jobs():
@@ -107,6 +121,7 @@ def run_jobs():
     rand_time = random.randint(1, 100)
     time.sleep(rand_time)
     for item in all_list:
+        auto_clean_pref()
         flag = False
         j = 0
         while j < 3 and not flag:
