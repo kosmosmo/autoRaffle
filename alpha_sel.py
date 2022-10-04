@@ -105,7 +105,7 @@ class alphaJobs():
 
     def _check_captcha(self):
         try:
-            over = self.driver.find_element(By.CLASS_NAME, 'MuiBox-root.css-1m25gr9')
+            over = self.driver.find_element(By.CLASS_NAME, 'g-recaptcha-response')
             if over:
                 return True
             return False
