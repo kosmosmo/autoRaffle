@@ -139,6 +139,7 @@ class alphaJobs():
     def _get_raffle_requritement(self):
         retweet_links = set()
         follow_links = set()
+        self.driver.get(self.url)
         elems = self.driver.find_elements(by=By.XPATH, value="//a[@href]")
         for elem in elems:
             url = elem.get_attribute("href")
