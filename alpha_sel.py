@@ -104,6 +104,7 @@ class alphaJobs():
             return True
 
     def _check_captcha(self):
+        print ('checking.....captcha')
         try:
             over = self.driver.find_element(By.CLASS_NAME, 'g-recaptcha-response')
 
