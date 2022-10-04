@@ -103,6 +103,14 @@ class alphaJobs():
         except:
             return True
 
+    def _check_captcha(self):
+        try:
+            over = self.driver.find_element(By.CLASS_NAME, 'MuiBox-root.css-1m25gr9')
+            if over:
+                return True
+            return False
+        except:
+            return False
 
     def _find_error(self):
         errors = self.driver.find_elements(By.CLASS_NAME, 'MuiAlert-standardError')
@@ -155,6 +163,16 @@ class alphaJobs():
         return [list(retweet_links), list(follow_links)]
 
     def _click_reg(self):
+        if self._check_captcha:
+            find_rec = at_obj.get("alpha fails", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
+                'records')
+            if not find_rec:
+                at_obj.create("alpha fails", {
+                    "Url": self.url,
+                    "Notes":"captcha"
+                })
+            self.driver.quit()
+            return
         if not self._check_over():
             try:
                 at_obj.delete("alpha list",self.rid)
@@ -195,8 +213,13 @@ class alphaJobs():
             if not find_rec:
                 at_obj.create("alpha fails", {
                     "Url": self.url,
-                    "Notes": "unknown"
+                    "Notes": "unknown",
+                    "ct":1
                 })
+            else:
+                rid = find_rec[0].get('id')
+                cur_ct = find_rec[0].get('fields').get('ct',1)
+                at_obj.update("alpha fails",rid,{"ct":cur_ct+1})
         self.driver.quit()
 
 

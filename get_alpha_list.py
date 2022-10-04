@@ -1,6 +1,11 @@
 from airtable_wrapper import AirtableWrapper
 import discum,json,pprint
 from alpha_obj import alpha_obj
+from airtable_wrapper import AirtableWrapper
+import undetected_chromedriver as webdriver
+from selenium.webdriver.common.by import By
+from urllib.parse import urlparse
+from urllib.parse import parse_qs
 from discum.utils.button import Buttoner
 import time
 root_path = "C:\\Users\\kosmo\\PycharmProjects\\autoRaffle\\"
@@ -40,12 +45,35 @@ def get_alpha_index():
                 })
         time.sleep(5)
 
+def _check_over(driver):
+    try:
+        over = driver.find_element(By.CLASS_NAME, 'MuiTypography-root.MuiTypography-h5')
+        if "You're not a winner. Maybe next time!" in over.text or "You're a winner! Congratulations" in over.text or "Raffle is over." in over.text:
+            return False
+        return True
+    except:
+        return True
+
+
+def clean_alpha_index():
+    alpha_lists = at_obj.get_all("alpha list").get('records')
+    for item in alpha_lists:
+        fields = item.get('fields')
+        url = fields.get('url')
+        rid = item.get('id')
+        options = webdriver.ChromeOptions()
+        driver = webdriver.Chrome(options=options, use_subprocess=True)
+        driver.get(url)
+        if not _check_over(driver):
+            at_obj.delete("alpha list",rid)
+
 
 @bot.gateway.command
 def monitoring(resp):
     global msgs_history
     if resp.event.ready_supplemental:
         get_alpha_index()
+        clean_alpha_index()
 
 
 class dc_monitor():
