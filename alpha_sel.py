@@ -119,7 +119,11 @@ class alphaJobs():
         print (elems)
         print (len(elems))
         for elem in elems:
-            url = elem.get_attribute("href")
+            url = ""
+            try:
+                url = elem.get_attribute("href")
+            except:
+                continue
             print (url)
             if not url.startswith("https://twitter.com/"):
                 continue
