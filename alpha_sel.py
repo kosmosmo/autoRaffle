@@ -191,7 +191,7 @@ class alphaJobs():
         return res
 
     def _click_reg(self):
-        if self._check_captcha() and self.machine_name  != "All":
+        if self._check_captcha():
             find_rec = at_obj.get("alpha fails", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
                 'records')
             if not find_rec:
