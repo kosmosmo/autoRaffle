@@ -128,11 +128,12 @@ class alphaJobs():
             elif "tweet_id=" in url:  # alpha retweet
                 tweet_id = url.split("tweet_id")[-1]
                 if "?" in tweet_id:
-                    print (tweet_id)
                     tweet_id = tweet_id.split("?")[0]
                 retweet_links.add("https://twitter.com/intent/retweet?tweet_id=" + tweet_id)
             elif "/status/" in url:  # premint retweet
                 tweet_id = url.split("/status/")[1]
+                if "?" in tweet_id:
+                    tweet_id = tweet_id.split("?")[0]
                 retweet_links.add("https://twitter.com/intent/retweet?tweet_id=" + tweet_id)
             elif url not in filter_out:  # premint follow
                 user = url.split("https://twitter.com/")[1]
