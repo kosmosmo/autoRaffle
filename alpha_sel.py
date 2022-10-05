@@ -126,7 +126,7 @@ class alphaJobs():
                 user = parse_qs(parsed_url.query)['screen_name'][0]
                 follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
             elif "tweet_id=" in url:  # alpha retweet
-                tweet_id = url.split("tweet_id")[-1]
+                tweet_id = url.split("tweet_id=")[-1]
                 if "?" in tweet_id:
                     tweet_id = tweet_id.split("?")[0]
                 retweet_links.add("https://twitter.com/intent/retweet?tweet_id=" + tweet_id)
