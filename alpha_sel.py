@@ -40,11 +40,11 @@ def _write_cache(data):
         json.dump(data, outfile, indent=4)
 
 class alphaJobs():
-    def __init__(self,url,keyword,rid,name):
+    def __init__(self,url,keyword,rid,machine_name):
         self.url = url
         self.keyword= keyword
         self.rid = rid
-        self.name = name
+        self.machine_name = machine_name
         self.driver = self.get_driver()
         time.sleep(2)
         self.driver.maximize_window()
@@ -191,7 +191,7 @@ class alphaJobs():
         return res
 
     def _click_reg(self):
-        if self._check_captcha() and self.name:
+        if self._check_captcha() and self.machine_name  != "All":
             find_rec = at_obj.get("alpha fails", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
                 'records')
             if not find_rec:
@@ -272,7 +272,7 @@ def run_all_jobs():
             while tried < 3:
                 try:
                     if url not in cache or ignore:
-                        job = alphaJobs(url,keyword,rid,name)
+                        job = alphaJobs(url,keyword,rid)
                         job.run()
                         cache[url] = ""
                         _write_cache(cache)
