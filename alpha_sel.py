@@ -40,11 +40,10 @@ def _write_cache(data):
         json.dump(data, outfile, indent=4)
 
 class alphaJobs():
-    def __init__(self,url,keyword,rid,machine_name):
+    def __init__(self,url,keyword,rid):
         self.url = url
         self.keyword= keyword
         self.rid = rid
-        self.machine_name = machine_name
         self.driver = self.get_driver()
         time.sleep(2)
         self.driver.maximize_window()
@@ -235,7 +234,7 @@ class alphaJobs():
                 time.sleep(12)
             except:
                 pass
-        if not self._check_success_reg():
+        if not self._check_success_reg() and machine_name != "All":
             find_rec = at_obj.get("alpha fails", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
                 'records')
             if not find_rec:
