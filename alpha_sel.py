@@ -120,13 +120,11 @@ class alphaJobs():
         elems = self.driver.find_elements(by=By.XPATH, value="//a[@href]")
         for elem in elems:
             url = elem.get_attribute("href")
-            print (url)
             if not url.startswith("https://twitter.com/"):
                 continue
             if "screen_name=" in url:  # alpha follow
                 parsed_url = urlparse(url)
                 user = parse_qs(parsed_url.query)['screen_name'][0]
-                print (user)
                 if "?" in user:
                     user = user.split("?")[0]
                 follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
