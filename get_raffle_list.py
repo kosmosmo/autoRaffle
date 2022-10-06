@@ -41,9 +41,12 @@ def get_raffle_requritement(url):
             retweet_links.add(url)
         elif "/status/" in url: #premint retweet
             tweet_id = url.split("/status/")[1]
+            if "?" in tweet_id:
+                tweet_id = tweet_id.split("?")[0]
             retweet_links.add("https://twitter.com/intent/retweet?tweet_id="+tweet_id)
         elif url not in filter_out:#premint follow
             user = url.split("https://twitter.com/")[1]
+            user = user.replace("@","")
             follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
     return [remove_case_insenstive(list(retweet_links)),remove_case_insenstive(list(follow_links))]
 
