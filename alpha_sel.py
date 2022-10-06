@@ -142,6 +142,8 @@ class alphaJobs():
                 retweet_links.add("https://twitter.com/intent/retweet?tweet_id=" + tweet_id)
             elif url not in filter_out:  # premint follow
                 user = url.split("https://twitter.com/")[1]
+                if "?" in user:
+                    user = user.split("?")[0]
                 follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
         return [self.remove_case_insenstive(list(retweet_links)), self.remove_case_insenstive(list(follow_links))]
 
