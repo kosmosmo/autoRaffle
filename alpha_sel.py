@@ -235,7 +235,7 @@ class alphaJobs():
                 time.sleep(12)
             except:
                 pass
-        if not self._check_success_reg() and machine_name != "All":
+        if not self._check_success_reg():
             find_rec = at_obj.get("alpha fails", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
                 'records')
             if not find_rec:
