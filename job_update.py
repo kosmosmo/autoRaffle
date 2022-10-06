@@ -6,13 +6,16 @@ from urllib.parse import parse_qs
 import json
 import twitter_job
 import time
+import random
 import os
 root_path = "C:\\Users\\Administrator\\Desktop\\autoRaffle-master\\"
 def _get_key():
     f = open(root_path + 'key.json')
     data = json.load(f)
-    return data['key']
-key = _get_key()
+    return data
+data = _get_key()
+at_keys = data["at_keys"]
+key = random.choice(at_keys)
 
 at_obj = AirtableWrapper("appNj4kFlbJGa6IOm",key)
 filter_out = [

@@ -10,6 +10,7 @@ import time,random,json
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
 import twitter_job
+import random
 
 filter_out = [
     "https://twitter.com/premint_nft",
@@ -21,7 +22,8 @@ def _get_key():
     data = json.load(f)
     return data
 data = _get_key()
-key = data['key']
+at_keys = data["at_keys"]
+key = random.choice(at_keys)
 machine_name = data.get('name','All')
 
 at_obj = AirtableWrapper("appNj4kFlbJGa6IOm",key)
