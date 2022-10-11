@@ -118,11 +118,12 @@ def auto_clean_pref():
 
 def run_jobs():
     i = 1
+    rand_time = random.randint(1, 100)
+    time.sleep(rand_time)
     cache = _get_cache()
     all_list = at_obj.get_all("raffle list").get('records')
     delet_bad_pref()
-    rand_time = random.randint(1, 100)
-    time.sleep(rand_time)
+
     for item in all_list:
         auto_clean_pref()
         flag = False
