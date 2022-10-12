@@ -43,9 +43,8 @@ def get_id(url):
     if "https://twitter.com/" in url:
         return url.split("https://twitter.com/")[-1].lower()
 
-def get_black_list():
+def get_black_list(all_list):
     res = set()
-    all_list = at_obj.get_all("raffle list").get('records')
     for item in all_list:
         fields = item.get('fields')
         rid = item.get('id')

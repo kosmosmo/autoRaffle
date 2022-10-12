@@ -9,8 +9,16 @@ import time,random
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
 import utils as u
+import json,os
+from airtable_wrapper import AirtableWrapper
 tw_cache = u.get_twitter_cache()
-black_list = u.get_black_list()
+root_path = "C:\\Users\\Administrator\\Desktop\\autoRaffle-master\\"
+def _get_key():
+    f = open(root_path + 'key.json')
+    data = json.load(f)
+    return data['key']
+key = _get_key()
+at_obj = AirtableWrapper("appNj4kFlbJGa6IOm",key)
 
 class twitterJobs():
     def __init__(self,retweet_links,follow_links):
@@ -22,6 +30,8 @@ class twitterJobs():
         time.sleep(3)
         self.retweet_links = retweet_links
         self.follow_links = follow_links
+        all_list = at_obj.get_all("black_list").get('records')
+        self.black_list = u.get_black_list(all_list)
 
     def get_driver(self):
         options = webdriver.ChromeOptions()
@@ -55,13 +65,13 @@ class twitterJobs():
     def run(self):
         time.sleep(2)
         for item in self.follow_links:
-            if u.get_id(item) in black_list:
+            if u.get_id(item) in self.black_list:
                 continue
             if u.get_id(item) in tw_cache["follow"]:
                 continue
             self.actions(item, "followed")
         for item in self.retweet_links:
-            if u.get_id(item) in black_list:
+            if u.get_id(item) in self.black_list:
                 continue
             if u.get_id(item) in tw_cache["retweet"]:
                 continue
