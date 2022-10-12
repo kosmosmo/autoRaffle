@@ -18,6 +18,7 @@ def get_twitter_cache():
     tw_cahce = root_path + "tw_cache.json"
     if not os.path.exists(tw_cahce):
         data = default_data
+        _write_cache("tw_cache.json",data)
     else:
         data = _get_cache("tw_cache.json")
     return data
