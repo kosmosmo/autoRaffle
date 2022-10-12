@@ -8,6 +8,9 @@ from selenium.webdriver.common.keys import Keys
 import time,random
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
+import utils as u
+tw_cache = u.get_twitter_cache()
+
 
 class twitterJobs():
     def __init__(self,retweet_links,follow_links):
@@ -35,8 +38,10 @@ class twitterJobs():
             if status == "followed":
                 user = self._get_user_name(url)
                 checking = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[aria-label ="Following @{}"]'.format(user))
+                tw_cache["follow"] = {u.get_id(url).lower()}
             else:
                 checking = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[data-testid ="{}"]'.format(status))
+                tw_cache["retweet"] = {u.get_id(url).lower()}
             if checking:
                 return True
             return False
@@ -46,8 +51,12 @@ class twitterJobs():
     def run(self):
         time.sleep(2)
         for item in self.follow_links:
+            if u.get_id(item) in tw_cache["follow"]:
+                continue
             self.actions(item, "followed")
         for item in self.retweet_links:
+            if u.get_id(item) in tw_cache["retweet"]:
+                continue
             self.actions(item,"unretweet")
             self.actions(self._convert_like_url(item), "unlike")
         self.driver.quit()

@@ -7,8 +7,11 @@ import json
 import twitter_job
 import time
 import random
+import utils as u
 import os
 root_path = "C:\\Users\\Administrator\\Desktop\\autoRaffle-master\\"
+tw_cache = u.get_twitter_cache()
+
 def _get_key():
     f = open(root_path + 'key.json')
     data = json.load(f)
