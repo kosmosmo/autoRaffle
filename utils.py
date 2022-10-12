@@ -1,5 +1,7 @@
 import json,os
 from airtable_wrapper import AirtableWrapper
+root_path = "C:\\Users\\Administrator\\Desktop\\autoRaffle-master\\"
+
 
 def _get_key():
     f = open(root_path + 'key.json')
@@ -7,7 +9,7 @@ def _get_key():
     return data['key']
 key = _get_key()
 at_obj = AirtableWrapper("appNj4kFlbJGa6IOm",key)
-root_path = "C:\\Users\\Administrator\\Desktop\\autoRaffle-master\\"
+
 default_data = {
             "follow":{},
             "retweet":{}
