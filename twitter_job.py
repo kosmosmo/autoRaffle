@@ -39,12 +39,12 @@ class twitterJobs():
                 user = self._get_user_name(url)
                 checking = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[aria-label ="Following @{}"]'.format(user))
                 if checking:
-                    tw_cache["follow"] = {u.get_id(url).lower():""}
+                    tw_cache["follow"][u.get_id(url).lower()] = ""
                     u._write_cache("tw_cache.json",tw_cache)
             else:
                 checking = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[data-testid ="{}"]'.format(status))
                 if checking:
-                    tw_cache["retweet"] = {u.get_id(url).lower():""}
+                    tw_cache["retweet"][u.get_id(url).lower()] = ""
                     u._write_cache("tw_cache.json", tw_cache)
             if checking:
                 return True
