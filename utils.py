@@ -25,10 +25,10 @@ def get_twitter_cache():
 
 def get_id(url):
     if "screen_name=" in url:
-        return url.split("screen_name=")[-1]
+        return url.split("screen_name=")[-1].lower()
     if "tweet_id=" in url:
-        return url.split("tweet_id=")[-1]
+        return url.split("tweet_id=")[-1].lower()
     if "/status/" in url:
-        return url.split("/status/")[-1]
+        return url.split("/status/")[-1].lower()
     if "https://twitter.com/" in url:
-        return url.split("https://twitter.com/")[-1]
+        return url.split("https://twitter.com/")[-1].lower()
