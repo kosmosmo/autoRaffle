@@ -1,4 +1,12 @@
 import json,os
+from airtable_wrapper import AirtableWrapper
+
+def _get_key():
+    f = open(root_path + 'key.json')
+    data = json.load(f)
+    return data['key']
+key = _get_key()
+at_obj = AirtableWrapper("appNj4kFlbJGa6IOm",key)
 root_path = "C:\\Users\\Administrator\\Desktop\\autoRaffle-master\\"
 default_data = {
             "follow":{},
@@ -32,3 +40,13 @@ def get_id(url):
         return url.split("/status/")[-1].lower()
     if "https://twitter.com/" in url:
         return url.split("https://twitter.com/")[-1].lower()
+
+def get_black_list():
+    res = set()
+    all_list = at_obj.get_all("raffle list").get('records')
+    for item in all_list:
+        fields = item.get('fields')
+        rid = item.get('id')
+        name = fields.get("Name")
+        res.add(name.lower())
+    return res

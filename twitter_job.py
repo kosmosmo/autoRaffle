@@ -10,7 +10,7 @@ from urllib.parse import urlparse
 from urllib.parse import parse_qs
 import utils as u
 tw_cache = u.get_twitter_cache()
-
+black_list = u.get_black_list()
 
 class twitterJobs():
     def __init__(self,retweet_links,follow_links):
@@ -55,10 +55,14 @@ class twitterJobs():
     def run(self):
         time.sleep(2)
         for item in self.follow_links:
+            if u.get_id(item) in black_list:
+                continue
             if u.get_id(item) in tw_cache["follow"]:
                 continue
             self.actions(item, "followed")
         for item in self.retweet_links:
+            if u.get_id(item) in black_list:
+                continue
             if u.get_id(item) in tw_cache["retweet"]:
                 continue
             self.actions(item,"unretweet")

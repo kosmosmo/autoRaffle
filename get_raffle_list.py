@@ -4,7 +4,6 @@ from selenium.webdriver.common.by import By
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
 import json
-import twitter_job
 import time
 root_path = "C:\\Users\\kosmo\\PycharmProjects\\autoRaffle\\"
 def _get_key():

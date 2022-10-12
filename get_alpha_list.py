@@ -36,14 +36,18 @@ def get_alpha_index():
         msgs_history = alpha_obj.alpha_base.convert_msgs(json.loads(feed.text))
         for item in msgs_history:
             urllow =  item.url.lower()
+            tt = item.time
+            end = item.time_remain
             find_rec = at_obj.get("alpha list", filter_by_formula='FIND("{}", Url)'.format(urllow)).get(
                 'records')
             if not find_rec:
                 at_obj.create("alpha list", {
                     "url":urllow,
-                    "alpha index":[str(rid)]
+                    "alpha index":[str(rid)],
+                    "time":tt,
+                    "end" : end
                 })
-        time.sleep(5)
+        time.sleep(1)
 
 def _check_over(driver):
     try:
@@ -74,7 +78,7 @@ def monitoring(resp):
     if resp.event.ready_supplemental:
         get_alpha_index()
         #clean_alpha_index()
-
+        bot.gateway.close()
 
 class dc_monitor():
     def runner(self):
