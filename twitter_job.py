@@ -71,8 +71,6 @@ class twitterJobs():
                 continue
             self.actions(item, "followed")
         for item in self.retweet_links:
-            if u.get_id(item) in self.black_list:
-                continue
             if u.get_id(item) in tw_cache["retweet"]:
                 continue
             self.actions(item,"unretweet")
