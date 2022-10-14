@@ -94,13 +94,11 @@ class alphaJobs():
         errors = self.driver.find_elements(By.CLASS_NAME, 'MuiAlert-standardError')
         for item in errors:
             if "join" in item.text.lower() and "discord" in item.text.lower() and self.keyword.lower() not in item.text.lower():
-                find_rec = at_obj.get("alpha fails", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
+                find_rec = at_obj.get("alpha list", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
                     'records')
-                if not find_rec:
-                    at_obj.create("alpha fails",{
-                        "Url":self.url,
-                        "Notes":item.text
-                    })
+                if find_rec:
+                    rid = find_rec[0].get('id')
+                    at_obj.update("alpha list", rid, {"fail reason": item.text})
                 return False
         return True
 
@@ -196,13 +194,11 @@ class alphaJobs():
 
     def _click_reg(self):
         if self._check_captcha():
-            find_rec = at_obj.get("alpha fails", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
+            find_rec = at_obj.get("alpha list", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
                 'records')
-            if not find_rec:
-                at_obj.create("alpha fails", {
-                    "Url": self.url,
-                    "Notes":"captcha"
-                })
+            if find_rec:
+                rid = find_rec[0].get('id')
+                at_obj.update("alpha list", rid, {"fail reason": "captcha"})
             self.driver.quit()
             return
         if not self._check_over():
@@ -240,18 +236,13 @@ class alphaJobs():
             except:
                 pass
         if not self._check_success_reg():
-            find_rec = at_obj.get("alpha fails", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
+            find_rec = at_obj.get("alpha list", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
                 'records')
-            if not find_rec:
-                at_obj.create("alpha fails", {
-                    "Url": self.url,
-                    "Notes": "unknown",
-                    "ct":1
-                })
-            else:
+            if find_rec:
                 rid = find_rec[0].get('id')
-                cur_ct = find_rec[0].get('fields').get('ct',1)
-                at_obj.update("alpha fails",rid,{"ct":cur_ct+1})
+                cur_ct = find_rec[0].get('fields').get('fail count', 1)
+                at_obj.update("alpha list", rid, {"fail count": cur_ct + 1,
+                                                  "fail reason":"unknown"})
         self.driver.quit()
 
 
