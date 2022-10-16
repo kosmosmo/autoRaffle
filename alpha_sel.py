@@ -98,7 +98,9 @@ class alphaJobs():
                     'records')
                 if find_rec:
                     rid = find_rec[0].get('id')
-                    at_obj.update("alpha list", rid, {"fail reason": item.text})
+                    fail =  find_rec[0].get('fields').get('fail reason', "")
+                    if not fail or fail == "unknow":
+                        at_obj.update("alpha list", rid, {"fail reason": item.text})
                 return False
         return True
 
@@ -198,7 +200,9 @@ class alphaJobs():
                 'records')
             if find_rec:
                 rid = find_rec[0].get('id')
-                at_obj.update("alpha list", rid, {"fail reason": "captcha"})
+                fail = find_rec[0].get('fields').get('fail reason', "")
+                if not fail or fail == "unknow":
+                    at_obj.update("alpha list", rid, {"fail reason": "captcha"})
             self.driver.quit()
             return
         if not self._check_over():
@@ -240,9 +244,12 @@ class alphaJobs():
                 'records')
             if find_rec:
                 rid = find_rec[0].get('id')
-                cur_ct = find_rec[0].get('fields').get('fail count', 1)
+                cur_ct = find_rec[0].get('fields').get('fail count', 0)
+                fail = find_rec[0].get('fields').get('fail reason', "")
+                if not fail:
+                    fail = "unknown"
                 at_obj.update("alpha list", rid, {"fail count": cur_ct + 1,
-                                                  "fail reason":"unknown"})
+                                                  "fail reason":fail})
         self.driver.quit()
 
 
