@@ -5,6 +5,7 @@ from urllib.parse import urlparse
 from urllib.parse import parse_qs
 import json
 import time
+from datetime import datetime, timedelta
 root_path = "C:\\Users\\kosmo\\PycharmProjects\\autoRaffle\\"
 def _get_key():
     f = open(root_path + 'key.json')
@@ -18,11 +19,11 @@ filter_out = [
     "https://twitter.com/AlphabotApp"
 ]
 
-
+options = webdriver.ChromeOptions()
+driver = webdriver.Chrome(options=options, use_subprocess=True)
 
 def get_raffle_requritement(url):
-    options = webdriver.ChromeOptions()
-    driver = webdriver.Chrome(options=options, use_subprocess=True)
+
     print (url)
     driver.get(url)
     retweet_links = set()
@@ -47,7 +48,9 @@ def get_raffle_requritement(url):
             user = url.split("https://twitter.com/")[1]
             user = user.replace("@","")
             follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
-    return [remove_case_insenstive(list(retweet_links)),remove_case_insenstive(list(follow_links))]
+    details = get_details(driver)
+    print (details)
+    return [remove_case_insenstive(list(retweet_links)),remove_case_insenstive(list(follow_links)),details]
 
 def remove_case_insenstive(org_list):
     res = []
@@ -60,6 +63,27 @@ def remove_case_insenstive(org_list):
     return res
 
 
+def get_details(driver):
+    res = {}
+    other_fields = ["MINT PRICE", "TOTAL SUPPLY", "NUMBER OF WINNERS","VERIFIED TWITTER"]
+    time_convert = ["REGISTRATION CLOSES","MINT DATE","RAFFLE TIME"]
+    elms = driver.find_elements(By.CLASS_NAME, 'col-6.col-lg-4.mb-4')
+    for item in elms:
+        text = item.text
+        vals = text.split('\n')
+        if len(vals) >=2:
+            key = vals[0]
+            val = vals[1]
+            if key in time_convert:
+                print (key,val)
+                dt_time = convert_to_datetime(val)
+                at_time = convert_to_airtable_time(dt_time)
+                res[key] = at_time
+            elif key in other_fields:
+                res[key] = val
+    if 'VERIFIED TWITTER' in res and res['VERIFIED TWITTER']:
+        res['VERIFIED TWITTER'] = "https://twitter.com/" + res['VERIFIED TWITTER'].split(" ")[0]
+    return res
 
 
 def get_links():
@@ -73,12 +97,68 @@ def get_links():
             links = get_raffle_requritement(url)
             retweet_links = "\n".join(links[0])
             follow_links = "\n".join(links[1])
-            at_obj.update("raffle list",rid,{
+            update_content = {
                 "status" : "Ready",
                 "retweet_links":retweet_links,
                 "follow_links":follow_links
-            })
+            }
+            update_content.update(links[2])
+            at_obj.update("raffle list",rid,update_content)
 
+def convert_to_datetime(str_time):
+    str_time = str_time.lstrip("🚨")
+    if "hours" in str_time or "minutes" in str_time:
+        split = str_time.split(" hours")
+        h = 0
+        if len(split) >= 1:
+            h = int(split[0])
+        m = int(split[1].lstrip(", ").split(" minutes")[0])
+        return datetime.now() - timedelta(hours=h, minutes=m)
+
+    str_time =  str_time.replace("p.m.","PM")
+    str_time = str_time.replace("a.m.", "AM")
+    str_time = str_time.replace("noon", "12 PM")
+    str_time = str_time.replace("midnight", "12 AM")
+    if str_time.endswith("UTC"):
+        str_time = str_time.split(" UTC")[0]
+        dt = strptime_tries(str_time)
+        dt = dt - timedelta(hours=4)
+        return dt
+    dt = strptime_tries(str_time)
+    return dt
+
+def strptime_tries(str_time):
+    try:
+        dt = datetime.strptime(str_time, "%b. %d, %Y %I %p")
+        return dt
+    except:
+        pass
+    try:
+        dt = datetime.strptime(str_time, "%b. %d, %Y, %I:%M %p")
+        return dt
+    except:
+        pass
+    try:
+        dt = datetime.strptime(str_time, "%b. %d, %Y, %I %p")
+        return dt
+    except:
+        pass
+    try:
+        dt = datetime.strptime(str_time, "%b. %d, %Y")
+        return dt
+    except:
+        pass
+    try:
+        dt = datetime.strptime(str_time, "%b. %d, %Y %I:%M %p")
+        return dt
+    except:
+        pass
+
+
+
+def convert_to_airtable_time(date_time):
+    at_time =  date_time.strftime("%Y-%m-%dT%H:%M:%S"+".000Z")
+    return at_time
 
 
 def _get_cache():
