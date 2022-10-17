@@ -107,13 +107,26 @@ def get_links():
 
 def convert_to_datetime(str_time):
     str_time = str_time.lstrip("🚨")
+    if "month" in str_time:
+        h = 30 * 24
+        return datetime.now() + timedelta(hours=h)
+    if "week" in str_time:
+        h = 7 * 24
+        split = str_time.split(" week")
+        if len(split) >= 1:
+            h = 7*24*int(split[0])
+        return datetime.now() + timedelta(hours=h)
     if "hours" in str_time or "minutes" in str_time:
-        split = str_time.split(" hours")
+        split = str_time.split(" hour")
         h = 0
+        m = 0
         if len(split) >= 1:
             h = int(split[0])
-        m = int(split[1].lstrip(", ").split(" minutes")[0])
-        return datetime.now() - timedelta(hours=h, minutes=m)
+        split2 = split[1].split(", ")
+        if len(split2) >= 1:
+            m = int(split2[1].split(" minute")[0])
+        print (m)
+        return datetime.now() + timedelta(hours=h, minutes=m)
 
     str_time =  str_time.replace("p.m.","PM")
     str_time = str_time.replace("a.m.", "AM")
