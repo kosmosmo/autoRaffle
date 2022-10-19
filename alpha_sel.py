@@ -72,6 +72,8 @@ class alphaJobs():
         self._click_reg()
         self.driver.quit()
         if profiles:
+            for item in profiles:
+                auto_clean_pref(item,"pref\\"+profiles)
             p = profileJob(self.url,profiles)
             p.run()
 
@@ -290,39 +292,39 @@ def run_all_jobs():
         else:
             print ('skip ' + name)
 
-def clean_pref():
-    pref_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences'
-    to_address = "C:\\Users\\Administrator\\Desktop\\autoRaffle-master\\Preferences"
+def clean_pref(profile="Default",back_up="Preferences"):
+    pref_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\{}\Preferences'.format(profile)
+    to_address = "C:\\Users\\Administrator\\Desktop\\autoRaffle-master\\{}".format(back_up)
     import shutil
     shutil.copyfile(to_address, pref_file_path)
 
-def delet_bad_pref():
+def delet_bad_pref(profile="Default",back_up="Preferences"):
     import os
-    bad_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences.bad'
-    pref_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences'
+    bad_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\{}\Preferences.bad'.format(profile)
+    pref_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\{}\Preferences'.format(profile)
     if os.path.exists(bad_file_path):
         os.remove(bad_file_path)
         print ("deleted bad pref!!")
         time.sleep(5)
     if os.path.exists(pref_file_path):
         try:
-            clean_pref()
+            clean_pref(profile,back_up)
             print("clean pref!!")
         except:
             pass
         time.sleep(5)
 
-def auto_clean_pref():
+def auto_clean_pref(profile="Default",back_up="Preferences"):
     import os
-    bad_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences.bad'
-    pref_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences'
+    bad_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\{}\Preferences.bad'.format(profile)
+    pref_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\{}\Preferences'.format(profile)
     if os.path.exists(bad_file_path) and os.path.getsize(bad_file_path) > 100000:
         os.remove(bad_file_path)
         print("deleted bad pref!!")
         time.sleep(5)
     if os.path.exists(pref_file_path)  and os.path.getsize(pref_file_path) > 100000:
         try:
-            clean_pref()
+            clean_pref(profile,back_up)
             print("clean pref!!")
         except:
             pass
