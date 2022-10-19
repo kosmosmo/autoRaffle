@@ -9,6 +9,7 @@ from selenium.webdriver.common.keys import Keys
 import time,random,json
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
+from alpha_sel_profiles import profileJob
 import twitter_job
 import random
 
@@ -25,7 +26,7 @@ data = _get_key()
 at_keys = data["at_keys"]
 key = random.choice(at_keys)
 machine_name = data.get('name','All')
-
+profiles = data.get("profile",[])
 at_obj = AirtableWrapper("appNj4kFlbJGa6IOm",key)
 
 def _get_cache():
@@ -60,16 +61,19 @@ class alphaJobs():
                 time.sleep(5)
         time.sleep(5)
 
-    def get_driver(self):
+    def get_driver(self,profile="Default"):
         options = webdriver.ChromeOptions()
         options.add_argument(self.url)
         options.add_argument(r"user-data-dir=C:\Users\\Administrator\AppData\Local\Google\Chrome\User Data")
-        options.add_argument(r'--profile-directory=Default')
+        options.add_argument(r'--profile-directory='+profile)
         return webdriver.Chrome(options=options,use_subprocess=True)
 
     def run(self):
         self._click_reg()
         self.driver.quit()
+        if profiles:
+            p = profileJob(self.url,profiles)
+            p.run()
 
 
     def _check_over(self):
