@@ -73,7 +73,7 @@ class alphaJobs():
         self.driver.quit()
         if profiles:
             for item in profiles:
-                auto_clean_pref(item,"pref\\"+profiles)
+                auto_clean_pref(item,"pref\\"+item)
             p = profileJob(self.url,profiles)
             p.run()
 
