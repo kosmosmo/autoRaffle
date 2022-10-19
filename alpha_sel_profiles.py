@@ -12,6 +12,20 @@ from urllib.parse import parse_qs
 import twitter_job
 import random
 
+root_path = "C:\\Users\\Administrator\\Desktop\\autoRaffle-master\\"
+def _get_cache():
+    import os
+    if not os.path.exists(root_path + 'alpha_cache.json'):
+        data = {}
+        _write_cache(data)
+    f = open(root_path + 'alpha_cache.json')
+    data = json.load(f)
+    return data
+
+def _write_cache(data):
+    with open(root_path + "alpha_cache.json", "w") as outfile:
+        json.dump(data, outfile, indent=4)
+
 class profileJob():
     def __init__(self, url, profiles):
         self.url = url
@@ -45,6 +59,7 @@ class profileJob():
         try:
             reg_btn = profile_dirver.find_element(By.CSS_SELECTOR, '.MuiButton-root[data-action ="view-project-register"]')
         except:
+            profile_dirver.quit()
             return
         time.sleep(2)
         reg_btn.click()
