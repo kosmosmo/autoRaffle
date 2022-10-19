@@ -49,4 +49,4 @@ class profileJob():
         time.sleep(2)
         reg_btn.click()
         time.sleep(12)
-        profile_dirver.driver.quit()
+        profile_dirver.quit()
