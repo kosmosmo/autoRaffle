@@ -13,9 +13,10 @@ class job_queue():
         self.res = sorted(self.res,key=lambda x:x.close_time)
 
     def run(self):
+        i = 1
         for item in self.res:
-            i = 1
             print (str(i) + '/' + str(len(self.res)))
+            print (item)
             tried = 0
             while tried < 3:
                 try:
