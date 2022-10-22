@@ -67,9 +67,13 @@ def get_premint_job(res):
 
 while True:
     print ('starting........!')
+    rand_time = random.randint(1, 100)
+    time.sleep(rand_time)
+    print ('#############################################################')
     alpha_jobs = get_alpha_job([])
     b = job_queue(alpha_jobs)
     b.sort()
     b.run()
+    print('#############################################################')
     print ('done...! Sleep for 1000 sec!')
     time.sleep(1000)
