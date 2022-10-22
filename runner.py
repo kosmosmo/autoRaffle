@@ -1,5 +1,3 @@
-
-print ('hihihi2')
 import undetected_chromedriver as webdriver
 from airtable_wrapper import AirtableWrapper
 #from selenium.webdriver.common.by import By
@@ -67,7 +65,11 @@ def get_alpha_job(res):
 def get_premint_job(res):
     return res
 
-alpha_jobs = get_alpha_job([])
-b = job_queue(alpha_jobs)
-b.sort()
-b.run()
+while True:
+    print ('starting........!')
+    alpha_jobs = get_alpha_job([])
+    b = job_queue(alpha_jobs)
+    b.sort()
+    b.run()
+    print ('done...! Sleep for 1000 sec!')
+    time.sleep(1000)
