@@ -1,3 +1,5 @@
+import time,random,json,os,sys
+#sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 import undetected_chromedriver as webdriver
 from airtable_wrapper import AirtableWrapper
 from selenium.webdriver.common.by import By
@@ -6,18 +8,18 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
-import time,random,json,os
+
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
 from alpha_sel_profiles import profileJob
-import twitter_job
+import twitter_job,os
 import random
 
 filter_out = [
     "https://twitter.com/premint_nft",
     "https://twitter.com/AlphabotApp"
 ]
-root_path =  os.path.dirname(os.path.realpath(__file__)) + '\\'
+root_path =os.path.dirname(os.path.dirname(os.path.realpath(__file__)))+ '\\'
 def _get_key():
     f = open(root_path + 'key.json')
     data = json.load(f)
@@ -47,6 +49,9 @@ class alphaJobs():
         self.url = url
         self.keyword= keyword
         self.rid = rid
+
+
+    def on_start(self):
         self.driver = self.get_driver()
         time.sleep(2)
         self.driver.maximize_window()
@@ -61,6 +66,7 @@ class alphaJobs():
                 time.sleep(5)
         time.sleep(5)
 
+
     def get_driver(self,profile="Default"):
         options = webdriver.ChromeOptions()
         options.add_argument(self.url)
@@ -68,7 +74,13 @@ class alphaJobs():
         options.add_argument(r'--profile-directory='+profile)
         return webdriver.Chrome(options=options,use_subprocess=True)
 
+    def write_cache(self):
+        cache = _get_cache()
+        cache[self.url] = ""
+        _write_cache(cache)
+
     def run(self):
+        self.on_start()
         self._click_reg()
         self.driver.quit()
         if profiles:
@@ -76,6 +88,7 @@ class alphaJobs():
                 auto_clean_pref(item,"pref\\"+item)
             p = profileJob(self.url,profiles)
             p.run()
+        self.write_cache()
 
 
     def _check_over(self):
@@ -330,7 +343,4 @@ def auto_clean_pref(profile="Default",back_up="Preferences"):
             pass
         time.sleep(5)
 
-rand_time = random.randint(1, 100)
-time.sleep(rand_time)
-delet_bad_pref()
-run_all_jobs()
+

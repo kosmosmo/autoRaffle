@@ -5,14 +5,14 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
-import time,random
+import time,random,os
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
 import utils as u
 import json,os
 from airtable_wrapper import AirtableWrapper
 tw_cache = u.get_twitter_cache()
-root_path = "C:\\Users\\Administrator\\Desktop\\autoRaffle-master\\"
+root_path =  os.path.dirname(os.path.realpath(__file__)) + '\\'
 def _get_key():
     f = open(root_path + 'key.json')
     data = json.load(f)

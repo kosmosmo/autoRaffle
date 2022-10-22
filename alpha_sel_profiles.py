@@ -6,13 +6,13 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
-import time,random,json
+import time,random,json,os
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
 import twitter_job
 import random
 
-root_path = "C:\\Users\\Administrator\\Desktop\\autoRaffle-master\\"
+root_path =  os.path.dirname(os.path.realpath(__file__)) + '\\'
 def _get_cache():
     import os
     if not os.path.exists(root_path + 'alpha_cache.json'):

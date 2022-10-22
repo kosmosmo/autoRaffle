@@ -38,6 +38,10 @@ def get_alpha_index():
             urllow =  item.url.lower()
             tt = item.time
             end = item.time_remain
+            if end and end.endswith(" hr"):
+                check_time = int(end.split(" ")[0])
+                if check_time < -1:
+                    continue
             find_rec = at_obj.get("alpha list", filter_by_formula='FIND("{}", Url)'.format(urllow)).get(
                 'records')
             if not find_rec:

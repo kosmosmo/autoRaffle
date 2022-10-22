@@ -1,6 +1,6 @@
 import json,os
 from airtable_wrapper import AirtableWrapper
-root_path = "C:\\Users\\Administrator\\Desktop\\autoRaffle-master\\"
+root_path =  os.path.dirname(os.path.realpath(__file__)) + '\\'
 
 
 def _get_key():
@@ -14,6 +14,8 @@ default_data = {
             "follow":{},
             "retweet":{}
         }
+
+
 
 def _get_cache(cache_file):
     f = open(root_path + cache_file)
