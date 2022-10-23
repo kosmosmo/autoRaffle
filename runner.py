@@ -12,7 +12,6 @@ import time,random,json,os
 #from alpha_sel_profiles import profileJob
 #import twitter_job
 import random,pprint
-import job_update as pre_premint
 from job_queue.job_queue import alpha_job, premint_job,job_queue
 
 
@@ -89,13 +88,14 @@ def get_premint_job(res):
 
 while True:
     print ('starting........!')
-    rand_time = random.randint(1, 100)
+    rand_time = random.randint(1, 2)
     time.sleep(rand_time)
     print ('#############################################################')
     alpha_jobs = get_alpha_job([])
     all_jobs = get_premint_job(alpha_jobs)
     b = job_queue(all_jobs)
     b.sort()
+    pprint.pprint(b)
     b.run()
     print('#############################################################')
     print ('done...! Sleep for 1000 sec!')

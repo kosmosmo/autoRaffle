@@ -22,14 +22,17 @@ at_obj = AirtableWrapper("appNj4kFlbJGa6IOm",key)
 
 class twitterJobs():
     def __init__(self,retweet_links,follow_links):
+
+        self.retweet_links = retweet_links
+        self.follow_links = follow_links
+
+    def on_start(self):
         self.driver = self.get_driver()
         time.sleep(3)
         self.driver.maximize_window()
         time.sleep(3)
         self.driver.get("https://www.google.com/")
         time.sleep(3)
-        self.retweet_links = retweet_links
-        self.follow_links = follow_links
         all_list = at_obj.get_all("black_list").get('records')
         self.black_list = u.get_black_list(all_list)
 
@@ -63,6 +66,7 @@ class twitterJobs():
             return False
 
     def run(self):
+        self.on_start()
         time.sleep(2)
         for item in self.follow_links:
             if u.get_id(item) in self.black_list:
