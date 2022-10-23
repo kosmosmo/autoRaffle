@@ -98,6 +98,22 @@ class twitterJobs():
                 return url.replace("https://twitter.com/",'').replace("/nft",'')
         return duser
 
+    def check_limited(self):
+        time.sleep(3)
+        try:
+            limited_btn = self.driver.find_element(By.CLASS_NAME, "Button.EdgeButton.EdgeButton--primary")
+            if limited_btn:
+                print ("account limited. Refreshing!")
+                time.sleep(2)
+                limited_btn.click()
+                time.sleep(5)
+                self.driver.refresh()
+                time.sleep(5)
+                self.driver.refresh()
+                time.sleep(5)
+        except:
+            pass
+
     def actions(self,url,status):
         #status "unretweet" for retweet
         #status "unlike" for like
@@ -108,6 +124,7 @@ class twitterJobs():
             time.sleep(3)
             main = self.driver.window_handles[0]
             self.driver.switch_to.window(main)
+            self.check_limited()
             time.sleep(3)
             try:
                 WebDriverWait(self.driver, 30).until(
