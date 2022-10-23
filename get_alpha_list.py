@@ -36,7 +36,7 @@ def get_alpha_index():
         msgs_history = alpha_obj.alpha_base.convert_msgs(json.loads(feed.text))
         for item in msgs_history:
             urllow =  item.url.lower()
-            tt = item.time
+            tt = item.time.replace(" ","T") + ".000Z"
             end = item.time_remain
             if end and end.endswith(" hr"):
                 check_time = int(end.split(" ")[0])

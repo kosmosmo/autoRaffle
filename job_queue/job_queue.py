@@ -60,7 +60,7 @@ class premint_job(base_job):
 
     def convert_time(self):
         if not self.close_time:
-            self.close_time = datetime.datetime.now() + datetime.timedelta(hours=12)
+            self.close_time = datetime.datetime.now() + datetime.timedelta(hours=24)
             self.close_time = convert_to_airtable_time(self.close_time)
         else:
             self.close_time = self.close_time.replace('T',' ')[:-5]
