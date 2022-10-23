@@ -43,6 +43,8 @@ class alpha_job(base_job):
         if not self.close_time:
             self.close_time = datetime.datetime.now() + datetime.timedelta(hours=1)
             self.close_time = convert_to_airtable_time(self.close_time)
+        else:
+            self.close_time = self.close_time.replace('T',' ')[:-5]
 
     def __repr__(self):
         return self.close_time + " " + self.type + " " + self.rid
