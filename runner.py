@@ -64,7 +64,7 @@ def get_alpha_job(res):
 
 def get_premint_job(res):
     all_list = at_obj.get_all("raffle list").get('records')
-    cache = _get_cache('alpha_cache.json')
+    cache = _get_cache('cache.json')
     res = res
     for item in all_list:
         fields = item.get('fields')
