@@ -12,6 +12,7 @@ import time,random,json,os
 #from alpha_sel_profiles import profileJob
 #import twitter_job
 import random,pprint
+import job_update as pre_premint
 from job_queue.job_queue import alpha_job, premint_job,job_queue
 
 
@@ -30,9 +31,9 @@ key = random.choice(at_keys)
 machine_name = data.get('name','All')
 profiles = data.get("profile",[])
 at_obj = AirtableWrapper("appNj4kFlbJGa6IOm",key)
-def _get_cache():
+def _get_cache(cache_file):
     import os
-    if not os.path.exists(root_path + 'alpha_cache.json'):
+    if not os.path.exists(root_path + cache_file):
         data = {}
         _write_cache(data)
     f = open(root_path + 'alpha_cache.json')
@@ -45,7 +46,7 @@ def _write_cache(data):
 
 def get_alpha_job(res):
     job_list = at_obj.get_all("alpha list").get('records')
-    cache = _get_cache()
+    cache = _get_cache('alpha_cache.json')
     res = res
     for item in job_list:
         rid = item.get('id')
@@ -63,6 +64,27 @@ def get_alpha_job(res):
     return res
 
 def get_premint_job(res):
+    all_list = at_obj.get_all("raffle list").get('records')
+    cache = _get_cache('alpha_cache.json')
+    res = res
+    for item in all_list:
+        fields = item.get('fields')
+        status = fields.get('status', None)
+        rid = item.get('id')
+        time = fields.get('REGISTRATION CLOSES','')
+        if status == "Ready" and rid not in cache:
+            retweet_links = fields.get('retweet_links')
+            if retweet_links:
+                retweet_links = retweet_links.split('\n')
+            else:
+                retweet_links = []
+            follow_links = fields.get('follow_links')
+            if follow_links:
+                follow_links = follow_links.split('\n')
+            else:
+                follow_links = []
+            premint_job_obj = premint_job(time,rid,retweet_links,follow_links)
+            res.append(premint_job_obj)
     return res
 
 while True:
