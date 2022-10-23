@@ -34,12 +34,13 @@ def _get_cache(cache_file):
     import os
     if not os.path.exists(root_path + cache_file):
         data = {}
-        _write_cache(data)
-    f = open(root_path + 'alpha_cache.json')
+        _write_cache(data,cache_file)
+    f = open(root_path + cache_file)
     data = json.load(f)
     return data
-def _write_cache(data):
-    with open(root_path + "alpha_cache.json", "w") as outfile:
+
+def _write_cache(data,cache_file):
+    with open(root_path + cache_file, "w") as outfile:
         json.dump(data, outfile, indent=4)
 
 
