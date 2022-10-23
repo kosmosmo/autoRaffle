@@ -98,7 +98,7 @@ class twitterJobs():
                 return url.replace("https://twitter.com/",'').replace("/nft",'')
         return duser
 
-    def check_limited(self):
+    def check_limited(self,url):
         time.sleep(3)
         try:
             limited_btn = self.driver.find_element(By.CLASS_NAME, "Button.EdgeButton.EdgeButton--primary")
@@ -109,8 +109,7 @@ class twitterJobs():
                 time.sleep(5)
                 self.driver.refresh()
                 time.sleep(5)
-                self.driver.refresh()
-                time.sleep(5)
+                self.driver.get(url)
         except:
             pass
 
@@ -124,7 +123,7 @@ class twitterJobs():
             time.sleep(3)
             main = self.driver.window_handles[0]
             self.driver.switch_to.window(main)
-            self.check_limited()
+            self.check_limited(url)
             time.sleep(3)
             try:
                 WebDriverWait(self.driver, 30).until(
