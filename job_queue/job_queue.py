@@ -23,6 +23,7 @@ class job_queue():
             tried = 0
             while tried < 3:
                 try:
+                    print ('helo....................')
                     item.run()
                     tried = 4
                 except:
