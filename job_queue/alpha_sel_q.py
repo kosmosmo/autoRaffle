@@ -52,13 +52,11 @@ class alphaJobs():
 
 
     def on_start(self):
-        print ("onstart 1")
         self.driver = self.get_driver()
         time.sleep(2)
         self.driver.maximize_window()
         time.sleep(2)
         loaded = False
-        print("onstart 2")
         while not loaded:
             try:
                 WebDriverWait(self.driver, 10).until(
@@ -67,7 +65,6 @@ class alphaJobs():
             except:
                 time.sleep(5)
         time.sleep(5)
-        print("onstart 3")
 
 
     def get_driver(self,profile="Default"):
