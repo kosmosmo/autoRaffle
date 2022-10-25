@@ -52,7 +52,8 @@ class alphaJobs():
 
 
     def on_start(self):
-        print('starting...........end')
+        print('starting...........START')
+        print (self.url)
         self.driver = self.get_driver()
         time.sleep(2)
         self.driver.maximize_window()
@@ -70,10 +71,12 @@ class alphaJobs():
 
 
     def get_driver(self,profile="Default"):
+        print ('get drive')
         options = webdriver.ChromeOptions()
         options.add_argument(self.url)
         options.add_argument(r"user-data-dir=C:\Users\\Administrator\AppData\Local\Google\Chrome\User Data")
         options.add_argument(r'--profile-directory='+profile)
+        print('get drive done')
         return webdriver.Chrome(options=options,use_subprocess=True)
 
     def write_cache(self):
