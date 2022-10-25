@@ -52,13 +52,13 @@ class alphaJobs():
 
 
     def on_start(self):
-        print('starting...........START')
-        print (self.url)
+        print ("onstart 1")
         self.driver = self.get_driver()
         time.sleep(2)
         self.driver.maximize_window()
         time.sleep(2)
         loaded = False
+        print("onstart 2")
         while not loaded:
             try:
                 WebDriverWait(self.driver, 10).until(
@@ -67,16 +67,14 @@ class alphaJobs():
             except:
                 time.sleep(5)
         time.sleep(5)
-        print ('starting...........end')
+        print("onstart 3")
 
 
     def get_driver(self,profile="Default"):
-        print ('get drive')
         options = webdriver.ChromeOptions()
         options.add_argument(self.url)
         options.add_argument(r"user-data-dir=C:\Users\\Administrator\AppData\Local\Google\Chrome\User Data")
         options.add_argument(r'--profile-directory='+profile)
-        print('get drive done')
         return webdriver.Chrome(options=options,use_subprocess=True)
 
     def write_cache(self):
@@ -85,9 +83,7 @@ class alphaJobs():
         _write_cache(cache)
 
     def run(self):
-        print('pre on start..................')
         self.on_start()
-        print ('on start..................')
         self._click_reg()
         self.driver.quit()
         if profiles:
@@ -221,9 +217,7 @@ class alphaJobs():
         return res
 
     def _click_reg(self):
-        print ('start..................................')
         if self._check_captcha():
-            print('_check_captcha.............................')
             find_rec = at_obj.get("alpha list", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
                 'records')
             if find_rec:
@@ -234,7 +228,6 @@ class alphaJobs():
             self.driver.quit()
             return
         if not self._check_over():
-            print('_check_over.............................')
             try:
                 at_obj.delete("alpha list",self.rid)
                 print ('raffl over!')
@@ -243,9 +236,7 @@ class alphaJobs():
             self.driver.quit()
             return
         try:
-            print ("btn")
             reg_btn = self.driver.find_element(By.CSS_SELECTOR, '.MuiButton-root[data-action ="view-project-register"]')
-            print("found btn")
         except:
             return
         time.sleep(2)
@@ -253,7 +244,6 @@ class alphaJobs():
         time.sleep(12)
         checker = self._find_error()
         if checker:
-            print ('checker.............................')
             if self._check_success_reg():
                 self.driver.quit()
                 return
@@ -272,7 +262,6 @@ class alphaJobs():
             except:
                 pass
         if not self._check_success_reg():
-            print('not _check_success_reg')
             find_rec = at_obj.get("alpha list", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
                 'records')
             if find_rec:
