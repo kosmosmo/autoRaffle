@@ -89,7 +89,7 @@ def get_premint_job(res):
 
 while True:
     print ('starting........!')
-    rand_time = random.randint(1, 150)
+    rand_time = random.randint(1, 2)
     time.sleep(rand_time)
     print ('#############################################################')
     alpha_jobs = get_alpha_job([])
