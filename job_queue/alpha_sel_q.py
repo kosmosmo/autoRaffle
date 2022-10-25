@@ -52,6 +52,7 @@ class alphaJobs():
 
 
     def on_start(self):
+        print('starting...........end')
         self.driver = self.get_driver()
         time.sleep(2)
         self.driver.maximize_window()
@@ -65,6 +66,7 @@ class alphaJobs():
             except:
                 time.sleep(5)
         time.sleep(5)
+        print ('starting...........end')
 
 
     def get_driver(self,profile="Default"):
@@ -80,7 +82,9 @@ class alphaJobs():
         _write_cache(cache)
 
     def run(self):
+        print('pre on start..................')
         self.on_start()
+        print ('on start..................')
         self._click_reg()
         self.driver.quit()
         if profiles:
@@ -214,6 +218,7 @@ class alphaJobs():
         return res
 
     def _click_reg(self):
+        print ('start..................................')
         if self._check_captcha():
             print('_check_captcha.............................')
             find_rec = at_obj.get("alpha list", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
