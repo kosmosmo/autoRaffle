@@ -215,6 +215,7 @@ class alphaJobs():
 
     def _click_reg(self):
         if self._check_captcha():
+            print('_check_captcha.............................')
             find_rec = at_obj.get("alpha list", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
                 'records')
             if find_rec:
@@ -225,6 +226,7 @@ class alphaJobs():
             self.driver.quit()
             return
         if not self._check_over():
+            print('_check_over.............................')
             try:
                 at_obj.delete("alpha list",self.rid)
                 print ('raffl over!')
@@ -233,7 +235,9 @@ class alphaJobs():
             self.driver.quit()
             return
         try:
+            print ("btn")
             reg_btn = self.driver.find_element(By.CSS_SELECTOR, '.MuiButton-root[data-action ="view-project-register"]')
+            print("found btn")
         except:
             return
         time.sleep(2)
@@ -241,6 +245,7 @@ class alphaJobs():
         time.sleep(12)
         checker = self._find_error()
         if checker:
+            print ('checker.............................')
             if self._check_success_reg():
                 self.driver.quit()
                 return
@@ -259,6 +264,7 @@ class alphaJobs():
             except:
                 pass
         if not self._check_success_reg():
+            print('not _check_success_reg')
             find_rec = at_obj.get("alpha list", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
                 'records')
             if find_rec:
