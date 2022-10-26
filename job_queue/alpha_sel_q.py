@@ -126,7 +126,7 @@ class alphaJobs():
     def _check_success_reg(self):
         time.sleep(4)
         try:
-            checking = self.driver.find_element(By.CLASS_NAME, 'MuiTypography-root.MuiTypography-h5.css-1l3cl22')
+            checking = self.driver.find_element(By.CLASS_NAME, 'MuiTypography-root.MuiTypography-h5.css-uz8pyt')
         except:
             return False
         if checking:
