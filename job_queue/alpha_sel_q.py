@@ -63,6 +63,7 @@ class alphaJobs():
                     EC.presence_of_element_located((By.CLASS_NAME, 'MuiPaper-root')))
                 loaded = True
             except:
+                self.driver.refresh()
                 time.sleep(5)
         time.sleep(5)
 
