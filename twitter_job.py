@@ -45,8 +45,22 @@ class twitterJobs():
         time.sleep(2)
         return webdriver.Chrome(options=options,use_subprocess=True)
 
+    def _check_account_exit(self):
+        try:
+            checking = self.driver.find_element(By.CSS_SELECTOR,
+                                                '.css-901oao[data-testid ="empty_state_header_text"]')
+            if checking:
+                return False
+            return True
+        except:
+            return True
+
     def _check_status(self,status,url):
         time.sleep(8)
+        if not self._check_account_exit:
+            print ("!!!!!!invalid links. Skipped.")
+            print (url)
+            return False
         try:
             if status == "followed":
                 user = self._get_user_name(url)
