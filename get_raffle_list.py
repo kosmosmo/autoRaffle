@@ -120,13 +120,18 @@ def convert_to_datetime(str_time):
         split = str_time.split(" hour")
         h = 0
         m = 0
-        if len(split) >= 1:
+        if len(split) >= 2:
             h = int(split[0])
-        split2 = split[1].split(", ")
-        if len(split2) >= 1:
-            m = int(split2[1].split(" minute")[0])
-        print (m)
+        try:
+            split2 = split[1].split(", ")
+            if len(split2) >= 1:
+                m = int(split2[1].split(" minute")[0])
+            print (m)
+        except:
+            h=-24
         return datetime.now() + timedelta(hours=h, minutes=m)
+
+
 
     str_time =  str_time.replace("p.m.","PM")
     str_time = str_time.replace("a.m.", "AM")
