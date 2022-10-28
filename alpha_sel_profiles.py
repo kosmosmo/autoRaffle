@@ -50,6 +50,7 @@ class profileJob():
                         EC.presence_of_element_located((By.CLASS_NAME, 'MuiPaper-root')))
                     loaded = True
                 except:
+                    profile_dirver.refresh()
                     time.sleep(5)
             time.sleep(5)
             self._reg(profile_dirver)

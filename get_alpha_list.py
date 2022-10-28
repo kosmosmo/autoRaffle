@@ -8,6 +8,7 @@ from urllib.parse import urlparse
 from urllib.parse import parse_qs
 from discum.utils.button import Buttoner
 import time
+import get_raffle_list as premint
 root_path = "C:\\Users\\kosmo\\PycharmProjects\\autoRaffle\\"
 
 def _get_keys():
@@ -90,5 +91,10 @@ class dc_monitor():
 
 
 if __name__ == "__main__":
-    dc_monitor_object = dc_monitor()
-    dc_monitor_object.runner()
+    while True:
+        premint.get_links()
+        premint.driver.close()
+        time.sleep(5)
+        dc_monitor_object = dc_monitor()
+        dc_monitor_object.runner()
+        time.sleep(6000)
