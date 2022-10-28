@@ -58,12 +58,7 @@ class twitterJobs():
 
     def _check_status(self,status,url):
         time.sleep(8)
-        account_exit = self._check_account_exit
-        if not account_exit:
-            print(account_exit)
-            print ("!!!!!!invalid links. Skipped.")
-            print (url)
-            return False
+
         try:
             if status == "followed":
                 user = self._get_user_name(url)
@@ -152,6 +147,12 @@ class twitterJobs():
             retweet_btn = self.driver.find_element(By.CSS_SELECTOR,'.css-18t94o4[data-testid ="confirmationSheetConfirm"]')
             retweet_btn.click()
             time.sleep(5)
+            account_exit = self._check_account_exit
+            if not account_exit:
+                print(account_exit)
+                print("!!!!!!invalid links. Skipped.")
+                print(url)
+                return False
             if self._check_status(status,url):
                 flag = False
             else:
