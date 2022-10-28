@@ -46,7 +46,6 @@ class twitterJobs():
         return webdriver.Chrome(options=options,use_subprocess=True)
 
     def _check_account_exit(self):
-        print ('checking account!!')
         try:
             checking = self.driver.find_element(By.CSS_SELECTOR,
                                                 '.css-901oao[data-testid ="empty_state_header_text"]')
@@ -58,7 +57,11 @@ class twitterJobs():
 
     def _check_status(self,status,url):
         time.sleep(8)
-
+        account_exit = self._check_account_exit()
+        if not account_exit:
+            print("!!!!!!invalid links. Skipped.")
+            print(url)
+            return False
         try:
             if status == "followed":
                 user = self._get_user_name(url)
@@ -147,17 +150,11 @@ class twitterJobs():
             retweet_btn = self.driver.find_element(By.CSS_SELECTOR,'.css-18t94o4[data-testid ="confirmationSheetConfirm"]')
             retweet_btn.click()
             time.sleep(5)
-            account_exit = self._check_account_exit
-            if not account_exit:
-                print(account_exit)
-                print("!!!!!!invalid links. Skipped.")
-                print(url)
-                return False
             if self._check_status(status,url):
                 flag = False
             else:
                 sleep_time = random.randint(180, 460)
-                print('sleeping.......???' + str(sleep_time))
+                print('sleeping.......' + str(sleep_time))
                 time.sleep(sleep_time)
 
 
