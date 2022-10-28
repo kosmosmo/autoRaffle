@@ -46,6 +46,7 @@ class twitterJobs():
         return webdriver.Chrome(options=options,use_subprocess=True)
 
     def _check_account_exit(self):
+        print ('checking account!!')
         try:
             checking = self.driver.find_element(By.CSS_SELECTOR,
                                                 '.css-901oao[data-testid ="empty_state_header_text"]')
@@ -57,7 +58,9 @@ class twitterJobs():
 
     def _check_status(self,status,url):
         time.sleep(8)
-        if not self._check_account_exit:
+        account_exit = self._check_account_exit
+        if not account_exit:
+            print(account_exit)
             print ("!!!!!!invalid links. Skipped.")
             print (url)
             return False
