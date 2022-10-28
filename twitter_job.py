@@ -61,7 +61,7 @@ class twitterJobs():
         if not account_exit:
             print("!!!!!!invalid links. Skipped.")
             print(url)
-            return False
+            return True
         try:
             if status == "followed":
                 user = self._get_user_name(url)
