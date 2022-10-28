@@ -16,6 +16,8 @@ class tx_index():
         self.contract = contract
         self.cache = self._load_cache()
         self.method_id = method_id
+        self.new_indexing()
+
 
 
     def _load_cache(self):
