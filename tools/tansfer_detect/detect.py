@@ -25,9 +25,9 @@ class tx_index():
         data = json.load(f)
         return data
 
-    def _write_cache(self):
-        with open(os.path.dirname(os.path.realpath(__file__)) + '\\index_cache.json', "w") as outfile:
-            json.dump(self.cache, outfile, indent=4)
+    def _write_cache(self,data,file = '\\index_cache.json'):
+        with open(os.path.dirname(os.path.realpath(__file__)) + file, "w") as outfile:
+            json.dump(data, outfile, indent=4)
 
     def _add_to_hash_index(self,new_data,old_data):
         if new_data.get('input', "").startswith(self.method_id) and new_data.get("tx_receipt_status",False) == True:
@@ -50,7 +50,7 @@ class tx_index():
                 temp = cache_data["hash_index"]
                 cache_data["hash_index"] = self._add_to_hash_index(item,temp)
             self.cache[self.contract] = cache_data
-            self._write_cache()
+            self._write_cache(self.cache)
 
     def transfer_count(self):
         res = {2:[],3:[],4:[]}
@@ -61,6 +61,7 @@ class tx_index():
                 res[3].append(key)
             elif len(val) > 3:
                 res[4].append(key)
+        self._write_cache(res,file = "\\result.json")
         return res
 
 
@@ -87,23 +88,30 @@ class tx_index():
             self.cache[self.contract]["hash_index"] = self._add_to_hash_index(item, temp)
             if temp !=  self.cache[self.contract]["hash_index"]:
                 print_flag = True
-        self._write_cache()
+        self._write_cache(self.cache)
         return print_flag
+
+
 
     def scaning_new_tx(self):
         while True:
             print_flag = self.add_indexing()
             res = self.transfer_count()
-            if res[2] and print_flag:
-                print ("found duplicated mint: " + str(len(res[2])))
-                print (list(res[2])[0])
-            if res[3] and print_flag:
-                print ("found triplicated mint: " + str(len(res[3])))
-                print(list(res[3])[0])
-            if res[4] and print_flag:
-                print ("found multiple mint: " + str(len(res[4])))
+            print (res)
             time.sleep(5)
+            continue
+            #if res[2] and print_flag:
+            #    print ("found duplicated mint: " + str(len(res[2])))
+            #    print (list(res[2])[0])
+            #if res[3] and print_flag:
+            #    print ("found triplicated mint: " + str(len(res[3])))
+            #    print(list(res[3])[0])
+            #if res[4] and print_flag:
+            #    print ("found multiple mint: " + str(len(res[4])))
+            #
+            #time.sleep(5)
 
 if __name__ == "__main__":
-    a = tx_index('0x72ee15073f899c447001805364de1936206f7e9a','0xc13bd95c')
+    a = tx_index('0x0f7cce027e0afe16fbf0dcc8e76932845b4e21d1','0x46b79575')
+    #print (a.transfer_count())
     a.scaning_new_tx()
