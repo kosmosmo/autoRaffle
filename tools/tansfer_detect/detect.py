@@ -112,6 +112,6 @@ class tx_index():
             #time.sleep(5)
 
 if __name__ == "__main__":
-    a = tx_index('0x0f7cce027e0afe16fbf0dcc8e76932845b4e21d1','0x46b79575')
+    a = tx_index('0xccce297b06db0d859dfff0b936137f213e9b08ef','0x95fc164f')
     #print (a.transfer_count())
     a.scaning_new_tx()

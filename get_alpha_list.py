@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
 from discum.utils.button import Buttoner
-import time
+import time,datetime
 import get_raffle_list as premint
 root_path = "C:\\Users\\kosmo\\PycharmProjects\\autoRaffle\\"
 
@@ -22,7 +22,7 @@ bot = discum.Client(token=token, log=False)
 msgs_history = []
 at_obj = AirtableWrapper("appNj4kFlbJGa6IOm",key)
 history_ct = 10
-
+at_archive = AirtableWrapper("appo1xVFD4xpPmmGT",key)
 
 
 def get_alpha_index():
@@ -77,12 +77,51 @@ def clean_alpha_index():
             at_obj.delete("alpha list",rid)
 
 
+def archive_raffles():
+    alpha_lists = at_obj.get_all("alpha list").get('records')
+    for item in alpha_lists:
+        rid = item.get('id')
+        fields = item.get('fields')
+        url = fields.get('url')
+        created_time = fields.get('created time')
+        fail_count = fields.get('fail count')
+        fail_reason = fields.get('fail reason','')
+        discord = fields.get("Name (from alpha index)",["unknown"])[0]
+        tt =  fields.get('time')
+        created_date = created_time.split('T')[0]
+        dt = datetime.datetime.strptime(created_date, "%Y-%m-%d")
+        today = datetime.datetime.now()
+        if abs((today - dt).days) > 2:
+            at_archive.create("archive_alpha",{
+                "url":url,
+                "created time":created_time,
+                "fail count":fail_count,
+                "discord":discord,
+                "fail reason":fail_reason,
+                "time":tt
+            })
+            at_obj.delete("alpha list",rid)
+            time.sleep(0.2)
+
+def archive_premint():
+    raffle_lists = at_obj.get_all("raffle list").get('records')
+    for item in raffle_lists:
+        rid = item.get('id')
+        fields = item.get('fields')
+        status = fields.get("status",'')
+        if status == "Done" or status == "Nope":
+            at_archive.create("archive_premint",fields)
+            at_obj.delete("raffle list",rid)
+            time.sleep(0.2)
+
 @bot.gateway.command
 def monitoring(resp):
     global msgs_history
     if resp.event.ready_supplemental:
         get_alpha_index()
         #clean_alpha_index()
+        archive_raffles()
+        archive_premint()
         bot.gateway.close()
 
 class dc_monitor():
@@ -91,10 +130,9 @@ class dc_monitor():
 
 
 if __name__ == "__main__":
-    while True:
-        premint.get_links()
-        premint.driver.close()
-        time.sleep(5)
-        dc_monitor_object = dc_monitor()
-        dc_monitor_object.runner()
-        time.sleep(6000)
+    premint.get_links()
+    premint.driver.close()
+    time.sleep(5)
+    dc_monitor_object = dc_monitor()
+    dc_monitor_object.runner()
+    time.sleep(6000)

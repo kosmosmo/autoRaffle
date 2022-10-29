@@ -21,6 +21,9 @@ filter_out = [
 
 options = webdriver.ChromeOptions()
 driver = webdriver.Chrome(options=options, use_subprocess=True)
+at_archive = AirtableWrapper("appo1xVFD4xpPmmGT",key)
+
+
 
 def get_raffle_requritement(url):
 
