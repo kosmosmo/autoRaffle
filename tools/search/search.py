@@ -8,7 +8,7 @@ filter_out = [
     "https://twitter.com/premint_nft",
     "https://twitter.com/AlphabotApp"
 ]
-root_path = r"C:\Users\kosmo\PycharmProjects\autoRaffle"
+root_path = r"/"
 def _get_key():
     f = open(root_path + '\key.json')
     data = json.load(f)

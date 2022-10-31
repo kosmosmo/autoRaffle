@@ -135,4 +135,3 @@ if __name__ == "__main__":
     time.sleep(5)
     dc_monitor_object = dc_monitor()
     dc_monitor_object.runner()
-    time.sleep(6000)

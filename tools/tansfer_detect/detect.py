@@ -95,23 +95,27 @@ class tx_index():
 
     def scaning_new_tx(self):
         while True:
-            print_flag = self.add_indexing()
-            res = self.transfer_count()
-            print (res)
-            time.sleep(5)
-            continue
-            #if res[2] and print_flag:
-            #    print ("found duplicated mint: " + str(len(res[2])))
-            #    print (list(res[2])[0])
-            #if res[3] and print_flag:
-            #    print ("found triplicated mint: " + str(len(res[3])))
-            #    print(list(res[3])[0])
-            #if res[4] and print_flag:
-            #    print ("found multiple mint: " + str(len(res[4])))
-            #
-            #time.sleep(5)
+            try:
+                print_flag = self.add_indexing()
+
+                res = self.transfer_count()
+                print (res)
+                time.sleep(5)
+                continue
+                #if res[2] and print_flag:
+                #    print ("found duplicated mint: " + str(len(res[2])))
+                #    print (list(res[2])[0])
+                #if res[3] and print_flag:
+                #    print ("found triplicated mint: " + str(len(res[3])))
+                #    print(list(res[3])[0])
+                #if res[4] and print_flag:
+                #    print ("found multiple mint: " + str(len(res[4])))
+                #
+                #time.sleep(5)
+            except:
+                pass
 
 if __name__ == "__main__":
-    a = tx_index('0xccce297b06db0d859dfff0b936137f213e9b08ef','0x95fc164f')
+    a = tx_index('0x358b949c3e9deb228773563e2e320b93fc15724a','0x38c5426f')
     #print (a.transfer_count())
     a.scaning_new_tx()

@@ -65,6 +65,8 @@ class alphaJobs():
             except:
                 self.driver.refresh()
                 time.sleep(5)
+                if len(self.driver.window_handles) >=3:
+                    loaded = True
         time.sleep(5)
 
 
@@ -82,6 +84,9 @@ class alphaJobs():
 
     def run(self):
         self.on_start()
+        while len(self.driver.window_handles) >=3:
+            self.driver.close()
+            self.on_start()
         self._click_reg()
         self.driver.quit()
         if profiles:
