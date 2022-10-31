@@ -86,11 +86,9 @@ class alphaJobs():
         self.on_start()
         while len(self.driver.window_handles) >=3:
             time.sleep(5)
-            self.driver.close()
+            self.driver.quit()
             time.sleep(5)
-            print('test...1')
             self.on_start()
-            print('test...2')
 
         self._click_reg()
         self.driver.quit()
