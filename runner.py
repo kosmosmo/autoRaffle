@@ -98,6 +98,7 @@ while True:
     all_jobs = get_premint_job(alpha_jobs)
     b = job_queue(all_jobs)
     b.sort()
+    b.randomizer()
     b.run()
     print('#############################################################')
     print ('done...! Sleep for 1000 sec!')

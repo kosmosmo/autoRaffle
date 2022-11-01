@@ -3,6 +3,7 @@ sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 import alpha_sel_q as alpha_runner
 import premint_sel_q as premint_runner
 import time
+import random
 def convert_to_airtable_time(date_time):
     at_time =  date_time.strftime("%Y-%m-%d %H:%M:%S")
     return at_time
@@ -13,6 +14,16 @@ class job_queue():
 
     def sort(self):
         self.res = sorted(self.res,key=lambda x:x.close_time)
+
+    def randomizer(self):
+        #in range randomizer to advoid bot dectection.
+        for i in range(len(self.res)):
+            start = max(i-2,0)
+            end = min(i+2,len(self.res)-1)
+            switch = random.randint(start,end)
+            switch_pick = random.choice([switch,switch,i])
+            self.res[i],self.res[switch_pick] = self.res[switch_pick],self.res[i]
+
 
     def run(self):
         i = 1
