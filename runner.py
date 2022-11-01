@@ -57,10 +57,12 @@ def get_alpha_job(res):
         keyword = fields.get('keyword (from alpha index)')[0]
         time =  fields.get('time','')
         ignore = fields.get('ignore cache',False)
+        skip =  fields.get('skip',False)
         if "All" in machines or machine_name in machines:
             if url not in cache or ignore:
-                alpha_job_obj = alpha_job(time,url,keyword,rid)
-                res.append(alpha_job_obj)
+                if not skip:
+                    alpha_job_obj = alpha_job(time,url,keyword,rid)
+                    res.append(alpha_job_obj)
     return res
 
 def get_premint_job(res):
