@@ -56,8 +56,8 @@ class alphaJobs_shard(alpha_q.alphaJobs):
     def __init__(self,url,keyword,rid):
         alpha_q.alphaJobs.__init__(self,url,keyword,rid)
         self.twitter_machine = at_obj.get("alpha list",self.rid).get("fields").get("assigned machine",[""])[0]
-        self.twitter_machine_id = ""
-        self.get_twitter_machine_id()
+        self.twitter_machine_id = self.get_twitter_machine_id()
+
 
 
     def get_twitter_machine_id(self):
@@ -67,8 +67,7 @@ class alphaJobs_shard(alpha_q.alphaJobs):
             machine = fields.get('machine')
             twitter_id = fields.get('twitter id')
             if self.twitter_machine == machine:
-                self.twitter_machine_id = twitter_id
-                return
+                return twitter_id
 
     def _check_black_list(self):
         pass
@@ -83,7 +82,9 @@ class alphaJobs_shard(alpha_q.alphaJobs):
         tw_options = self.driver.find_elements(By.CLASS_NAME,
                                                        'MuiList-root.MuiList-padding.MuiMenu-list.css-r8u8y9')
         for tw in tw_options:
-            print (tw.text,self.twitter_machine_id)
+            print (tw.text)
+            print (self.twitter_machine_id)
+            print ("#######################################")
             if tw.text == self.twitter_machine_id:
                 tw.click()
                 print ("found11")
