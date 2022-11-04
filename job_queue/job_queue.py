@@ -85,6 +85,8 @@ class alpha_job(base_job):
     def run(self):
         self.twitter_job.run()
 
+
+
 class premint_job(base_job):
     def __init__(self,close_time,rid,retweet_links,follow_links):
         base_job.__init__(self,close_time)

@@ -58,6 +58,29 @@ def get_alpha_job(res):
         time =  fields.get('time','')
         ignore = fields.get('ignore cache',False)
         skip =  fields.get('skip',False)
+        assigned_machine = fields.get('assigned machine','')
+        if "All" in machines or machine_name in machines:
+            if url not in cache or ignore:
+                if not skip:
+                    if assigned_machine == machine_name: #################################
+                        alpha_job_obj = alpha_job(time,url,keyword,rid)
+                        res.append(alpha_job_obj)
+    return res
+
+def get_alpha_job_shad(res):
+    job_list = at_obj.get_all("alpha list").get('records')
+    cache = _get_cache('alpha_cache.json')
+    res = res
+    for item in job_list:
+        rid = item.get('id')
+        fields = item.get('fields')
+        url = fields.get('url')
+        machines = fields.get('machine (from alpha index)')
+        name = fields.get('Name (from alpha index)')[0]
+        keyword = fields.get('keyword (from alpha index)')[0]
+        time =  fields.get('time','')
+        ignore = fields.get('ignore cache',False)
+        skip =  fields.get('skip',False)
         if "All" in machines or machine_name in machines:
             if url not in cache or ignore:
                 if not skip:
