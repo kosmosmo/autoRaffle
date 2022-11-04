@@ -83,6 +83,7 @@ class alphaJobs_shard(alpha_q.alphaJobs):
         tw_options = self.driver.find_elements(By.CLASS_NAME,
                                                        'MuiList-root.MuiList-padding.MuiMenu-list.css-r8u8y9')
         for tw in tw_options:
+            print (tw.text,self.twitter_machine_id)
             if tw.text == self.twitter_machine_id:
                 tw.click()
                 print ("found11")
