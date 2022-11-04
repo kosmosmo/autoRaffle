@@ -59,6 +59,8 @@ def get_alpha_job(res):
         ignore = fields.get('ignore cache',False)
         skip =  fields.get('skip',False)
         assigned_machine = fields.get('assigned machine','')
+        if not assigned_machine:
+            continue
         if "All" in machines or machine_name in machines:
             if url not in cache or ignore:
                 if not skip:
