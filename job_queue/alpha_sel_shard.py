@@ -84,10 +84,10 @@ class alphaJobs_shard(alpha_q.alphaJobs):
         for tw in tw_options:
             print ("##########################################1")
             print (tw.text)
-            #if str(tw.text).strip().lower() == str(self.twitter_machine_id).strip().lower():
-            #    print("found11")
-            #    tw.click()
-            #    break
+            if str(tw.text).strip().lower() == str(self.twitter_machine_id).strip().lower():
+                print("found11")
+                tw.click()
+                break
 
 
     def _reg_check(self):
