@@ -190,3 +190,4 @@ class alphaJobs_shard(alpha_q.alphaJobs):
 
         self._update_register_status()
         self.driver.quit()
+
