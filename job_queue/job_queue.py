@@ -1,6 +1,7 @@
 import datetime,os,sys
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
-import alpha_sel_q as alpha_runner
+#import alpha_sel_q as alpha_runner
+import alpha_sel_shard as alpha_runner
 import premint_sel_q as premint_runner
 import time
 import random
