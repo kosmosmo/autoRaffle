@@ -65,7 +65,7 @@ class alphaJobs_shard(alpha_q.alphaJobs):
         for item in tw_all:
             fields = item.get('fields')
             machine = fields.get('machine')
-            twitter_id = item.get('twitter id')
+            twitter_id = fields.get('twitter id')
             if self.twitter_machine == machine:
                 self.twitter_machine_id = twitter_id
                 return
