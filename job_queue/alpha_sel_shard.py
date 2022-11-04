@@ -76,7 +76,7 @@ class alphaJobs_shard(alpha_q.alphaJobs):
     def _pick_tw(self):
         print ("pick tw")
         self.driver.execute_script("window.scrollTo(0, 2000)")
-        tw_dropdown = self.driver.find_element(By.CLASS_NAME,
+        tw_dropdown = self.driver.find_elements(By.CLASS_NAME,
                                                        'MuiSelect-select.MuiSelect-standard.MuiInput-input.MuiInputBase-input.css-1yzqhai')
         tw_dropdown[2].click()
         time.sleep(3)
