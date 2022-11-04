@@ -73,7 +73,7 @@ class alpha_job(base_job):
         base_job.__init__(self,close_time)
         self.type = "alpha"
         self.rid = rid
-        self.twitter_job = alpha_runner.alphaJobs(url,keyword,rid)
+        self.twitter_job = alpha_runner.alphaJobs_shard(url,keyword,rid)
         if not self.close_time:
             self.close_time = datetime.datetime.now() + datetime.timedelta(hours=1)
             self.close_time = convert_to_airtable_time(self.close_time)
