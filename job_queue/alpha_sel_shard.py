@@ -175,7 +175,10 @@ class alphaJobs_shard(alpha_q.alphaJobs):
             self.driver.quit()
             return
         #find register button
-        self._pick_tw()
+        try:
+            self._pick_tw()
+        except Exception as e:
+            print (e)
         try:
             reg_btn = self.driver.find_element(By.CSS_SELECTOR, '.MuiButton-root[data-action ="view-project-register"]')
         except:
