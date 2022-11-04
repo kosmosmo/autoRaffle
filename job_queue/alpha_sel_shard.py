@@ -61,7 +61,7 @@ class alphaJobs_shard(alpha_q.alphaJobs):
 
 
     def get_twitter_machine_id(self):
-        tw_all = at_obj.get_all("twitter")
+        tw_all = at_obj.get_all("twitter").get('records')
         for item in tw_all:
             fields = item.get('fields')
             machine = fields.get('machine')
