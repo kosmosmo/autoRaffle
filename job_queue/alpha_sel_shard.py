@@ -154,9 +154,7 @@ class alphaJobs_shard(alpha_q.alphaJobs):
                     fail = "unknown"
                 at_obj.update("alpha list", rid, {"fail count": cur_ct + 1,
                                                   "fail reason":fail})
-        else:
-            print("successed!!")
-            self._reg_check()
+
 
 
     def _update_job_status(self):
@@ -194,6 +192,8 @@ class alphaJobs_shard(alpha_q.alphaJobs):
         except:
             pass
 
+        if not self._check_success_reg():
+            self._reg_check()
         time.sleep(12)
         self._update_register_status()
         self._update_job_status()
