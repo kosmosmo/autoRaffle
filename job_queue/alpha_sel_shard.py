@@ -73,7 +73,6 @@ class alphaJobs_shard(alpha_q.alphaJobs):
         pass
 
     def _pick_tw(self):
-        print ("pick tw")
         self.driver.execute_script("window.scrollTo(0, 2000)")
         tw_dropdown = self.driver.find_elements(By.CLASS_NAME,
                                                        'MuiSelect-select.MuiSelect-standard.MuiInput-input.MuiInputBase-input.css-1yzqhai')
@@ -85,14 +84,13 @@ class alphaJobs_shard(alpha_q.alphaJobs):
                                                        'MuiMenuItem-root.MuiMenuItem-gutters.MuiButtonBase-root.css-10xh66c')
         for tw in tw_options:
             if str(tw.text).strip().lower() == str(self.twitter_machine_id).strip().lower():
-                print("found11")
                 tw.click()
                 break
 
 
     def _reg_check(self):
-        self.twitter_machine = data
         if self.twitter_machine == machine_name:
+            print ("start twitter machine....")
             self._twitter_machine()
             return True
         retries = 0
