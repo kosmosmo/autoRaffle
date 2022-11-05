@@ -9,6 +9,7 @@ from urllib.parse import parse_qs
 from discum.utils.button import Buttoner
 import time,datetime
 import get_raffle_list as premint
+import random
 root_path = "C:\\Users\\kosmo\\PycharmProjects\\autoRaffle\\"
 
 def _get_keys():
@@ -24,8 +25,18 @@ at_obj = AirtableWrapper("appNj4kFlbJGa6IOm",key)
 history_ct = 10
 at_archive = AirtableWrapper("appo1xVFD4xpPmmGT",key)
 
+def get_twitter_machine():
+    at_obj.get_all("twitter")
+    tw_all = at_obj.get_all("twitter").get('records')
+    res = []
+    for item in tw_all:
+        fields = item.get('fields')
+        machine = fields.get('machine')
+        res.append(machine)
+    return res
 
 def get_alpha_index():
+    machine_list = get_twitter_machine()
     index_list = at_obj.get_all("alpha index").get('records')
     for item in index_list:
         fields = item.get('fields')
@@ -45,12 +56,14 @@ def get_alpha_index():
                     continue
             find_rec = at_obj.get("alpha list", filter_by_formula='FIND("{}", Url)'.format(urllow)).get(
                 'records')
+            machine_pick = random.choice(machine_list)
             if not find_rec:
                 at_obj.create("alpha list", {
                     "url":urllow,
                     "alpha index":[str(rid)],
                     "time":tt,
-                    "end" : end
+                    "end" : end,
+                    "assigned machine":[machine_pick]
                 })
         time.sleep(1)
 
