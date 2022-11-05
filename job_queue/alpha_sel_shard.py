@@ -97,8 +97,8 @@ class alphaJobs_shard(alpha_q.alphaJobs):
         while retries < 3:
             status = at_obj.get("alpha list", self.rid).get("fields").get("status","")
             if status != "ready":
-                print ("waiting for twitter machine sleep for 200!")
-                time.sleep(200)
+                print ("waiting for twitter machine sleep for 300!")
+                time.sleep(300)
                 retries += 1
             else:
                 self._raffle_machine()
@@ -144,16 +144,14 @@ class alphaJobs_shard(alpha_q.alphaJobs):
                 pass
 
     def _raffle_machine(self):
-        checker = self._find_error()
-        if checker:
-            try:
-                self._pick_tw()
-                reg_btn_new = self.driver.find_element(By.CSS_SELECTOR,
-                                                       '.MuiButton-root[data-action ="view-project-register"]')
-                reg_btn_new.click()
-                time.sleep(12)
-            except:
-                pass
+        try:
+            self._pick_tw()
+            reg_btn_new = self.driver.find_element(By.CSS_SELECTOR,
+                                                   '.MuiButton-root[data-action ="view-project-register"]')
+            reg_btn_new.click()
+            time.sleep(12)
+        except:
+            pass
 
     def _update_register_status(self):
         if not self._check_success_reg():
