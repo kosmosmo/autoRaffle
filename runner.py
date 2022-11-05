@@ -64,9 +64,8 @@ def get_alpha_job(res):
         if "All" in machines or machine_name in machines:
             if url not in cache or ignore:
                 if not skip:
-                    if assigned_machine == machine_name: #################################
-                        alpha_job_obj = alpha_job(time,url,keyword,rid)
-                        res.append(alpha_job_obj)
+                    alpha_job_obj = alpha_job(time,url,keyword,rid)
+                    res.append(alpha_job_obj)
     return res
 
 def get_alpha_job_shad(res):
