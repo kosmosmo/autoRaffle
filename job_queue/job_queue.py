@@ -10,11 +10,14 @@ def convert_to_airtable_time(date_time):
     return at_time
 
 class job_queue():
-    def __init__(self,res):
+    def __init__(self,res,twitter_machine_jobs):
         self.res = res
+        self.twitter_machine_jobs = twitter_machine_jobs
 
     def sort(self):
+        self.twitter_machine_jobs = sorted(self.twitter_machine_jobs,key=lambda x:x.close_time)
         self.res = sorted(self.res,key=lambda x:x.close_time)
+        self.res = self.twitter_machine_jobs + self.res
 
     def randomizer(self):
         #in range randomizer to advoid bot dectection.

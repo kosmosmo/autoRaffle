@@ -48,6 +48,7 @@ def get_alpha_job(res):
     job_list = at_obj.get_all("alpha list").get('records')
     cache = _get_cache('alpha_cache.json')
     res = res
+    twitter_machine_jobs = []
     for item in job_list:
         rid = item.get('id')
         fields = item.get('fields')
@@ -64,30 +65,13 @@ def get_alpha_job(res):
         if "All" in machines or machine_name in machines:
             if url not in cache or ignore:
                 if not skip:
-                    alpha_job_obj = alpha_job(time,url,keyword,rid)
-                    res.append(alpha_job_obj)
-    return res
+                    alpha_job_obj = alpha_job(time, url, keyword, rid)
+                    if assigned_machine == machine_name:
+                        twitter_machine_jobs.append(alpha_job_obj)
+                    else:
+                        res.append(alpha_job_obj)
+    return [res,twitter_machine_jobs]
 
-def get_alpha_job_shad(res):
-    job_list = at_obj.get_all("alpha list").get('records')
-    cache = _get_cache('alpha_cache.json')
-    res = res
-    for item in job_list:
-        rid = item.get('id')
-        fields = item.get('fields')
-        url = fields.get('url')
-        machines = fields.get('machine (from alpha index)')
-        name = fields.get('Name (from alpha index)')[0]
-        keyword = fields.get('keyword (from alpha index)')[0]
-        time =  fields.get('time','')
-        ignore = fields.get('ignore cache',False)
-        skip =  fields.get('skip',False)
-        if "All" in machines or machine_name in machines:
-            if url not in cache or ignore:
-                if not skip:
-                    alpha_job_obj = alpha_job(time,url,keyword,rid)
-                    res.append(alpha_job_obj)
-    return res
 
 def get_premint_job(res):
     all_list = at_obj.get_all("raffle list").get('records')
@@ -118,9 +102,11 @@ while True:
     rand_time = random.randint(1, 2)
     time.sleep(rand_time)
     print ('#############################################################')
-    alpha_jobs = get_alpha_job([])
-    all_jobs = get_premint_job(alpha_jobs)
-    b = job_queue(all_jobs)
+    alpha_jobs_all = get_alpha_job([])
+    twitter_machine_jobs = alpha_jobs_all[0]
+    raffle_machine_jobs = alpha_jobs_all[1]
+    all_jobs = get_premint_job(raffle_machine_jobs)
+    b = job_queue(all_jobs,twitter_machine_jobs=twitter_machine_jobs)
     b.sort()
     b.randomizer()
     b.run()
