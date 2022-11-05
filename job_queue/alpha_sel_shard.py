@@ -78,14 +78,17 @@ class alphaJobs_shard(alpha_q.alphaJobs):
                                                        'MuiSelect-select.MuiSelect-standard.MuiInput-input.MuiInputBase-input.css-1yzqhai')
         if not tw_dropdown:
             return
-        tw_dropdown[2].click()
-        time.sleep(3)
-        tw_options = self.driver.find_elements(By.CLASS_NAME,
-                                                       'MuiMenuItem-root.MuiMenuItem-gutters.MuiButtonBase-root.css-10xh66c')
-        for tw in tw_options:
-            if str(tw.text).strip().lower() == str(self.twitter_machine_id).strip().lower():
-                tw.click()
-                break
+        try:
+            tw_dropdown[-1].click()
+            time.sleep(3)
+            tw_options = self.driver.find_elements(By.CLASS_NAME,
+                                                           'MuiMenuItem-root.MuiMenuItem-gutters.MuiButtonBase-root.css-10xh66c')
+            for tw in tw_options:
+                if str(tw.text).strip().lower() == str(self.twitter_machine_id).strip().lower():
+                    tw.click()
+                    break
+        except:
+            pass
 
 
     def _reg_check(self):
@@ -197,11 +200,9 @@ class alphaJobs_shard(alpha_q.alphaJobs):
         #find register button
         self._pick_tw()
         try:
-
             reg_btn = self.driver.find_element(By.CSS_SELECTOR, '.MuiButton-root[data-action ="view-project-register"]')
             time.sleep(2)
             reg_btn.click()
-            print("clicking")
         except Exception as e:
             print (e)
             pass
