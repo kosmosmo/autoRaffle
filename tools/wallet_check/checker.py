@@ -41,3 +41,8 @@ def get_local():
             wl_mint = requests.get(url + wallet).text
             if wl_mint != '""':
                 print (wallet)
+
+url2 = "https://eth-mainnet.g.alchemy.com/v2/h3_7LGA7ul51x4G1lcVPuG2EKZf9ZhfK"
+data = {"jsonrpc":"2.0","id":3,"method":"eth_call","params":[{"data":"0x6caede3d","to":"0xd919dc6ed1091bc0a60f523024385a799ad31d3e"},"latest"]}
+a = requests.post(url2,data = data)
+print (a.text)

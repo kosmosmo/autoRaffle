@@ -108,7 +108,6 @@ class alphaJobs_shard(alpha_q.alphaJobs):
     def _twitter_machine(self):
         #check register error
         checker = self._find_error()
-        print ("twitter machine")
         if checker:
             if self._check_success_reg():
                 self.driver.quit()
@@ -143,6 +142,8 @@ class alphaJobs_shard(alpha_q.alphaJobs):
                 time.sleep(12)
             except:
                 pass
+        else:
+            print ("heyheyhey")
 
     def _raffle_machine(self):
         try:
