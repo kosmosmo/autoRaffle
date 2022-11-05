@@ -142,8 +142,7 @@ class alphaJobs_shard(alpha_q.alphaJobs):
                 time.sleep(12)
             except:
                 pass
-        else:
-            print ("heyheyhey")
+
 
     def _raffle_machine(self):
         try:
@@ -198,10 +197,13 @@ class alphaJobs_shard(alpha_q.alphaJobs):
         #find register button
         self._pick_tw()
         try:
+
             reg_btn = self.driver.find_element(By.CSS_SELECTOR, '.MuiButton-root[data-action ="view-project-register"]')
             time.sleep(2)
             reg_btn.click()
-        except:
+            print("clicking")
+        except Exception as e:
+            print (e)
             pass
 
         if not self._check_success_reg():
