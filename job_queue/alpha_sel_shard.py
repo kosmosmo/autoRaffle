@@ -97,6 +97,7 @@ class alphaJobs_shard(alpha_q.alphaJobs):
         while retries < 3:
             status = at_obj.get("alpha list", self.rid).get("fields").get("status","")
             if status != "ready":
+                print ("waiting for twitter machine sleep for 200!")
                 time.sleep(200)
                 retries += 1
             else:
