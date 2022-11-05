@@ -78,15 +78,12 @@ class alphaJobs_shard(alpha_q.alphaJobs):
         tw_dropdown = self.driver.find_elements(By.CLASS_NAME,
                                                        'MuiSelect-select.MuiSelect-standard.MuiInput-input.MuiInputBase-input.css-1yzqhai')
         if not tw_dropdown:
-            print ("done")
             return
         tw_dropdown[2].click()
         time.sleep(3)
         tw_options = self.driver.find_elements(By.CLASS_NAME,
                                                        'MuiMenuItem-root.MuiMenuItem-gutters.MuiButtonBase-root.css-10xh66c')
         for tw in tw_options:
-            print ("##########################################1")
-            print (tw.text)
             if str(tw.text).strip().lower() == str(self.twitter_machine_id).strip().lower():
                 print("found11")
                 tw.click()
@@ -158,6 +155,7 @@ class alphaJobs_shard(alpha_q.alphaJobs):
                 at_obj.update("alpha list", rid, {"fail count": cur_ct + 1,
                                                   "fail reason":fail})
         else:
+            print("successed!!")
             self._reg_check()
 
 
