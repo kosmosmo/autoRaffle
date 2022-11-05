@@ -59,6 +59,7 @@ def get_alpha_job(res):
         time =  fields.get('time','')
         ignore = fields.get('ignore cache',False)
         skip =  fields.get('skip',False)
+        print (fields.get('assigned machine'))
         assigned_machine = fields.get('assigned machine',[""])[0]
         if not assigned_machine:
             continue
