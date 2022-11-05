@@ -77,6 +77,8 @@ class alphaJobs_shard(alpha_q.alphaJobs):
         self.driver.execute_script("window.scrollTo(0, 2000)")
         tw_dropdown = self.driver.find_elements(By.CLASS_NAME,
                                                        'MuiSelect-select.MuiSelect-standard.MuiInput-input.MuiInputBase-input.css-1yzqhai')
+        if not tw_dropdown:
+            return
         tw_dropdown[2].click()
         time.sleep(3)
         tw_options = self.driver.find_elements(By.CLASS_NAME,
@@ -180,20 +182,16 @@ class alphaJobs_shard(alpha_q.alphaJobs):
             self.driver.quit()
             return
         #find register button
-        try:
-            self._pick_tw()
-        except Exception as e:
-            print (e)
+        self._pick_tw()
         try:
             reg_btn = self.driver.find_element(By.CSS_SELECTOR, '.MuiButton-root[data-action ="view-project-register"]')
+            time.sleep(2)
+            reg_btn.click()
         except:
             return
-        time.sleep(2)
-        reg_btn.click()
+
         time.sleep(12)
-
         self._reg_check()
-
         self._update_register_status()
         self._update_job_status()
         self.driver.quit()
