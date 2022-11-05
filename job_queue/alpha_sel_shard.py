@@ -157,8 +157,13 @@ class alphaJobs_shard(alpha_q.alphaJobs):
                     fail = "unknown"
                 at_obj.update("alpha list", rid, {"fail count": cur_ct + 1,
                                                   "fail reason":fail})
+        else:
+            self._reg_check()
+
+
     def _update_job_status(self):
         if machine_name == self.twitter_machine:
+            print ("status")
             at_obj.update("alpha list",self.rid,{"status":"ready"})
 
     def _click_reg(self):
@@ -192,7 +197,6 @@ class alphaJobs_shard(alpha_q.alphaJobs):
             return
 
         time.sleep(12)
-        self._reg_check()
         self._update_register_status()
         self._update_job_status()
         self.driver.quit()
