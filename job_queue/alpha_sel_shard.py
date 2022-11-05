@@ -116,7 +116,21 @@ class alphaJobs_shard(alpha_q.alphaJobs):
             tw_job = twitter_job.twitterJobs(req[0], req[1])
             tw_job.run()
             time.sleep(2)
+            ###########################################
             self.driver = self.get_driver()
+            time.sleep(2)
+            loaded = False
+            while not loaded:
+                try:
+                    WebDriverWait(self.driver, 10).until(
+                        EC.presence_of_element_located((By.CLASS_NAME, 'MuiPaper-root')))
+                    loaded = True
+                except:
+                    self.driver.refresh()
+                    time.sleep(5)
+                    if len(self.driver.window_handles) >= 3:
+                        loaded = True
+            ###########################################
             time.sleep(7)
             at_obj.update("alpha list",self.rid,{"status":"ready"})
             try:
