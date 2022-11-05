@@ -18,7 +18,6 @@ class job_queue():
         self.twitter_machine_jobs = sorted(self.twitter_machine_jobs,key=lambda x:x.close_time)
         self.res = sorted(self.res,key=lambda x:x.close_time)
         self.res = self.twitter_machine_jobs + self.res
-        print (len(self.twitter_machine_jobs),len(self.res))
 
     def randomizer(self):
         #in range randomizer to advoid bot dectection.
