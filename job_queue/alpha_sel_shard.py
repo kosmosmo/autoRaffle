@@ -78,6 +78,7 @@ class alphaJobs_shard(alpha_q.alphaJobs):
         tw_dropdown = self.driver.find_elements(By.CLASS_NAME,
                                                        'MuiSelect-select.MuiSelect-standard.MuiInput-input.MuiInputBase-input.css-1yzqhai')
         if not tw_dropdown:
+            print ("done")
             return
         tw_dropdown[2].click()
         time.sleep(3)
