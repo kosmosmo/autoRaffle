@@ -103,8 +103,8 @@ while True:
     time.sleep(rand_time)
     print ('#############################################################')
     alpha_jobs_all = get_alpha_job([])
-    twitter_machine_jobs = alpha_jobs_all[0]
-    raffle_machine_jobs = alpha_jobs_all[1]
+    twitter_machine_jobs = alpha_jobs_all[1]
+    raffle_machine_jobs = alpha_jobs_all[0]
     all_jobs = get_premint_job(raffle_machine_jobs)
     b = job_queue(all_jobs,twitter_machine_jobs=twitter_machine_jobs)
     b.sort()
