@@ -92,11 +92,11 @@ class alphaJobs():
 
         self._click_reg()
         self.driver.quit()
-        if profiles:
-            for item in profiles:
-                auto_clean_pref(item,"pref\\"+item)
-            p = profileJob(self.url,profiles)
-            p.run()
+        #if profiles:
+        #    for item in profiles:
+        #        auto_clean_pref(item,"pref\\"+item)
+        #    p = profileJob(self.url,profiles)
+        #    p.run()
         self.write_cache()
 
 
