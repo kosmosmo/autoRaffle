@@ -192,7 +192,7 @@ class alphaJobs_shard(alpha_q.alphaJobs):
             time.sleep(2)
             reg_btn.click()
         except:
-            return
+            pass
 
         time.sleep(12)
         self._update_register_status()
