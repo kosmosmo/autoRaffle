@@ -172,7 +172,6 @@ class alphaJobs_shard(alpha_q.alphaJobs):
 
     def _update_job_status(self):
         if machine_name == self.twitter_machine:
-            print ("status")
             at_obj.update("alpha list",self.rid,{"status":"ready"})
 
     def _click_reg(self):
