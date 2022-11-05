@@ -204,7 +204,7 @@ class alphaJobs_shard(alpha_q.alphaJobs):
             time.sleep(2)
             reg_btn.click()
         except Exception as e:
-            print (e)
+            #print (e)
             pass
 
         if not self._check_success_reg():

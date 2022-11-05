@@ -102,12 +102,13 @@ def get_premint_job(res):
 
 while True:
     print ('starting........!')
-    rand_time = random.randint(1, 120)
+    rand_time = random.randint(1, 2)
     time.sleep(rand_time)
     print ('#############################################################')
     alpha_jobs_all = get_alpha_job([])
     twitter_machine_jobs = alpha_jobs_all[1]
     raffle_machine_jobs = alpha_jobs_all[0]
+    print (twitter_machine_jobs,raffle_machine_jobs)
     all_jobs = get_premint_job(raffle_machine_jobs)
     b = job_queue(all_jobs,twitter_machine_jobs=twitter_machine_jobs)
     b.sort()
