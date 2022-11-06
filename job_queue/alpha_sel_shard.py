@@ -50,8 +50,6 @@ def _write_cache(data):
 
 
 
-
-
 class alphaJobs_shard(alpha_q.alphaJobs):
     def __init__(self,url,keyword,rid):
         alpha_q.alphaJobs.__init__(self,url,keyword,rid)
@@ -97,7 +95,7 @@ class alphaJobs_shard(alpha_q.alphaJobs):
     def _reg_check(self):
         if self.twitter_machine == machine_name:
             print ("start twitter machine....")
-            self._twitter_machine()
+            self._tiwtter_machine_execute()
             return True
         retries = 0
         while retries < 3:
@@ -111,44 +109,29 @@ class alphaJobs_shard(alpha_q.alphaJobs):
                 return True
         return False
 
-    def _twitter_machine(self):
-        #check register error
-        checker = self._find_error()
-        if checker:
-            if self._check_success_reg():
-                self.driver.quit()
-                return
-            req = self.get_raffle_requritement()
-            self.driver.quit()
-            tw_job = twitter_job.twitterJobs(req[0], req[1])
-            tw_job.run()
-            time.sleep(2)
-            ###########################################
-            self.driver = self.get_driver()
-            time.sleep(2)
-            loaded = False
-            while not loaded:
-                try:
-                    WebDriverWait(self.driver, 10).until(
-                        EC.presence_of_element_located((By.CLASS_NAME, 'MuiPaper-root')))
-                    loaded = True
-                except:
-                    self.driver.refresh()
-                    time.sleep(5)
-                    if len(self.driver.window_handles) >= 3:
-                        loaded = True
-            ###########################################
-            time.sleep(7)
-            at_obj.update("alpha list",self.rid,{"status":"ready"})
+    def _tiwtter_machine_execute(self):
+        req = self.get_raffle_requritement()
+        self.driver.quit()
+        tw_job = twitter_job.twitterJobs(req[0], req[1])
+        tw_job.run()
+        time.sleep(2)
+        ###########################################
+        self.driver = self.get_driver()
+        time.sleep(2)
+        loaded = False
+        while not loaded:
             try:
-                self._pick_tw()
-                reg_btn_new = self.driver.find_element(By.CSS_SELECTOR,
-                                                   '.MuiButton-root[data-action ="view-project-register"]')
-                reg_btn_new.click()
-                time.sleep(12)
+                WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.CLASS_NAME, 'MuiPaper-root')))
+                loaded = True
             except:
-                pass
-
+                self.driver.refresh()
+                time.sleep(5)
+                if len(self.driver.window_handles) >= 3:
+                    loaded = True
+        ###########################################
+        time.sleep(7)
+        at_obj.update("alpha list", self.rid, {"status": "ready"})
 
     def _raffle_machine(self):
         try:
@@ -175,10 +158,6 @@ class alphaJobs_shard(alpha_q.alphaJobs):
 
 
 
-    def _update_job_status(self):
-        if machine_name == self.twitter_machine:
-            at_obj.update("alpha list",self.rid,{"status":"ready"})
-
     def _click_reg(self):
         #skip raffle with captcha
         if self._check_captcha():
@@ -200,20 +179,19 @@ class alphaJobs_shard(alpha_q.alphaJobs):
                 pass
             self.driver.quit()
             return
-        #find register button
-        self._pick_tw()
+        #register
+        self._pick_tw() #choose correspond tw
         try:
-            reg_btn = self.driver.find_element(By.CSS_SELECTOR, '.MuiButton-root[data-action ="view-project-register"]')
+            #first register attemp
+            reg_btn = self.driver.find_element(By.CSS_SELECTOR, '.MuiButton-root[data-action ="view-project-register"]')#find enter button
             time.sleep(2)
             reg_btn.click()
         except Exception as e:
-            #print (e)
             pass
 
         if not self._check_success_reg():
-            self._reg_check()
+            self._reg_check()#second attemp
         time.sleep(12)
         self._update_register_status()
-        self._update_job_status()
         self.driver.quit()
 
