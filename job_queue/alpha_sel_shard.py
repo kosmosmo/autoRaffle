@@ -83,10 +83,12 @@ class alphaJobs_shard(alpha_q.alphaJobs):
             time.sleep(3)
             tw_options = self.driver.find_elements(By.CLASS_NAME,
                                                            'MuiMenuItem-root.MuiMenuItem-gutters.MuiButtonBase-root.css-10xh66c')
+            first = tw_options[0]
             for tw in tw_options:
                 if str(tw.text).strip().lower() == str(self.twitter_machine_id).strip().lower():
                     tw.click()
                     break
+            first.click()
         except:
             pass
 
