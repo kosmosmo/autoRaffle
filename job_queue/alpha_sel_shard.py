@@ -190,7 +190,7 @@ class alphaJobs_shard(alpha_q.alphaJobs):
             pass
 
         if not self._check_success_reg():
-            print ("hey.1")
+            time.sleep(3)
             self._reg_check()#second attemp
         time.sleep(12)
         self._update_register_status()
