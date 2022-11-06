@@ -71,7 +71,7 @@ def get_alpha_job(res):
         if assigned_machine == machine_name:
             twitter_machine_jobs.append(alpha_job_obj)
         else:
-            if machine_name in machines:
+            if machine_name in machines or  "All" in machines:
                 res.append(alpha_job_obj)
     return [res,twitter_machine_jobs]
 
