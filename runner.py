@@ -60,19 +60,17 @@ def get_alpha_job(res):
         ignore = fields.get('ignore cache',False)
         skip =  fields.get('skip',False)
         assigned_machine = fields.get('assigned machine',[""])[0]
+        if url in cache and not ignore:
+            continue
         if not assigned_machine or not assigned_machine[0]:
             continue
-        if url not in cache or ignore:
-            if not skip:
-                alpha_job_obj = alpha_job(time, url, keyword, rid)
-                if assigned_machine == machine_name:
-                    twitter_machine_jobs.append(alpha_job_obj)
-        if "All" in machines or machine_name in machines:
-            if url not in cache or ignore:
-                if not skip:
-                    alpha_job_obj = alpha_job(time, url, keyword, rid)
-                    if assigned_machine != machine_name:
-                        res.append(alpha_job_obj)
+        if skip:
+            continue
+        alpha_job_obj = alpha_job(time, url, keyword, rid)
+        if assigned_machine == machine_name:
+            twitter_machine_jobs.append(alpha_job_obj)
+        else:
+            res.append(alpha_job_obj)
     return [res,twitter_machine_jobs]
 
 
