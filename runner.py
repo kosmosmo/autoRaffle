@@ -64,12 +64,14 @@ def get_alpha_job(res):
             continue
         if url not in cache or ignore:
             if not skip:
+                print(item)
                 alpha_job_obj = alpha_job(time, url, keyword, rid)
                 if assigned_machine == machine_name:
                     twitter_machine_jobs.append(alpha_job_obj)
         if "All" in machines or machine_name in machines:
             if url not in cache or ignore:
                 if not skip:
+                    print(item)
                     alpha_job_obj = alpha_job(time, url, keyword, rid)
                     if assigned_machine != machine_name:
                         res.append(alpha_job_obj)
