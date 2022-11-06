@@ -86,7 +86,6 @@ class alphaJobs_shard(alpha_q.alphaJobs):
             correct_tw = tw_options[0]
             for tw in tw_options:
                 if str(tw.text).strip().lower() == str(self.twitter_machine_id).strip().lower():
-                    print(str(tw.text).strip().lower(), str(self.twitter_machine_id).strip().lower())
                     correct_tw = tw
                     break
             time.sleep(5)
