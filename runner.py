@@ -64,14 +64,12 @@ def get_alpha_job(res):
             continue
         if url not in cache or ignore:
             if not skip:
-                print(item)
                 alpha_job_obj = alpha_job(time, url, keyword, rid)
                 if assigned_machine == machine_name:
                     twitter_machine_jobs.append(alpha_job_obj)
         if "All" in machines or machine_name in machines:
             if url not in cache or ignore:
                 if not skip:
-                    print(item)
                     alpha_job_obj = alpha_job(time, url, keyword, rid)
                     if assigned_machine != machine_name:
                         res.append(alpha_job_obj)
@@ -111,13 +109,16 @@ while True:
     time.sleep(rand_time)
     print ('#############################################################')
     alpha_jobs_all = get_alpha_job([])
+    print ("got alpha jobs")
     twitter_machine_jobs = alpha_jobs_all[1]
     raffle_machine_jobs = alpha_jobs_all[0]
     print (twitter_machine_jobs,raffle_machine_jobs)
     all_jobs = get_premint_job(raffle_machine_jobs)
+    print("got premint jobs")
     b = job_queue(all_jobs,twitter_machine_jobs=twitter_machine_jobs)
     b.sort()
     #b.randomizer()
+    print("start")
     b.run()
     print('#############################################################')
     print ('done...! Sleep for 1000 sec!')
