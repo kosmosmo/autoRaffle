@@ -71,7 +71,8 @@ def get_alpha_job(res):
         if assigned_machine == machine_name:
             twitter_machine_jobs.append(alpha_job_obj)
         else:
-            res.append(alpha_job_obj)
+            if machine_name in machines:
+                res.append(alpha_job_obj)
     return [res,twitter_machine_jobs]
 
 
@@ -102,7 +103,7 @@ def get_premint_job(res):
 while True:
     print ('starting........!')
 
-    rand_time = random.randint(30, 240)
+    rand_time = random.randint(60, 400)
     if machine_name in ["watergua","pink","lemon","lychee","pear","grape","pineapple"]:
         rand_time = 2
     time.sleep(rand_time)
