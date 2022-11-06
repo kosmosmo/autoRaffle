@@ -102,7 +102,10 @@ def get_premint_job(res):
 
 while True:
     print ('starting........!')
+
     rand_time = random.randint(1, 120)
+    if machine_name in ["watergua","pink","lemon","lychee","pear","grape","pineapple"]:
+        rand_time = 2
     time.sleep(rand_time)
     print ('#############################################################')
     alpha_jobs_all = get_alpha_job([])
