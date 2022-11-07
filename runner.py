@@ -101,22 +101,29 @@ def get_premint_job(res):
     return res
 
 while True:
-    print ('starting........!')
+    try:
+        print ('starting........!')
 
-    rand_time = random.randint(60, 400)
-    if machine_name in ["watergua","pink","lemon","lychee","pear","grape","pineapple"]:
-        rand_time = 2
-    time.sleep(rand_time)
-    print ('#############################################################')
-    alpha_jobs_all = get_alpha_job([])
-    twitter_machine_jobs = alpha_jobs_all[1]
-    raffle_machine_jobs = alpha_jobs_all[0]
-    print (twitter_machine_jobs,raffle_machine_jobs)
-    all_jobs = get_premint_job(raffle_machine_jobs)
-    b = job_queue(all_jobs,twitter_machine_jobs=twitter_machine_jobs)
-    b.sort()
-    #b.randomizer()
-    b.run()
-    print('#############################################################')
-    print ('done...! Sleep for 1000 sec!')
-    time.sleep(1000)
+        rand_time = random.randint(60, 400)
+        if machine_name in ["watergua","pink","lemon","lychee","pear","grape","pineapple"]:
+            rand_time = 2
+        time.sleep(rand_time)
+        print ('#############################################################')
+        alpha_jobs_all = get_alpha_job([])
+        twitter_machine_jobs = alpha_jobs_all[1]
+        raffle_machine_jobs = alpha_jobs_all[0]
+        print (twitter_machine_jobs,raffle_machine_jobs)
+        all_jobs = get_premint_job(raffle_machine_jobs)
+        b = job_queue(all_jobs,twitter_machine_jobs=twitter_machine_jobs)
+        b.sort()
+        #b.randomizer()
+        b.run()
+        print('#############################################################')
+        print ('done...! Sleep for 1000 sec!')
+        time.sleep(1000)
+    except:
+        for i in range(10):
+            print (".................................")
+        time.sleep(60)
+
+
