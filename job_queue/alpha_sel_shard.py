@@ -131,7 +131,7 @@ class alphaJobs_shard(alpha_q.alphaJobs):
                     loaded = True
         ###########################################
         time.sleep(7)
-        at_obj.update("alpha list", self.rid, {"status": "ready"})
+
 
     def _raffle_machine(self):
         try:
@@ -195,4 +195,5 @@ class alphaJobs_shard(alpha_q.alphaJobs):
         time.sleep(12)
         self._update_register_status()
         self.driver.quit()
+        at_obj.update("alpha list", self.rid, {"status": "ready"})
 
