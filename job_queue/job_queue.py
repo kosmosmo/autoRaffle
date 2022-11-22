@@ -1,7 +1,7 @@
 import datetime,os,sys
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
-#import alpha_sel_q as alpha_runner
-import alpha_sel_shard as alpha_runner
+import alpha_sel_q as alpha_runner
+#import alpha_sel_shard as alpha_runner
 import premint_sel_q as premint_runner
 import time
 import random
@@ -15,6 +15,9 @@ class job_queue():
         self.twitter_machine_jobs = twitter_machine_jobs
 
     def sort(self):
+        self.res = sorted(self.res,key=lambda x:x.close_time)
+
+    def sort_shard(self):
         self.twitter_machine_jobs = sorted(self.twitter_machine_jobs,key=lambda x:x.close_time)
         self.res = sorted(self.res,key=lambda x:x.close_time)
         self.res = self.twitter_machine_jobs + self.res

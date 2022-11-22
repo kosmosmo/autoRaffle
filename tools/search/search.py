@@ -10,7 +10,7 @@ filter_out = [
 ]
 root_path = r"/"
 def _get_key():
-    f = open(root_path + '\key.json')
+    f = open(r'C:\Users\kosmo\PycharmProjects\autoRaffle\key.json')
     data = json.load(f)
     return data
 data = _get_key()
@@ -30,9 +30,9 @@ for w in wals:
         res[wallet1] = name
     if wallet2:
         res[wallet2] = name + "2"
-with open(root_path+'\search\\search_file') as f:
+with open(r'C:\Users\kosmo\PycharmProjects\autoRaffle\tools\search\search_file',errors="ignore") as f:
     contents = f.read()
-
+cc_low = contents.lower()
 for key,val in res.items():
-    if key in contents:
+    if key.lower() in cc_low:
         print (val)

@@ -13,7 +13,7 @@ key = keys['key']
 at_obj = AirtableWrapper("appNj4kFlbJGa6IOm",key)
 
 
-url = "https://www.astersnft.com/api/contract/"
+url =  "https://chilltuna.club/api/mintRole?address="
 
 
 def get_airtable():
@@ -22,15 +22,13 @@ def get_airtable():
         fields = item.get('fields')
         ID = fields.get("ID")
         wallet = fields.get("wallet",'')
+        rid =  item.get('id')
         wallet_mint = fields.get("wallet_mint",'')
-        if wallet:
-            wl = requests.get(url + wallet_mint).text
-            if wl != '""':
-                print( wl + ":" + ID)
+
         if wallet_mint:
             wl_mint = requests.get(url + wallet_mint).text
-            if wl_mint != '""':
-                print (wl_mint + ":" + ID)
+            print (ID,wl_mint)
+            #at_obj.update("temp",rid,{"proof":wl_mint})
 
 def get_local():
     with open(root_path + 'tools\\wallet_check\\wallet') as f:
@@ -41,8 +39,4 @@ def get_local():
             wl_mint = requests.get(url + wallet).text
             if wl_mint != '""':
                 print (wallet)
-
-url2 = "https://eth-mainnet.g.alchemy.com/v2/h3_7LGA7ul51x4G1lcVPuG2EKZf9ZhfK"
-data = {"jsonrpc":"2.0","id":3,"method":"eth_call","params":[{"data":"0x6caede3d","to":"0xd919dc6ed1091bc0a60f523024385a799ad31d3e"},"latest"]}
-a = requests.post(url2,data = data)
-print (a.text)
+get_airtable()

@@ -22,6 +22,8 @@ class alpha_base():
 
     @staticmethod
     def get_alpha_type(meta_data):
+        if not  meta_data.get('components'):
+            return
         if meta_data.get('components'):
             comp = meta_data['components']
             try:
@@ -40,6 +42,8 @@ class alpha_base():
         res = []
         for msg in msg_history:
             alpha_obj = alpha_base.get_alpha_type(msg)
+            if not alpha_obj:
+                continue
             if alpha_obj.type == "job":
                 res.append(alpha_obj)
         return res

@@ -44,7 +44,7 @@ def _write_cache(data,cache_file):
         json.dump(data, outfile, indent=4)
 
 
-def get_alpha_job(res):
+def get_alpha_job_shard(res):
     job_list = at_obj.get_all("alpha list").get('records')
     cache = _get_cache('alpha_cache.json')
     res = res
@@ -75,6 +75,31 @@ def get_alpha_job(res):
                 res.append(alpha_job_obj)
     return [res,twitter_machine_jobs]
 
+def get_alpha_job(res):
+    job_list = at_obj.get_all("alpha list").get('records')
+    cache = _get_cache('alpha_cache.json')
+    res = res
+    twitter_machine_jobs = []
+    for item in job_list:
+        rid = item.get('id')
+        fields = item.get('fields')
+        url = fields.get('url')
+        machines = fields.get('machine (from alpha index)')
+        name = fields.get('Name (from alpha index)')[0]
+        keyword = fields.get('keyword (from alpha index)')[0]
+        time =  fields.get('time','')
+        ignore = fields.get('ignore cache',False)
+        skip =  fields.get('skip',False)
+        if skip:
+            continue
+        if url in cache and not ignore:
+            continue
+
+        alpha_job_obj = alpha_job(time, url, keyword, rid)
+        if machine_name in machines or  "All" in machines:
+            res.append(alpha_job_obj)
+    return [res,[]]
+
 
 def get_premint_job(res):
     all_list = at_obj.get_all("raffle list").get('records')
@@ -100,23 +125,26 @@ def get_premint_job(res):
             res.append(premint_job_obj)
     return res
 
+
 while True:
     try:
         print ('starting........!')
 
         rand_time = random.randint(60, 400)
-        if machine_name in ["watergua","pink","lemon","lychee","pear","grape","pineapple"]:
-            rand_time = 2
+        #if machine_name in ["watergua","pink","lemon","lychee","pear","grape","pineapple"]:  ####using shard mode
+        #    rand_time = 2                                                                    ####using shard mode
         time.sleep(rand_time)
         print ('#############################################################')
-        alpha_jobs_all = get_alpha_job([])
-        twitter_machine_jobs = alpha_jobs_all[1]
+        #alpha_jobs_all = get_alpha_job_shard([])                            ####using shard mode
+        #twitter_machine_jobs = alpha_jobs_all[1]                            ####using shard mode
+        alpha_jobs_all  = get_alpha_job([])                                  #using regular mode
+        twitter_machine_jobs = []                                            #using regular mode
         raffle_machine_jobs = alpha_jobs_all[0]
         print (twitter_machine_jobs,raffle_machine_jobs)
         all_jobs = get_premint_job(raffle_machine_jobs)
         b = job_queue(all_jobs,twitter_machine_jobs=twitter_machine_jobs)
         b.sort()
-        #b.randomizer()
+        #b.sort_shard()                ####using shard mode
         b.run()
         print('#############################################################')
         print ('done...! Sleep for 1000 sec!')

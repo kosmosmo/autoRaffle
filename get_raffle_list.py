@@ -101,7 +101,7 @@ def get_links():
             retweet_links = "\n".join(links[0])
             follow_links = "\n".join(links[1])
             update_content = {
-                "status" : "Ready",
+                "status" : "Pause",
                 "retweet_links":retweet_links,
                 "follow_links":follow_links
             }
