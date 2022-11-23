@@ -247,7 +247,7 @@ class alphaJobs():
             return
         time.sleep(2)
         reg_btn.click()
-        time.sleep(12)
+        time.sleep(10)
         checker = self._find_error()
         if checker:
             if self._check_success_reg():
@@ -257,14 +257,14 @@ class alphaJobs():
             self.driver.quit()
             tw_job = twitter_job.twitterJobs(req[0], req[1], check_cache=False)
             tw_job.run()
-            time.sleep(2)
+            time.sleep(1)
             self.driver = self.get_driver()
-            time.sleep(7)
+            time.sleep(6)
             try:
                 reg_btn_new = self.driver.find_element(By.CSS_SELECTOR,
                                                    '.MuiButton-root[data-action ="view-project-register"]')
                 reg_btn_new.click()
-                time.sleep(5)
+                time.sleep(10)
                 self.driver.quit()
 
                 tw_job = twitter_job.twitterJobs_undo(req[0], req[1])
