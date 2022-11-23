@@ -167,23 +167,16 @@ class twitterJobs_undo(twitterJobs):
         twitterJobs.__init__(self,retweet_links,follow_links)
 
     def convert_url(self,url):
-        print ("TTTTTTTTTTTTTTTTTTTTTTTTTTTT")
-        print (url)
-        print("TTTTTTTTTTTTTTTTTTTTTTTTTTTT")
         if "screen_name=" in url:
             end = url.split("screen_name=")[-1]
             if "&" in end:
                 end = end.split("&")[0]
             return "https://twitter.com/" + end
         if "tweet_id=" in url:
-            user = self._get_user_name(url)
             end = url.split("tweet_id=")[-1]
             if "&" in end:
                 end = end.split("&")[0]
-            print ('GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG')
-            print ("https://twitter.com/{}/status/".format(user) + end)
-            print('GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG')
-            return "https://twitter.com/{}/status/".format(user) + end
+            return "https://twitter.com/{}/status/".format("tttt") + end
 
 
     def actions(self,url,status):
@@ -216,6 +209,14 @@ class twitterJobs_undo(twitterJobs):
                 try:
                     unlike = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[data-testid ="{}"]'.format(status))
                     unlike.click()
+                except:
+                    pass
+                time.sleep(3)
+                try:
+                    unlikes = self.driver.find_elements(By.CLASS_NAME, 'css-901oao.css-16my406.r-poiln3.r-bcqeeo.r-qvutc0')
+                    for item in unlikes:
+                        if item.text == "Undo Retweet":
+                            item.click()
                 except:
                     pass
             flag = False
