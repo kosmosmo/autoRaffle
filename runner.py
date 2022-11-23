@@ -149,7 +149,8 @@ while True:
         print('#############################################################')
         print ('done...! Sleep for 1000 sec!')
         time.sleep(1000)
-    except:
+    except Exception as e:
+        print (e)
         for i in range(10):
             print (".................................")
         time.sleep(60)
