@@ -168,9 +168,15 @@ class twitterJobs_undo(twitterJobs):
 
     def convert_url(self,url):
         if "screen_name=" in url:
-            return "https://twitter.com/" + url.split("screen_name=")[-1]
+            end = url.split("screen_name=")[-1]
+            if "&" in end:
+                end = end.split("&")[0]
+            return "https://twitter.com/" + end
         if "tweet_id=" in url:
-            return "https://twitter.com/" + url.split("tweet_id=")[-1]
+            end = url.split("tweet_id=")[-1]
+            if "&" in end:
+                end = end.split("&")[0]
+            return "https://twitter.com/" + end
 
 
     def actions(self,url,status):
@@ -185,13 +191,7 @@ class twitterJobs_undo(twitterJobs):
             main = self.driver.window_handles[0]
             self.driver.switch_to.window(main)
             self.check_limited(new_url)
-            time.sleep(3)
-            try:
-                WebDriverWait(self.driver, 30).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="confirmationSheetConfirm"]')))
-            except:
-                time.sleep(20)
-            sleep_time = random.randint(5, 8)
+            sleep_time = random.randint(10, 15)
             time.sleep(sleep_time)
             if status == "followed":
                 try:
