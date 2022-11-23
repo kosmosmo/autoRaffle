@@ -1,7 +1,55 @@
+import time,random,json,os,sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+import undetected_chromedriver as webdriver
+from airtable_wrapper import AirtableWrapper
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver import ActionChains
+from selenium.webdriver.common.keys import Keys
+from alpha_sel_q import alphaJobs
+from urllib.parse import urlparse
+from urllib.parse import parse_qs
+from alpha_sel_profiles import profileJob
+import twitter_job,os
+import random
+import pprint
+import datetime
+
+filter_out = [
+    "https://twitter.com/premint_nft",
+    "https://twitter.com/AlphabotApp"
+]
+root_path =os.path.dirname(os.path.dirname(os.path.realpath(__file__)))+ '\\'
+def _get_key():
+    f = open(root_path + 'key.json')
+    data = json.load(f)
+    return data
+data = _get_key()
+at_keys = data["at_keys"]
+key = random.choice(at_keys)
+machine_name = data.get('name','All')
+profiles = data.get("profile",[])
+at_obj = AirtableWrapper("appNj4kFlbJGa6IOm",key)
 
 
-class alphaJobs():
-    def __init__(self,url,keyword,rid):
+def _get_cache():
+    import os
+    if not os.path.exists(root_path + 'alpha_cache.json'):
+        data = {}
+        _write_cache(data)
+    f = open(root_path + 'alpha_cache.json')
+    data = json.load(f)
+    return data
+
+def _write_cache(data):
+    with open(root_path + "alpha_cache.json", "w") as outfile:
+        json.dump(data, outfile, indent=4)
+
+class alphaJobs_c(alphaJobs):
+    def __init__(self, url, keyword, rid):
+        alphaJobs.__init__(self, url, keyword, rid)
         self.url = url
         self.keyword= keyword
         self.rid = rid
@@ -18,7 +66,7 @@ class alphaJobs():
                 WebDriverWait(self.driver, 10).until(
                     EC.presence_of_element_located((By.CLASS_NAME, 'MuiPaper-root')))
                 loaded = True
-            except:
+            except Exception as e:
                 self.driver.refresh()
                 time.sleep(5)
                 if len(self.driver.window_handles) >=3:
@@ -33,10 +81,6 @@ class alphaJobs():
         options.add_argument(r'--profile-directory='+profile)
         return webdriver.Chrome(options=options,use_subprocess=True)
 
-    def write_cache(self):
-        cache = _get_cache()
-        cache[self.url] = ""
-        _write_cache(cache)
 
     def run(self):
         self.on_start()
@@ -53,130 +97,28 @@ class alphaJobs():
         #        auto_clean_pref(item,"pref\\"+item)
         #    p = profileJob(self.url,profiles)
         #    p.run()
-        self.write_cache()
 
 
-    def _check_over(self):
+    def _pick_tw(self,tw_id):
+        self.driver.execute_script("window.scrollTo(0, 2000)")
+        tw_dropdown = self.driver.find_elements(By.CLASS_NAME,
+                                                       'MuiSelect-select.MuiSelect-standard.MuiInput-input.MuiInputBase-input.css-1yzqhai')
+        if not tw_dropdown:
+            return
         try:
-            over = self.driver.find_element(By.CLASS_NAME, 'MuiTypography-root.MuiTypography-h5')
-            if "You're not a winner. Maybe next time!" in over.text or "You're a winner! Congratulations" in over.text or "Raffle is over." in over.text:
-                return False
-            return True
+            tw_dropdown[-1].click()
+            time.sleep(3)
+            tw_options = self.driver.find_elements(By.CLASS_NAME,
+                                                           'MuiMenuItem-root.MuiMenuItem-gutters.MuiButtonBase-root.css-10xh66c')
+            correct_tw = tw_options[0]
+            for tw in tw_options:
+                if str(tw.text).strip().lower() == tw_id.lower():
+                    correct_tw = tw
+                    break
+            time.sleep(5)
+            correct_tw.click()
         except:
-            return True
-
-    def _check_captcha(self):
-        try:
-            over = self.driver.find_element(By.CLASS_NAME, 'g-recaptcha-response')
-            if over:
-                return True
-            return False
-        except:
-            return False
-
-    def _find_error(self):
-        errors = self.driver.find_elements(By.CLASS_NAME, 'MuiAlert-standardError')
-        for item in errors:
-            if "join" in item.text.lower() and "discord" in item.text.lower() and self.keyword.lower() not in item.text.lower():
-                find_rec = at_obj.get("alpha list", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
-                    'records')
-                if find_rec:
-                    rid = find_rec[0].get('id')
-                    fail =  find_rec[0].get('fields').get('fail reason', "")
-                    if not fail or fail == "unknow":
-                        at_obj.update("alpha list", rid, {"fail reason": item.text})
-                return False
-        return True
-
-    def _check_success_reg(self):
-        time.sleep(4)
-        try:
-            checking = self.driver.find_element(By.CLASS_NAME, 'MuiTypography-root.MuiTypography-h5.css-uz8pyt')
-        except:
-            return False
-        if checking:
-            return True
-        return False
-
-    def get_raffle_requritement(self):
-        retweet_links = set()
-        follow_links = set()
-        elems = self.driver.find_elements(by=By.XPATH, value="//a[@href]")
-        for elem in elems:
-            url = elem.get_attribute("href")
-            if not url.startswith("https://twitter.com/"):
-                continue
-            if "screen_name=" in url:  # alpha follow
-                parsed_url = urlparse(url)
-                user = parse_qs(parsed_url.query)['screen_name'][0]
-                if "?" in user:
-                    user = user.split("?")[0]
-                follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
-            elif "tweet_id=" in url:  # alpha retweet
-                tweet_id = url.split("tweet_id=")[-1]
-                if "?" in tweet_id:
-                    tweet_id = tweet_id.split("?")[0]
-                retweet_links.add("https://twitter.com/intent/retweet?tweet_id=" + tweet_id)
-            elif "/status/" in url:  # premint retweet
-                tweet_id = url.split("/status/")[1]
-                if "?" in tweet_id:
-                    tweet_id = tweet_id.split("?")[0]
-                retweet_links.add("https://twitter.com/intent/retweet?tweet_id=" + tweet_id)
-            elif url not in filter_out:  # premint follow
-                user = url.split("https://twitter.com/")[1]
-                if "?" in user:
-                    user = user.split("?")[0]
-                follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
-        return [self.remove_case_insenstive(list(retweet_links)), self.remove_case_insenstive(list(follow_links))]
-
-    def remove_case_insenstive(self,org_list):
-        res = []
-        marker = set()
-        for item in org_list:
-            item_low = item.lower()
-            if item_low not in marker:
-                marker.add(item_low)
-                res.append(item)
-        return res
-
-    #def _get_raffle_requritement(self):
-    #    retweet_links = set()
-    #    follow_links = set()
-    #    elems = self.driver.find_elements(by=By.XPATH, value="//a[@href]")
-    #    for elem in elems:
-    #        url = elem.get_attribute("href")
-    #        if not url.startswith("https://twitter.com/"):
-    #            continue
-    #        if "screen_name=" in url:  # alpha follow
-    #            parsed_url = urlparse(url)
-    #            user = parse_qs(parsed_url.query)['screen_name'][0]
-    #            if "?" in user:
-    #                user = user.split("?")[0]
-    #            follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
-    #        elif "like?" in url and "tweet_id=" in url:  # alpha like
-    #            url = url.replace("like?","retweet?")
-    #            retweet_links.add(url)
-    #        elif "tweet_id=" in url:  # alpha retweet
-    #            retweet_links.add(url)
-    #        elif "/status/" in url:  # premint retweet
-    #            tweet_id = url.split("/status/")[1]
-    #            retweet_links.add("https://twitter.com/intent/retweet?tweet_id=" + tweet_id)
-    #        elif url not in filter_out:  # premint follow
-    #            user = url.split("https://twitter.com/")[1]
-    #            if "?" in user:
-    #                user = user.split("?")[0]
-    #            follow_links.add("https://twitter.com/intent/user?screen_name=" + user)
-    #        return [self.remove_case_insenstive(list(retweet_links)), self.remove_case_insenstive(list(follow_links))]
-
-    def remove_case_insenstive(self,org_list):
-        res = []
-        marker = set()
-        for item in org_list:
-            item_low = item.lower()
-            if item_low not in marker:
-                marker.add(item_low)
-                res.append(item)
-        return res
+            pass
 
     def _click_reg(self):
         if self._check_captcha():
@@ -191,47 +133,28 @@ class alphaJobs():
             return
         if not self._check_over():
             try:
-                at_obj.delete("alpha list",self.rid)
+                #at_obj.delete("alpha list",self.rid)
                 print ('raffl over!')
             except:
                 pass
             self.driver.quit()
             return
         try:
-            reg_btn = self.driver.find_element(By.CSS_SELECTOR, '.MuiButton-root[data-action ="view-project-register"]')
+            fields = at_obj.get("alpha list",self.rid).get('fields')
+            status = fields.get('status','')
         except:
-            return
-        time.sleep(2)
-        reg_btn.click()
-        time.sleep(10)
-        checker = self._find_error()
-        if checker:
-            if self._check_success_reg():
-                self.driver.quit()
-                return
-            req = self.get_raffle_requritement()
-            self.driver.quit()
-            tw_job = twitter_job.twitterJobs(req[0], req[1], check_cache=False)
-            tw_job.run()
-            time.sleep(1)
-            self.driver = self.get_driver()
-            time.sleep(6)
+            status = ''
+        while not status:
+            time.sleep(120)
             try:
-                reg_btn_new = self.driver.find_element(By.CSS_SELECTOR,
-                                                   '.MuiButton-root[data-action ="view-project-register"]')
-                reg_btn_new.click()
-                time.sleep(10)
-                self.driver.quit()
-
-                tw_job = twitter_job.twitterJobs_undo(req[0], req[1])
-                tw_job.run()
-                self.driver.quit()
+                status = at_obj.get("alpha list",self.rid).get('fields').get('status', '')
             except:
-                pass
-
-            time.sleep(2)
-
-
+                status = ""
+        try:
+            reg_btn = self.driver.find_element(By.CSS_SELECTOR, '.MuiButton-root[data-action ="view-project-register"]')
+            reg_btn.click()
+        except:
+            pass
         if not self._check_success_reg():
             find_rec = at_obj.get("alpha list", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
                 'records')

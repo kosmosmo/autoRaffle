@@ -117,7 +117,6 @@ class alphaJobs_c_local(alphaJobs):
                 pass
             self.driver.quit()
             return
-        print ("ready")
         req = self.get_raffle_requritement()
         self.driver.quit()
         tw_job = twitter_job.twitterJobs(req[0], req[1], check_cache=False)
