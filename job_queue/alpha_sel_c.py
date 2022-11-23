@@ -97,6 +97,7 @@ class alphaJobs_c(alphaJobs):
         #        auto_clean_pref(item,"pref\\"+item)
         #    p = profileJob(self.url,profiles)
         #    p.run()
+        self.write_cache()
 
 
     def _pick_tw(self,tw_id):
@@ -119,6 +120,17 @@ class alphaJobs_c(alphaJobs):
             correct_tw.click()
         except:
             pass
+
+    def _check_over(self):
+        try:
+            print ('trying')
+            over = self.driver.find_element(By.CLASS_NAME, 'MuiTypography-root.MuiTypography-h5')
+            if "You're not a winner. Maybe next time!" in over.text or "You're a winner! Congratulations" in over.text or "Raffle is over." in over.text:
+                return False
+            return True
+        except Exception as e:
+            print (e)
+            return True
 
     def _click_reg(self):
         if self._check_captcha():
