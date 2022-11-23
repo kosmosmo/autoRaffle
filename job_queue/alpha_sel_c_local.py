@@ -1,5 +1,5 @@
 import time,random,json,os,sys
-#sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 import undetected_chromedriver as webdriver
 from airtable_wrapper import AirtableWrapper
 from selenium.webdriver.common.by import By
