@@ -11,7 +11,11 @@ from urllib.parse import parse_qs
 import utils as u
 import json,os
 from airtable_wrapper import AirtableWrapper
-tw_cache = u.get_twitter_cache()
+#tw_cache = u.get_twitter_cache()
+tw_cache = {
+    "retweet":{},
+    "follow":{}
+}
 root_path =  os.path.dirname(os.path.realpath(__file__)) + '\\'
 def _get_key():
     f = open(root_path + 'key.json')
@@ -21,10 +25,11 @@ key = _get_key()
 at_obj = AirtableWrapper("appNj4kFlbJGa6IOm",key)
 
 class twitterJobs():
-    def __init__(self,retweet_links,follow_links):
+    def __init__(self,retweet_links,follow_links,check_cache=True):
 
         self.retweet_links = retweet_links
         self.follow_links = follow_links
+        self.check_cache = check_cache
 
     def on_start(self):
         self.driver = self.get_driver()
@@ -66,12 +71,12 @@ class twitterJobs():
             if status == "followed":
                 user = self._get_user_name(url)
                 checking = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[aria-label ="Following @{}"]'.format(user))
-                if checking:
+                if checking and self.check_cache:
                     tw_cache["follow"][u.get_id(url).lower()] = ""
                     u._write_cache("tw_cache.json",tw_cache)
             else:
                 checking = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[data-testid ="{}"]'.format(status))
-                if checking:
+                if checking and self.check_cache:
                     tw_cache["retweet"][u.get_id(url).lower()] = ""
                     u._write_cache("tw_cache.json", tw_cache)
             if checking:
@@ -157,4 +162,47 @@ class twitterJobs():
                 print('sleeping.......' + str(sleep_time))
                 time.sleep(sleep_time)
 
+class twitterJobs_undo(twitterJobs):
+    def __init__(self, retweet_links,follow_links):
+        twitterJobs.__init__(self,retweet_links,follow_links)
 
+    def convert_url(self,url):
+        if "screen_name=" in url:
+            return "https://twitter.com/" + url.split("screen_name=")[-1]
+        if "tweet_id=" in url:
+            return "https://twitter.com/" + url.split("tweet_id=")[-1]
+
+
+    def actions(self,url,status):
+        #status "unretweet" for retweet
+        #status "unlike" for like
+        #status "followed" for follow
+        flag = True
+        while flag:
+            new_url = self.convert_url(url)
+            self.driver.get(new_url)
+            time.sleep(3)
+            main = self.driver.window_handles[0]
+            self.driver.switch_to.window(main)
+            self.check_limited(new_url)
+            time.sleep(3)
+            try:
+                WebDriverWait(self.driver, 30).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="confirmationSheetConfirm"]')))
+            except:
+                time.sleep(20)
+            sleep_time = random.randint(10, 20)
+            time.sleep(sleep_time)
+            if status == "followed":
+                try:
+                    user = self._get_user_name(url)
+                    unfollow = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[aria-label ="Following @{}"]'.format(user))
+                    unfollow.click()
+                except:
+                    pass
+            else:
+                try:
+                    unlike = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[data-testid ="{}"]'.format(status))
+                    unlike.click()
+                except:
+                    pass

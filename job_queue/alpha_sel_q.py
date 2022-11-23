@@ -255,7 +255,7 @@ class alphaJobs():
                 return
             req = self.get_raffle_requritement()
             self.driver.quit()
-            tw_job = twitter_job.twitterJobs(req[0], req[1])
+            tw_job = twitter_job.twitterJobs(req[0], req[1], check_cache=False)
             tw_job.run()
             time.sleep(2)
             self.driver = self.get_driver()
@@ -267,6 +267,11 @@ class alphaJobs():
                 time.sleep(12)
             except:
                 pass
+            tw_job = twitter_job.twitterJobs_undo(req[0], req[1])
+            tw_job.run()
+            time.sleep(2)
+
+
         if not self._check_success_reg():
             find_rec = at_obj.get("alpha list", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
                 'records')
