@@ -33,21 +33,21 @@ class twitterJobs():
 
     def on_start(self):
         self.driver = self.get_driver()
-        time.sleep(3)
+        time.sleep(2)
         self.driver.maximize_window()
-        time.sleep(3)
+        time.sleep(2)
         self.driver.get("https://www.google.com/")
-        time.sleep(3)
+        time.sleep(2)
         all_list = at_obj.get_all("black_list").get('records')
         self.black_list = u.get_black_list(all_list)
 
     def get_driver(self):
         options = webdriver.ChromeOptions()
-        time.sleep(2)
+        time.sleep(1)
         options.add_argument(r"user-data-dir=C:\Users\\Administrator\AppData\Local\Google\Chrome\User Data")
-        time.sleep(2)
+        time.sleep(1)
         options.add_argument(r'--profile-directory=Default')
-        time.sleep(2)
+        time.sleep(1)
         return webdriver.Chrome(options=options,use_subprocess=True)
 
     def _check_account_exit(self):
@@ -61,7 +61,7 @@ class twitterJobs():
             return True
 
     def _check_status(self,status,url):
-        time.sleep(8)
+        time.sleep(5)
         account_exit = self._check_account_exit()
         if not account_exit:
             print("!!!!!!invalid links. Skipped.")
@@ -124,11 +124,11 @@ class twitterJobs():
             limited_btn = self.driver.find_element(By.CLASS_NAME, "Button.EdgeButton.EdgeButton--primary")
             if limited_btn:
                 print ("account limited. Refreshing!")
-                time.sleep(2)
+                time.sleep(1)
                 limited_btn.click()
-                time.sleep(5)
+                time.sleep(4)
                 self.driver.refresh()
-                time.sleep(5)
+                time.sleep(4)
                 self.driver.get(url)
         except:
             pass
@@ -150,7 +150,7 @@ class twitterJobs():
                     EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="confirmationSheetConfirm"]')))
             except:
                 time.sleep(20)
-            sleep_time = random.randint(10, 20)
+            sleep_time = random.randint(5, 8)
             time.sleep(sleep_time)
             retweet_btn = self.driver.find_element(By.CSS_SELECTOR,'.css-18t94o4[data-testid ="confirmationSheetConfirm"]')
             retweet_btn.click()
@@ -191,7 +191,7 @@ class twitterJobs_undo(twitterJobs):
                     EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="confirmationSheetConfirm"]')))
             except:
                 time.sleep(20)
-            sleep_time = random.randint(10, 20)
+            sleep_time = random.randint(5, 8)
             time.sleep(sleep_time)
             if status == "followed":
                 try:
