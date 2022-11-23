@@ -138,6 +138,8 @@ class alpha_job_c(base_job):
         base_job.__init__(self,close_time)
         self.type = "alpha"
         self.rid = rid
+        self.url = url
+        self.keyword = keyword
         self.twitter_job = alphaJobs_c_local(url,keyword,rid)
         if not self.close_time:
             self.close_time = datetime.datetime.now() + datetime.timedelta(hours=1)
@@ -202,9 +204,12 @@ def clean_pref():
 a = get_alpha_job()
 a_sorted = sorted(a,key=lambda x:x.close_time)
 i = 1
+import alpha_sel_c
 for item in a_sorted:
     print ("{}/{}".format(str(i),str(len(a_sorted))))
     print (item )
     auto_clean_pref()
     item.run()
+    run_alpha = alpha_sel_c.alphaJobs_c(item.url,item.keyword,item.rid)
+    run_alpha.run()
     i+=1

@@ -56,9 +56,8 @@ follows = []
 for key,val in follow_data.items():
     follows.append(key)
 
-print(retweets)
-print (follows)
-tw_job = twitter_job.twitterJobs_undo(retweets, follows)
+total = len(follows) + len(retweets)
+tw_job = twitter_job.twitterJobs_undo(retweets, follows,total = total)
 tw_job.run()
 data = {
     "retweet":{},
