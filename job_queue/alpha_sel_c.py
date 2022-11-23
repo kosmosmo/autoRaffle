@@ -132,11 +132,7 @@ class alphaJobs_c(alphaJobs):
             self.driver.quit()
             return
         if not self._check_over():
-            try:
-                #at_obj.delete("alpha list",self.rid)
-                print ('raffl over!')
-            except:
-                pass
+            print ('raffl over!')
             self.driver.quit()
             return
         try:

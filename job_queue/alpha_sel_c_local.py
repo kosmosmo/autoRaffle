@@ -201,7 +201,10 @@ def clean_pref():
 
 a = get_alpha_job()
 a_sorted = sorted(a,key=lambda x:x.close_time)
+i = 1
 for item in a_sorted:
-    print (item)
+    print ("{}/{}".format(str(i),str(len(a_sorted))))
+    print (item )
     auto_clean_pref()
     item.run()
+    i+=1
