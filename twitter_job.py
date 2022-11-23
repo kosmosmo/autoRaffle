@@ -211,3 +211,4 @@ class twitterJobs_undo(twitterJobs):
                     unlike.click()
                 except:
                     pass
+            flag = False
