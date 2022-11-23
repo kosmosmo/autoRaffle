@@ -125,9 +125,9 @@ class alphaJobs_c_local(alphaJobs):
         time.sleep(1)
         tw_undo_list = _get_cache()
         for item in req[0]:
-            tw_undo_list["retweet"] = item
+            tw_undo_list["retweet"][item]= {}
         for item in req[1]:
-            tw_undo_list["follow"] = item
+            tw_undo_list["follow"][item]= {}
         _write_cache(tw_undo_list)
         at_obj.update("alpha list",self.rid,{"status":"ready"})
 
