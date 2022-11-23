@@ -153,6 +153,7 @@ class alphaJobs_c(alphaJobs):
         try:
             reg_btn = self.driver.find_element(By.CSS_SELECTOR, '.MuiButton-root[data-action ="view-project-register"]')
             reg_btn.click()
+            time.sleep(10)
         except:
             pass
         if not self._check_success_reg():
