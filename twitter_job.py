@@ -167,6 +167,9 @@ class twitterJobs_undo(twitterJobs):
         twitterJobs.__init__(self,retweet_links,follow_links)
 
     def convert_url(self,url):
+        print ("TTTTTTTTTTTTTTTTTTTTTTTTTTTT")
+        print (url)
+        print("TTTTTTTTTTTTTTTTTTTTTTTTTTTT")
         if "screen_name=" in url:
             end = url.split("screen_name=")[-1]
             if "&" in end:
