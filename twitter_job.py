@@ -180,6 +180,9 @@ class twitterJobs_undo(twitterJobs):
             end = url.split("tweet_id=")[-1]
             if "&" in end:
                 end = end.split("&")[0]
+            print ('GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG')
+            print ("https://twitter.com/{}/status/".format(user) + end)
+            print('GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG')
             return "https://twitter.com/{}/status/".format(user) + end
 
 
