@@ -269,6 +269,7 @@ class alphaJobs():
 
                 tw_job = twitter_job.twitterJobs_undo(req[0], req[1])
                 tw_job.run()
+                self.driver.quit()
             except:
                 pass
 
