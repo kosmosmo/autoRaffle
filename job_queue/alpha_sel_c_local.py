@@ -178,8 +178,30 @@ def get_alpha_job():
 
 
 
+def auto_clean_pref():
+    bad_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences.bad'
+    pref_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences'
+    if os.path.exists(bad_file_path) and os.path.getsize(bad_file_path) > 100000:
+        os.remove(bad_file_path)
+        print("deleted bad pref!!")
+        time.sleep(5)
+    if os.path.exists(pref_file_path) and os.path.getsize(pref_file_path) > 100000:
+        try:
+            clean_pref()
+            print("clean pref!!")
+        except:
+            pass
+        time.sleep(5)
+
+def clean_pref():
+    pref_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences'
+    to_address = "C:\\Users\\Administrator\\Desktop\\autoRaffle-master\\Preferences"
+    import shutil
+    shutil.copyfile(to_address, pref_file_path)
+
 a = get_alpha_job()
 a_sorted = sorted(a,key=lambda x:x.close_time)
 for item in a_sorted:
     print (item)
+    auto_clean_pref()
     item.run()
