@@ -173,10 +173,11 @@ class twitterJobs_undo(twitterJobs):
                 end = end.split("&")[0]
             return "https://twitter.com/" + end
         if "tweet_id=" in url:
+            user = self._get_user_name(url)
             end = url.split("tweet_id=")[-1]
             if "&" in end:
                 end = end.split("&")[0]
-            return "https://twitter.com/" + end
+            return "https://twitter.com/{}/status/".format(user) + end
 
 
     def actions(self,url,status):
