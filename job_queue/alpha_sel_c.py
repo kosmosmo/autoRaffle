@@ -83,6 +83,7 @@ class alphaJobs_c(alphaJobs):
 
 
     def run(self):
+        print("test..............2222")
         self.on_start()
         while len(self.driver.window_handles) >=3:
             time.sleep(5)

@@ -207,9 +207,10 @@ i = 1
 import alpha_sel_c
 for item in a_sorted:
     print ("{}/{}".format(str(i),str(len(a_sorted))))
-    print (item )
+    print (item)
     auto_clean_pref()
     item.run()
+    print ("test..............")
     run_alpha = alpha_sel_c.alphaJobs_c(item.url,item.keyword,item.rid)
     run_alpha.run()
     i+=1
