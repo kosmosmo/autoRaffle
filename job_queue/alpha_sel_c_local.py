@@ -174,8 +174,7 @@ def get_alpha_job():
         if status:
             continue
         alpha_job_obj = alpha_job_c(time, url, keyword, rid)
-        if machine_name in machines or  "All" in machines:
-            res.append(alpha_job_obj)
+        res.append(alpha_job_obj)
     return res
 
 
