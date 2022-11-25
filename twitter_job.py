@@ -222,8 +222,7 @@ class twitterJobs_undo(twitterJobs):
                     print('skipping.............................' + item)
                     break
             if status == "followed" and wl_skip:
-                print ("Return.............")
-                return
+                continue
             self.driver.get(new_url)
 
 
