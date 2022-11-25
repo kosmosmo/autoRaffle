@@ -220,6 +220,7 @@ class twitterJobs_undo(twitterJobs):
             sleep_time = random.randint(5, 7)
             time.sleep(sleep_time)
             wl_skip = False
+            print ('heyheyhey')
             if status == "followed":
                 #check whitelist twitter id
                 for item in self.white_list:
