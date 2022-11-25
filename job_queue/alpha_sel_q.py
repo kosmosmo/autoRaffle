@@ -255,6 +255,8 @@ class alphaJobs():
                 self.driver.quit()
                 return
             req = self.get_raffle_requritement()
+            import pprint
+            pprint.pprint(req)
             self.driver.quit()
             tw_job = twitter_job.twitterJobs(req[0], req[1], check_cache=False)
             tw_job.run()
