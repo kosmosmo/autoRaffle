@@ -215,6 +215,7 @@ class twitterJobs_undo(twitterJobs):
             new_url = self.convert_url(url)
             print('..................')
             print(new_url, status)
+            wl_skip = False
             for item in self.white_list:
                 if item.lower() in new_url.lower:
                     wl_skip = True
@@ -223,7 +224,7 @@ class twitterJobs_undo(twitterJobs):
             if status == "followed" and wl_skip:
                 continue
             self.driver.get(new_url)
-            wl_skip = False
+
 
 
 
