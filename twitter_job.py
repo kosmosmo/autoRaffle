@@ -217,7 +217,7 @@ class twitterJobs_undo(twitterJobs):
             print(new_url, status)
             wl_skip = False
             for item in self.white_list:
-                if item.lower() in new_url.lower:
+                if item.lower() in new_url.lower():
                     wl_skip = True
                     print('skipping.............................' + item)
                     break
