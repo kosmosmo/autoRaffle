@@ -165,7 +165,7 @@ class twitterJobs():
 class twitterJobs_undo(twitterJobs):
     def __init__(self, retweet_links,follow_links,total=0):
         twitterJobs.__init__(self,retweet_links,follow_links)
-        self.total = str(total)
+        self.total = str(len(retweet_links) + len(follow_links))
         self.white_list = self.get_white_list()
 
     def get_white_list(self):
