@@ -209,12 +209,13 @@ class twitterJobs_undo(twitterJobs):
         #status "unretweet" for retweet
         #status "unlike" for like
         #status "followed" for follow
-        print ('..................')
-        print (url,status)
+
         flag = True
         while flag:
             new_url = self.convert_url(url)
             self.driver.get(new_url)
+            print('..................')
+            print(new_url, status)
             time.sleep(3)
             main = self.driver.window_handles[0]
             self.driver.switch_to.window(main)
