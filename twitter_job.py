@@ -225,10 +225,13 @@ class twitterJobs_undo(twitterJobs):
                 for item in self.white_list:
                     if item.lower() in url.lower:
                         wl_skip = True
+                        print('skip' + item)
                         break
                 if wl_skip:
+
                     continue
                 try:
+                    print ("start unfollow")
                     user = self._get_user_name(url)
                     unfollow = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[aria-label ="Following @{}"]'.format(user))
                     unfollow.click()
