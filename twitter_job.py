@@ -215,6 +215,7 @@ class twitterJobs_undo(twitterJobs):
             new_url = self.convert_url(url)
             print('..................')
             print(new_url, status)
+            print (self.white_list)
             wl_skip = False
             for item in self.white_list:
                 if item.lower() in new_url.lower:
