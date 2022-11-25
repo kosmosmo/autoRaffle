@@ -1,6 +1,6 @@
 import datetime,os,sys
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
-import alpha_sel_c as alpha_runner
+import alpha_sel_q as alpha_runner
 #import alpha_sel_shard as alpha_runner
 import premint_sel_q as premint_runner
 import time
@@ -79,7 +79,7 @@ class alpha_job(base_job):
         base_job.__init__(self,close_time)
         self.type = "alpha"
         self.rid = rid
-        self.twitter_job = alpha_runner.alphaJobs_c(url,keyword,rid)
+        self.twitter_job = alpha_runner.alphaJobs(url,keyword,rid)
         if not self.close_time:
             self.close_time = datetime.datetime.now() + datetime.timedelta(hours=1)
             self.close_time = convert_to_airtable_time(self.close_time)

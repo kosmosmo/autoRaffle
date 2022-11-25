@@ -145,7 +145,8 @@ class alphaJobs():
     def get_raffle_requritement(self):
         retweet_links = set()
         follow_links = set()
-        elems = self.driver.find_elements(by=By.XPATH, value="//a[@href]")
+        task = self.driver.find_element(by=By.CLASS_NAME,value="MuiBox-root.css-rnys1f")
+        elems = task.find_elements(by=By.XPATH, value="//a[@href]")
         for elem in elems:
             url = elem.get_attribute("href")
             if not url.startswith("https://twitter.com/"):

@@ -73,7 +73,7 @@ class twitterJobs():
                 checking = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[aria-label ="Following @{}"]'.format(user))
                 if checking and self.check_cache:
                     tw_cache["follow"][u.get_id(url).lower()] = ""
-                    u._write_cache("tw_cache.json",tw_cache)
+                    u._write_cache("tw_cache.json", tw_cache)
             else:
                 checking = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[data-testid ="{}"]'.format(status))
                 if checking and self.check_cache:
@@ -166,6 +166,11 @@ class twitterJobs_undo(twitterJobs):
     def __init__(self, retweet_links,follow_links,total=0):
         twitterJobs.__init__(self,retweet_links,follow_links)
         self.total = str(total)
+        self.white_list = self.get_white_list()
+
+    def get_white_list(self):
+        all_list = at_obj.get_all("white_list").get('records')
+        return u.get_white_list(all_list)
 
     def convert_url(self,url):
         if "screen_name=" in url:
@@ -214,7 +219,15 @@ class twitterJobs_undo(twitterJobs):
             self.check_limited(new_url)
             sleep_time = random.randint(5, 7)
             time.sleep(sleep_time)
+            wl_skip = False
             if status == "followed":
+                #check whitelist twitter id
+                for item in self.white_list:
+                    if item.lower() in url.lower:
+                        wl_skip = True
+                        break
+                if wl_skip:
+                    continue
                 try:
                     user = self._get_user_name(url)
                     unfollow = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[aria-label ="Following @{}"]'.format(user))
