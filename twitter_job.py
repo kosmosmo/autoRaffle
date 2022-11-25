@@ -190,16 +190,10 @@ class twitterJobs_undo(twitterJobs):
         i = 1
         for item in self.follow_links:
             print ("{}/{}".format(str(i),self.total))
-            if u.get_id(item) in self.black_list:
-                continue
-            if u.get_id(item) in tw_cache["follow"]:
-                continue
             self.actions(item, "followed")
             i += 1
         for item in self.retweet_links:
             print("{}/{}".format(str(i), self.total))
-            if u.get_id(item) in tw_cache["retweet"]:
-                continue
             self.actions(item,"unretweet")
             self.actions(self._convert_like_url(item), "unlike")
             i += 1
@@ -220,7 +214,8 @@ class twitterJobs_undo(twitterJobs):
             sleep_time = random.randint(5, 7)
             time.sleep(sleep_time)
             wl_skip = False
-            print ('heyheyhey')
+            print ('hey1..............................')
+            print (url,status)
             if status == "followed":
                 #check whitelist twitter id
                 for item in self.white_list:
@@ -234,6 +229,7 @@ class twitterJobs_undo(twitterJobs):
                 try:
                     print ("start unfollow")
                     user = self._get_user_name(url)
+                    print (user)
                     unfollow = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[aria-label ="Following @{}"]'.format(user))
                     unfollow.click()
                     time.sleep(2)
