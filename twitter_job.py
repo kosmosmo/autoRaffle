@@ -222,45 +222,42 @@ class twitterJobs_undo(twitterJobs):
                     print('skipping.............................' + item)
                     break
             if status == "followed" and wl_skip:
-                continue
-            self.driver.get(new_url)
-
-
-
-
-            time.sleep(3)
-            main = self.driver.window_handles[0]
-            self.driver.switch_to.window(main)
-            self.check_limited(new_url)
-            sleep_time = random.randint(5, 7)
-            time.sleep(sleep_time)
-
-
-            if status == "followed":
-                try:
-                    print ("start unfollow")
-                    user = self._get_user_name(url)
-                    unfollow = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[aria-label ="Following @{}"]'.format(user))
-                    unfollow.click()
-                    time.sleep(2)
-                    confirm_btn = self.driver.find_element(By.CSS_SELECTOR,
-                                                           '.css-18t94o4[data-testid ="confirmationSheetConfirm"]')
-                    confirm_btn.click()
-                    time.sleep(1)
-                except:
-                    pass
+                flag = False
             else:
-                try:
-                    unlike = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[data-testid ="{}"]'.format(status))
-                    unlike.click()
-                except:
-                    pass
-                time.sleep(2)
-                try:
-                    unlikes = self.driver.find_elements(By.CLASS_NAME, 'css-901oao.css-16my406.r-poiln3.r-bcqeeo.r-qvutc0')
-                    for item in unlikes:
-                        if item.text == "Undo Retweet":
-                            item.click()
-                except:
-                    pass
-            flag = False
+                self.driver.get(new_url)
+                time.sleep(3)
+                main = self.driver.window_handles[0]
+                self.driver.switch_to.window(main)
+                self.check_limited(new_url)
+                sleep_time = random.randint(5, 7)
+                time.sleep(sleep_time)
+
+
+                if status == "followed":
+                    try:
+                        print ("start unfollow")
+                        user = self._get_user_name(url)
+                        unfollow = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[aria-label ="Following @{}"]'.format(user))
+                        unfollow.click()
+                        time.sleep(2)
+                        confirm_btn = self.driver.find_element(By.CSS_SELECTOR,
+                                                               '.css-18t94o4[data-testid ="confirmationSheetConfirm"]')
+                        confirm_btn.click()
+                        time.sleep(1)
+                    except:
+                        pass
+                else:
+                    try:
+                        unlike = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[data-testid ="{}"]'.format(status))
+                        unlike.click()
+                    except:
+                        pass
+                    time.sleep(2)
+                    try:
+                        unlikes = self.driver.find_elements(By.CLASS_NAME, 'css-901oao.css-16my406.r-poiln3.r-bcqeeo.r-qvutc0')
+                        for item in unlikes:
+                            if item.text == "Undo Retweet":
+                                item.click()
+                    except:
+                        pass
+                flag = False
