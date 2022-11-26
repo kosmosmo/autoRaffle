@@ -61,7 +61,7 @@ class twitterJobs():
             return True
 
     def _check_status(self,status,url):
-        time.sleep(5)
+        time.sleep(8)
         account_exit = self._check_account_exit()
         if not account_exit:
             print("!!!!!!invalid links. Skipped.")
@@ -140,21 +140,21 @@ class twitterJobs():
         flag = True
         while flag:
             self.driver.get(url)
-            time.sleep(2)
+            time.sleep(5)
             main = self.driver.window_handles[0]
             self.driver.switch_to.window(main)
             self.check_limited(url)
-            time.sleep(2)
+            time.sleep(5)
             try:
                 WebDriverWait(self.driver, 30).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="confirmationSheetConfirm"]')))
             except:
                 time.sleep(20)
-            sleep_time = random.randint(3, 5)
+            sleep_time = random.randint(10, 15)
             time.sleep(sleep_time)
             retweet_btn = self.driver.find_element(By.CSS_SELECTOR,'.css-18t94o4[data-testid ="confirmationSheetConfirm"]')
             retweet_btn.click()
-            time.sleep(3)
+            time.sleep(5)
             if self._check_status(status,url):
                 flag = False
             else:
@@ -186,7 +186,7 @@ class twitterJobs_undo(twitterJobs):
 
     def run(self):
         self.on_start()
-        time.sleep(2)
+        time.sleep(5)
         i = 1
         for item in self.follow_links:
             print ("{}/{}".format(str(i),self.total))
@@ -226,7 +226,7 @@ class twitterJobs_undo(twitterJobs):
                 main = self.driver.window_handles[0]
                 self.driver.switch_to.window(main)
                 self.check_limited(new_url)
-                sleep_time = random.randint(5, 7)
+                sleep_time = random.randint(10, 15)
                 time.sleep(sleep_time)
 
 
@@ -235,11 +235,11 @@ class twitterJobs_undo(twitterJobs):
                         user = self._get_user_name(url)
                         unfollow = self.driver.find_element(By.CSS_SELECTOR, '.css-18t94o4[aria-label ="Following @{}"]'.format(user))
                         unfollow.click()
-                        time.sleep(2)
+                        time.sleep(4)
                         confirm_btn = self.driver.find_element(By.CSS_SELECTOR,
                                                                '.css-18t94o4[data-testid ="confirmationSheetConfirm"]')
                         confirm_btn.click()
-                        time.sleep(1)
+                        time.sleep(3)
                     except:
                         pass
                 else:
@@ -248,7 +248,7 @@ class twitterJobs_undo(twitterJobs):
                         unlike.click()
                     except:
                         pass
-                    time.sleep(2)
+                    time.sleep(4)
                     try:
                         unlikes = self.driver.find_elements(By.CLASS_NAME, 'css-901oao.css-16my406.r-poiln3.r-bcqeeo.r-qvutc0')
                         for item in unlikes:

@@ -53,9 +53,9 @@ class alphaJobs():
 
     def on_start(self):
         self.driver = self.get_driver()
-        time.sleep(2)
+        time.sleep(4)
         self.driver.maximize_window()
-        time.sleep(2)
+        time.sleep(4)
         loaded = False
         while not loaded:
             try:
@@ -64,10 +64,10 @@ class alphaJobs():
                 loaded = True
             except:
                 self.driver.refresh()
-                time.sleep(5)
+                time.sleep(8)
                 if len(self.driver.window_handles) >=3:
                     loaded = True
-        time.sleep(5)
+        time.sleep(8)
 
 
     def get_driver(self,profile="Default"):
@@ -85,9 +85,9 @@ class alphaJobs():
     def run(self):
         self.on_start()
         while len(self.driver.window_handles) >=3:
-            time.sleep(5)
+            time.sleep(8)
             self.driver.quit()
-            time.sleep(5)
+            time.sleep(8)
             self.on_start()
 
         self._click_reg()
@@ -133,7 +133,7 @@ class alphaJobs():
         return True
 
     def _check_success_reg(self):
-        time.sleep(4)
+        time.sleep(6)
         try:
             checking = self.driver.find_element(By.CLASS_NAME, 'MuiTypography-root.MuiTypography-h5.css-uz8pyt')
         except:
@@ -246,7 +246,7 @@ class alphaJobs():
             reg_btn = self.driver.find_element(By.CSS_SELECTOR, '.MuiButton-root[data-action ="view-project-register"]')
         except:
             return
-        time.sleep(2)
+        time.sleep(4)
         reg_btn.click()
         time.sleep(10)
         checker = self._find_error()
@@ -258,14 +258,14 @@ class alphaJobs():
             self.driver.quit()
             tw_job = twitter_job.twitterJobs(req[0], req[1], check_cache=False)
             tw_job.run()
-            time.sleep(1)
+            time.sleep(3)
             self.driver = self.get_driver()
-            time.sleep(6)
+            time.sleep(10)
             try:
                 reg_btn_new = self.driver.find_element(By.CSS_SELECTOR,
                                                    '.MuiButton-root[data-action ="view-project-register"]')
                 reg_btn_new.click()
-                time.sleep(10)
+                time.sleep(15)
                 self.driver.quit()
 
                 tw_job = twitter_job.twitterJobs_undo(req[0], req[1])
@@ -274,7 +274,7 @@ class alphaJobs():
             except:
                 pass
 
-            time.sleep(2)
+            time.sleep(5)
 
 
         if not self._check_success_reg():
