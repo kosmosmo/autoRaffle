@@ -63,7 +63,8 @@ def get_alpha_index():
                     "alpha index":[str(rid)],
                     "time":tt,
                     "end" : end,
-                    "assigned machine":[machine_pick]
+                    "assigned machine":[machine_pick],
+                    "skip":True
                 })
         time.sleep(1)
 

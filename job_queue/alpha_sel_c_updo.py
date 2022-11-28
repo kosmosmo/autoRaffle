@@ -45,22 +45,25 @@ def _write_cache(data):
     with open(root_path + "/job_queue/tw_undo_list.json", "w") as outfile:
         json.dump(data, outfile, indent=4)
 
-data = _get_cache()
-retweet_data = data["retweet"]
-retweets = []
-for key,val in retweet_data.items():
-    retweets.append(key)
+def run(ct=30):
+    data = _get_cache()
+    retweet_data = data["retweet"]
+    retweets = []
+    for key,val in retweet_data.items():
+        retweets.append(key)
 
-follow_data = data["follow"]
-follows = []
-for key,val in follow_data.items():
-    follows.append(key)
+    follow_data = data["follow"]
+    follows = []
+    for key,val in follow_data.items():
+        follows.append(key)
 
-total = len(follows) + len(retweets)
-tw_job = twitter_job.twitterJobs_undo(retweets, follows,total = total)
-tw_job.run()
-data = {
-    "retweet":{},
-    "follow":{}
-}
-_write_cache(data)
+    total = len(follows) + len(retweets)
+    if total > ct:
+        print ("undo twitter.........")
+        tw_job = twitter_job.twitterJobs_undo(retweets, follows,total = total)
+        tw_job.run()
+        data = {
+            "retweet":{},
+            "follow":{}
+        }
+        _write_cache(data)

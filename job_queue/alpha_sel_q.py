@@ -44,6 +44,22 @@ def _write_cache(data):
     with open(root_path + "alpha_cache.json", "w") as outfile:
         json.dump(data, outfile, indent=4)
 
+def _get_tw_cache():
+    import os
+    if not os.path.exists(root_path + '/job_queue/tw_undo_list.json'):
+        data = {
+            "retweet":{},
+            "follow":{}
+        }
+        _write_tw_cache(data)
+    f = open(root_path + '/job_queue/tw_undo_list.json')
+    data = json.load(f)
+    return data
+
+def _write_tw_cache(data):
+    with open(root_path + "/job_queue/tw_undo_list.json", "w") as outfile:
+        json.dump(data, outfile, indent=4)
+
 class alphaJobs():
     def __init__(self,url,keyword,rid):
         self.url = url
@@ -258,6 +274,12 @@ class alphaJobs():
             self.driver.quit()
             tw_job = twitter_job.twitterJobs(req[0], req[1], check_cache=False)
             tw_job.run()
+            tw_undo_list = _get_tw_cache()
+            for item in req[0]:
+                tw_undo_list["retweet"][item] = {}
+            for item in req[1]:
+                tw_undo_list["follow"][item] = {}
+            _write_tw_cache(tw_undo_list)
             time.sleep(3)
             self.driver = self.get_driver()
             time.sleep(10)
@@ -268,12 +290,14 @@ class alphaJobs():
                 time.sleep(15)
                 self.driver.quit()
 
-                tw_job = twitter_job.twitterJobs_undo(req[0], req[1])
-                tw_job.run()
-                self.driver.quit()
             except:
+                self.driver.quit()
                 pass
-
+            import alpha_sel_c_updo
+            # tw_job = twitter_job.twitterJobs_undo(req[0], req[1])
+            # tw_job.run()
+            alpha_sel_c_updo.run()
+            self.driver.quit()
             time.sleep(5)
 
 
