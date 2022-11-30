@@ -94,7 +94,6 @@ def get_alpha_job(res):
             continue
         if url in cache and not ignore:
             continue
-        print (name)
 
         alpha_job_obj = alpha_job(time, url, keyword, rid)
         if machine_name in machines or  "All" in machines:
