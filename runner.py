@@ -125,7 +125,6 @@ def get_premint_job(res):
             res.append(premint_job_obj)
     return res
 
-
 while True:
     try:
         print ('starting........!')
@@ -148,7 +147,7 @@ while True:
         b.run()
         print('#############################################################')
         print ('done...! Sleep for 1000 sec!')
-        time.sleep(1000)
+        time.sleep(100)
     except Exception as e:
         print (e)
         for i in range(10):
