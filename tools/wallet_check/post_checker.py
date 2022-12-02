@@ -1,23 +1,21 @@
 import requests,time
 s = requests.session()
-header = {"Accept": "application/json, text/javascript, */*; q=0.01",
-    "Accept-Encoding": "gzip, deflate, br",
-    "Accept-Language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7,fr;q=0.6",
-    "Connection": "keep-alive",
-    "Content-Length": "97",
-    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-    "Cookie": "_ga=GA1.1.1702000957.1667878818; _ga_15YKY2QD9V=GS1.1.1667878817.1.1.1667880495.10.0.0; XSRF-TOKEN=eyJpdiI6ImZMaFh1QWlTRGxDODhZdGQ3RmU0Q3c9PSIsInZhbHVlIjoiYVprRWFENGk2djlLSkFGUVNWbnpTRU9teW52VTdCRURHYktoT3NzUS9Qa0JpVmI2a1BuQUdJbXZPQmFZdnR4M3JlK0pLdmJmUmR5K0VESk9tKzZ3YlEvblpUdnUxVElTV1ptNTVlQTVUTjBUWHo2OUFYcUIzN1E4Rm1OYkU1b2UiLCJtYWMiOiIwZWY3NTNkN2FjZWY2ZjkxYzNiZDYwNDg2NzgzYzZlOTI5Zjc1N2RkY2RmZjY4OGQ4ZTk5MWIzNTY5NWNjNjdjIiwidGFnIjoiIn0%3D; voiders_session=eyJpdiI6IndCUFBhSmc2dGhxL042emVhNWJSWUE9PSIsInZhbHVlIjoicllsakpqWTF4RExaYnN5MHVwSG1YWTNpRUxPanlMdFd6QXhxTzFxRzBDNFZOc0F4aVo5ak0wTVc5RGg5VnhJZ0p4TnExUjVXanBKb3hHR2RFdEhZa0lrbVRiY3J1YmJwNDhGTEVpOSszbkRSVTZsUTIrUGRuNXhVZ2ZpejlVZWQiLCJtYWMiOiIxZmU4ZjdjN2Y0MTc0MjkxNDBmZTU0ODRjYjM2NjhkNGYxMWRmNzBiZTY3MDI1NWQ5MGE4NTgwYTY0MTM4YjJhIiwidGFnIjoiIn0%3D",
-    "Host": "voiders.gg",
-    "Origin": "https://voiders.gg",
-    "Referer": "https://voiders.gg/wallet_checker",
-    "Sec-Fetch-Dest": "empty",
-    "Sec-Fetch-Mode": "cors",
-    "Sec-Fetch-Site": "same-origin",
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
-    "X-Requested-With": "XMLHttpRequest",
-    "sec-ch-ua": '"Google Chrome";v="107", "Chromium";v="107", "Not=A?Brand";v="24"',
-    "sec-ch-ua-mobile": "?0",
-    "sec-ch-ua-platform": "Windows"}
+header = {
+"accept": "application/json",
+"accept-encoding": "gzip, deflate, br",
+"accept-language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7,fr;q=0.6",
+"content-length": "60",
+"content-type": "application/json; charset=utf-8",
+"cookie": "__cf_bm=PXj.y85i3YX78C1KB74JpL7mCQSE9w.30bx3BDH2TDg-1669663236-0-AYmbKWKvUJxT9X1KGkzVyjzam2yWM464qK/rwGZthgBTkDAVM1YVQ/9tSLg/sPbJW6eBNkMhQzrJUmtoLoksW595yW6LTKIfVjvQNf+8rLMKlTr++q+JFbVppqxnMM7CUjUXkRe6UsdcqUbkBZtqpCM=; SERVERID=1dff1738c157dd4858c0460923139431|1669663253|1669663231",
+"origin": "https://www.heyreap3r.com",
+"referer": "https://www.heyreap3r.com",
+"sec-ch-ua": '"Google Chrome";v="107", "Chromium";v="107", "Not=A?Brand";v="24"',
+"sec-ch-ua-mobile": "?0",
+"sec-ch-ua-platform": "Windows",
+"sec-fetch-dest": "empty",
+"sec-fetch-mode": "cors",
+"sec-fetch-site": "same-origin",
+"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"}
 
 import requests
 import discum,json,pprint
@@ -34,7 +32,7 @@ key = keys['key']
 at_obj = AirtableWrapper("appNj4kFlbJGa6IOm",key)
 
 
-url =  "https://mainnet.infura.io/v3/adfeab0dfdc44dbd8aac83b05c113d9e"
+url =  "https://www.heyreap3r.com/heyreap3r/getAddressWhitelist"
 
 import json
 def get_airtable():
@@ -47,8 +45,8 @@ def get_airtable():
         wallet_mint = fields.get("wallet_mint",'')
 
         if wallet_mint:
-            data =
-            a = s.post("https://whitelist.pams.art/livewire/message/guest.contact-form", json={"jsonrpc":"2.0","id":2,"method":"eth_call","params":[{"data":"0x68428a1b","to":wallet_mint},"latest"]})
+            data ={"userAddress": wallet_mint}
+            a = s.post("https://whitelist.pams.art/livewire/message/guest.contact-form", json={"fingerprint":{"id":"aaWGGzAXEGMzlBnOZdhb","name":"guest.contact-form","locale":"en","path":"/","method":"GET","v":"acj"},"serverMemo":{"children":[],"errors":[],"htmlHash":"ed447378","data":{"address":wallet_mint,"email":"","message":""},"dataMeta":[],"checksum":"b51b33806316f9a0b20b447909669165b25d2e70c00a94ed505ce5aa67c9475f"},"updates":[{"type":"callMethod","payload":{"id":"uslck","method":"submit","params":[]}}]}, headers={"x-csrf-token": "2FHNvRyKf7Vk7bNBm2TBUdHbb5UzZ5pq4cNcEpqF", "x-livewire": "true"})
             print (ID,a.text)
         time.sleep(0.1)
 

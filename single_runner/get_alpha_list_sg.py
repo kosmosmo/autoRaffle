@@ -10,20 +10,21 @@ from discum.utils.button import Buttoner
 import time,datetime
 import get_raffle_list as premint
 import random
-root_path = "C:\\Users\\kosmo\\PycharmProjects\\autoRaffle\\"
+root_path = ""
 
 def _get_keys():
-    f = open(root_path + 'key.json')
+    f = open(root_path + 'key_sg.json')
     data = json.load(f)
     return data
 keys = _get_keys()
-key = keys['key']
-token = keys['token']
-bot = discum.Client(token=token, log=False)
+airtable_key = keys['airtable_key']
+discord_token = keys['discord_token']
+airtable_base_id = keys['airtable_base_id']
+
+bot = discum.Client(token=discord_token, log=False)
 msgs_history = []
-at_obj = AirtableWrapper("appNj4kFlbJGa6IOm",key)
+at_obj = AirtableWrapper(airtable_base_id,airtable_key)
 history_ct = 10
-at_archive = AirtableWrapper("appo1xVFD4xpPmmGT",key)
 
 def get_twitter_machine():
     at_obj.get_all("twitter")
@@ -110,14 +111,6 @@ def archive_raffles():
         dt = datetime.datetime.strptime(created_date, "%Y-%m-%d")
         today = datetime.datetime.now()
         if abs((today - dt).days) > 2:
-            at_archive.create("archive_alpha",{
-                "url":url,
-                "created time":created_time,
-                "fail count":fail_count,
-                "discord":discord,
-                "fail reason":fail_reason,
-                "time":tt
-            })
             at_obj.delete("alpha list",rid)
             time.sleep(0.2)
 
@@ -146,10 +139,10 @@ class dc_monitor():
     def runner(self):
         bot.gateway.run(auto_reconnect=True)
 
-
 if __name__ == "__main__":
-    premint.get_links()
-    premint.driver.close()
-    time.sleep(5)
-    dc_monitor_object = dc_monitor()
-    dc_monitor_object.runner()
+    pass
+    #premint.get_links()
+    #premint.driver.close()
+    #time.sleep(5)
+    #dc_monitor_object = dc_monitor()
+    #dc_monitor_object.runner()

@@ -146,8 +146,8 @@ while True:
         #b.sort_shard()                ####using shard mode
         b.run()
         print('#############################################################')
-        print ('done...! Sleep for 1000 sec!')
-        time.sleep(100)
+        print ('done...! Sleep for 500 sec!')
+        time.sleep(500)
     except Exception as e:
         print (e)
         for i in range(10):

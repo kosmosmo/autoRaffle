@@ -13,7 +13,7 @@ key = keys['key']
 at_obj = AirtableWrapper("appNj4kFlbJGa6IOm",key)
 
 
-url =  "https://chilltuna.club/api/mintRole?address="
+url =  "https://temp.api.uniswap.org/v1/nft/rewards/"
 
 
 def get_airtable():
@@ -25,8 +25,8 @@ def get_airtable():
         rid =  item.get('id')
         wallet_mint = fields.get("wallet_mint",'')
 
-        if wallet_mint:
-            wl_mint = requests.get(url + wallet_mint).text
+        if wallet:
+            wl_mint = requests.get(url + wallet).text
             print (ID,wl_mint)
             #at_obj.update("temp",rid,{"proof":wl_mint})
 
