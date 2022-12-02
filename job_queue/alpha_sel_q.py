@@ -73,6 +73,8 @@ class alphaJobs():
         self.driver.maximize_window()
         time.sleep(4)
         loaded = False
+        if len(self.driver.window_handles) >= 4:
+            time.sleep(10000)
         while not loaded:
             try:
                 WebDriverWait(self.driver, 10).until(
