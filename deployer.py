@@ -1,5 +1,6 @@
 import urllib.request
 import zipfile
+print ('test.......................!!')
 zip = "https://github.com/kosmosmo/autoRaffle/archive/refs/heads/master.zip"
 dir = r"C:\Users\Administrator\Desktop\bot.zip"
 base_dir = r"C:\Users\Administrator\Desktop"
