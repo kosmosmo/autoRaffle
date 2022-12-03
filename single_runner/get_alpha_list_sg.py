@@ -1,7 +1,6 @@
-from airtable_wrapper import AirtableWrapper
+#from airtable_wrapper import AirtableWrapper
 import discum,json,pprint,sys,os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
-print (sys.path)
 from alpha_obj import alpha_obj
 from airtable_wrapper import AirtableWrapper
 import undetected_chromedriver as webdriver
