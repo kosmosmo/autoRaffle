@@ -9,7 +9,6 @@ from urllib.parse import urlparse
 from urllib.parse import parse_qs
 from discum.utils.button import Buttoner
 import time,datetime
-import get_raffle_list as premint
 import random
 root_path = ""
 
