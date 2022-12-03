@@ -114,16 +114,16 @@ def archive_raffles():
             at_obj.delete("alpha list",rid)
             time.sleep(0.2)
 
-def archive_premint():
-    raffle_lists = at_obj.get_all("raffle list").get('records')
-    for item in raffle_lists:
-        rid = item.get('id')
-        fields = item.get('fields')
-        status = fields.get("status",'')
-        if status == "Done" or status == "Nope":
-            at_archive.create("archive_premint",fields)
-            at_obj.delete("raffle list",rid)
-            time.sleep(0.2)
+#def archive_premint():
+#   raffle_lists = at_obj.get_all("raffle list").get('records')
+#   for item in raffle_lists:
+#       rid = item.get('id')
+#       fields = item.get('fields')
+#       status = fields.get("status",'')
+#       if status == "Done" or status == "Nope":
+#           at_archive.create("archive_premint",fields)
+#           at_obj.delete("raffle list",rid)
+#           time.sleep(0.2)
 
 @bot.gateway.command
 def monitoring(resp):
@@ -131,8 +131,8 @@ def monitoring(resp):
     if resp.event.ready_supplemental:
         get_alpha_index()
         #clean_alpha_index()
-        archive_raffles()
-        archive_premint()
+        #archive_raffles()
+        #archive_premint()
         bot.gateway.close()
 
 class dc_monitor():
@@ -144,5 +144,5 @@ if __name__ == "__main__":
     #premint.get_links()
     #premint.driver.close()
     #time.sleep(5)
-    #dc_monitor_object = dc_monitor()
-    #dc_monitor_object.runner()
+    dc_monitor_object = dc_monitor()
+    dc_monitor_object.runner()
