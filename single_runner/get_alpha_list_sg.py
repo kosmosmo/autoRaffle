@@ -10,8 +10,7 @@ from urllib.parse import parse_qs
 from discum.utils.button import Buttoner
 import time,datetime
 import random
-root_path = ""
-
+root_path = os.path.dirname(os.path.realpath(__file__))+ '\\'
 def _get_keys():
     f = open(root_path + 'key_sg.json')
     data = json.load(f)
