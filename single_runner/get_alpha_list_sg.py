@@ -1,5 +1,7 @@
 from airtable_wrapper import AirtableWrapper
-import discum,json,pprint
+import discum,json,pprint,sys,os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+print (sys.path)
 from alpha_obj import alpha_obj
 from airtable_wrapper import AirtableWrapper
 import undetected_chromedriver as webdriver
@@ -37,7 +39,7 @@ def get_twitter_machine():
     return res
 
 def get_alpha_index():
-    machine_list = get_twitter_machine()
+    #machine_list = get_twitter_machine()
     index_list = at_obj.get_all("alpha index").get('records')
     for item in index_list:
         fields = item.get('fields')
@@ -61,14 +63,14 @@ def get_alpha_index():
                     continue
             find_rec = at_obj.get("alpha list", filter_by_formula='FIND("{}", Url)'.format(urllow)).get(
                 'records')
-            machine_pick = random.choice(machine_list)
+            #machine_pick = random.choice(machine_list)
             if not find_rec:
                 at_obj.create("alpha list", {
                     "url":urllow,
                     "alpha index":[str(rid)],
                     "time":tt,
                     "end" : end,
-                    "assigned machine":[machine_pick],
+
                     "skip":True
                 })
         time.sleep(1)
@@ -140,9 +142,5 @@ class dc_monitor():
         bot.gateway.run(auto_reconnect=True)
 
 if __name__ == "__main__":
-    pass
-    #premint.get_links()
-    #premint.driver.close()
-    #time.sleep(5)
     dc_monitor_object = dc_monitor()
     dc_monitor_object.runner()
