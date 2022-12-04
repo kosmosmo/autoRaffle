@@ -147,7 +147,7 @@ while True:
         b.run()
         print('#############################################################')
         print ('done...! Sleep for 500 sec!')
-        time.sleep(10)
+        time.sleep(500)
     except Exception as e:
         print (e)
         for i in range(10):

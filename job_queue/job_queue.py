@@ -46,7 +46,7 @@ class job_queue():
                 except:
                     tried += 1
             i += 1
-            time.sleep(250)
+            time.sleep(10)
 
     def auto_clean_pref(self):
         bad_file_path = r'C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Preferences.bad'
