@@ -256,10 +256,10 @@ class alphaJobs():
             self.driver.execute_script("window.scrollTo(0, 2000)")
             sol = solution.Solution(self.driver)
             sol.resolve()
+            self.driver.switch_to.default_content()
 
         try:
-            time.sleep(4)
-            self.driver.switch_to.default_content()
+            time.sleep(10)
             reg_btn.click()
             time.sleep(10)
         except Exception as e:
@@ -283,14 +283,11 @@ class alphaJobs():
             self.driver = self.get_driver()
             time.sleep(10)
             try:
-                try:
+                if self._check_captcha():
                     self.driver.execute_script("window.scrollTo(0, 2000)")
                     sol = solution.Solution(self.driver)
                     sol.resolve()
-                    print('done....................!')
-                except Exception as e:
-                    print (e)
-
+                    self.driver.switch_to.default_content()
                 reg_btn_new = self.driver.find_element(By.CSS_SELECTOR,
                                                    '.MuiButton-root[data-action ="view-project-register"]')
                 reg_btn_new.click()
