@@ -240,7 +240,7 @@ class alphaJobs():
 
     def _click_reg(self):
         if self._check_captcha():
-            print ("captcha!!!!!!!!!!!!!!!!!!")
+            print ("captcha!!!!!!!!!!!!!!!!!!aaaaaaaaaaaaaaaaaa")
             self.driver.execute_script("window.scrollTo(0, 2000)")
             #find_rec = at_obj.get("alpha list", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
             #    'records')
