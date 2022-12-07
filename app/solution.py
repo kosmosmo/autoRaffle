@@ -35,6 +35,7 @@ class Solution(object):
     def switch_to_captcha_entry_iframe(self) -> None:
         print ('test!!!')
         captcha_entry_iframe: WebElement = self.get_captcha_entry_iframe()
+        print ('test!2')
         self.browser.switch_to.frame(captcha_entry_iframe)
 
     def get_captcha_content_iframe(self) -> WebElement:
