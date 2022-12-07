@@ -252,17 +252,14 @@ class alphaJobs():
             reg_btn = self.driver.find_element(By.CSS_SELECTOR, '.MuiButton-root[data-action ="view-project-register"]')
         except:
             return
-
         if self._check_captcha():
-            try:
-                self.driver.execute_script("window.scrollTo(0, 2000)")
-                sol = solution.Solution(self.driver)
-                sol.resolve()
-                print ('done....................!')
-            except Exception as e:
-                print (e)
+            self.driver.execute_script("window.scrollTo(0, 2000)")
+            sol = solution.Solution(self.driver)
+            sol.resolve()
+
         try:
             time.sleep(4)
+            self.driver.switchTo().defaultContent()
             reg_btn.click()
             time.sleep(10)
         except Exception as e:
