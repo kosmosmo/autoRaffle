@@ -249,14 +249,12 @@ class alphaJobs():
             #    fail = find_rec[0].get('fields').get('fail reason', "")
             #    if not fail or fail == "unknow":
             #        at_obj.update("alpha list", rid, {"fail reason": "captcha"})
+
             sol = solution.Solution(self.driver)
-            sol.trigger_captcha()
             try:
-                text = sol.get_captcha_target_name()
-                print ('hi.....................')
-                print (text)
-            except:
-                pass
+                sol.resolve()
+            except Exception as e:
+                print (e)
             #time.sleep(36000)
             #self.driver.quit()
             return
