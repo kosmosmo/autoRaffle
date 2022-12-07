@@ -68,6 +68,8 @@ class Solution(object):
         self.switch_to_captcha_entry_iframe()
         captcha_entry = self.wait.until(EC.presence_of_element_located(
             (By.ID, 'recaptcha-anchor')))
+        print ('.........................hey hey')
+        print (captcha_entry)
         captcha_entry.click()
         time.sleep(2)
         self.switch_to_captcha_content_iframe()
