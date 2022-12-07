@@ -243,6 +243,7 @@ class alphaJobs():
 
     def _click_reg(self):
         if self._check_captcha():
+            self.driver.execute_script("window.scrollTo(0, 2000)")
             find_rec = at_obj.get("alpha list", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
                 'records')
             if find_rec:
@@ -250,6 +251,7 @@ class alphaJobs():
                 fail = find_rec[0].get('fields').get('fail reason', "")
                 if not fail or fail == "unknow":
                     at_obj.update("alpha list", rid, {"fail reason": "captcha"})
+            time.sleep(36000)
             self.driver.quit()
             return
         if not self._check_over():

@@ -36,4 +36,4 @@ def pop(rid,url=""):
         else:
             print ('skip ' + wallet.lower())
 
-pop("rec1Xo0iVD2iyCWA1",'https://twitter.com/genki_nft?utm_source=alphabot.app')
+pop("recQXY8gscRPUTPA1",'https://www.hungryhamster.club/')
