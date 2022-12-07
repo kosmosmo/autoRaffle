@@ -239,20 +239,7 @@ class alphaJobs():
         return res
 
     def _click_reg(self):
-        if self._check_captcha():
-            print ("captcha!!!!!!!!!!!!!!!!!!aaaaaaaaaaaaaaaaaa")
-            self.driver.execute_script("window.scrollTo(0, 2000)")
-            #find_rec = at_obj.get("alpha list", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
-            #    'records')
-            #if find_rec:
-            #    rid = find_rec[0].get('id')
-            #    fail = find_rec[0].get('fields').get('fail reason', "")
-            #    if not fail or fail == "unknow":
-            #        at_obj.update("alpha list", rid, {"fail reason": "captcha"})
-            sol = solution.Solution(self.driver)
-            sol.resolve()
-            #time.sleep(36000)
-            #self.driver.quit()
+
         if not self._check_over():
             try:
                 at_obj.delete("alpha list",self.rid)
@@ -265,6 +252,15 @@ class alphaJobs():
             reg_btn = self.driver.find_element(By.CSS_SELECTOR, '.MuiButton-root[data-action ="view-project-register"]')
         except:
             return
+
+        if self._check_captcha():
+            try:
+                self.driver.execute_script("window.scrollTo(0, 2000)")
+                sol = solution.Solution(self.driver)
+                sol.resolve()
+                print ('done....................!')
+            except Exception as e:
+                print (e)
         time.sleep(4)
         reg_btn.click()
         time.sleep(10)
@@ -287,6 +283,14 @@ class alphaJobs():
             self.driver = self.get_driver()
             time.sleep(10)
             try:
+                try:
+                    self.driver.execute_script("window.scrollTo(0, 2000)")
+                    sol = solution.Solution(self.driver)
+                    sol.resolve()
+                    print('done....................!')
+                except Exception as e:
+                    print (e)
+
                 reg_btn_new = self.driver.find_element(By.CSS_SELECTOR,
                                                    '.MuiButton-root[data-action ="view-project-register"]')
                 reg_btn_new.click()
