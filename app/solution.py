@@ -70,9 +70,12 @@ class Solution(object):
         time.sleep(2)
         try:
             self.switch_to_captcha_content_iframe()
-        except Exception as e:
-            print (e)
-        entire_captcha_element: WebElement = self.get_entire_captcha_element()
+            entire_captcha_element: WebElement = self.get_entire_captcha_element()
+            print ('hi')
+            return True
+        except:
+            print ('no pics')
+            return False
         #if entire_captcha_element.is_displayed:
         #    logger.debug('trigged captcha successfully')
 
@@ -198,5 +201,5 @@ class Solution(object):
             self.verify_entire_captcha()
 
     def resolve(self):
-        self.trigger_captcha()
-        self.verify_entire_captcha()
+        if self.trigger_captcha():
+            self.verify_entire_captcha()
