@@ -261,9 +261,12 @@ class alphaJobs():
                 print ('done....................!')
             except Exception as e:
                 print (e)
-        time.sleep(4)
-        reg_btn.click()
-        time.sleep(10)
+        try:
+            time.sleep(4)
+            reg_btn.click()
+            time.sleep(10)
+        except Exception as e:
+            print(e)
         checker = self._find_error()
         if checker:
             if self._check_success_reg():
