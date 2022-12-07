@@ -1,20 +1,16 @@
-import time,random,json,os,sys
+import time, json,os,sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 import undetected_chromedriver as webdriver
 from airtable_wrapper import AirtableWrapper
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
-from selenium.webdriver import ActionChains
-from selenium.webdriver.common.keys import Keys
 
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
-from alpha_sel_profiles import profileJob
 import twitter_job,os
 import random
-import RecaptchaResolver.app.solution as solution
+import app.solution as solution
 
 filter_out = [
     "https://twitter.com/premint_nft",

@@ -1,5 +1,5 @@
 
-from app.settings import CAPTCHA_DEMO_URL
+from app import CAPTCHA_DEMO_URL
 from app.solution import Solution
 
 
