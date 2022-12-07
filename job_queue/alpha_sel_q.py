@@ -256,11 +256,12 @@ class alphaJobs():
             self.driver.execute_script("window.scrollTo(0, 2000)")
             sol = solution.Solution(self.driver)
             sol.resolve()
-            self.driver.switch_to.default_content()
+
             time.sleep(5)
 
 
         try:
+            self.driver.switch_to.default_content()
             print (1)
             time.sleep(10)
             reg_btn.click()
