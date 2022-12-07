@@ -33,6 +33,7 @@ class Solution(object):
         return captcha_entry_iframe
 
     def switch_to_captcha_entry_iframe(self) -> None:
+        print ('test!!!')
         captcha_entry_iframe: WebElement = self.get_captcha_entry_iframe()
         self.browser.switch_to.frame(captcha_entry_iframe)
 
@@ -65,6 +66,7 @@ class Solution(object):
         return None
 
     def trigger_captcha(self) -> None:
+        print('.........................hey hey 1')
         self.switch_to_captcha_entry_iframe()
         captcha_entry = self.wait.until(EC.presence_of_element_located(
             (By.ID, 'recaptcha-anchor')))
