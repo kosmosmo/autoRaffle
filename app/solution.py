@@ -68,7 +68,10 @@ class Solution(object):
             (By.ID, 'recaptcha-anchor')))
         captcha_entry.click()
         time.sleep(2)
-        self.switch_to_captcha_content_iframe()
+        try:
+            self.switch_to_captcha_content_iframe()
+        except Exception as e:
+            print (e)
         entire_captcha_element: WebElement = self.get_entire_captcha_element()
         #if entire_captcha_element.is_displayed:
         #    logger.debug('trigged captcha successfully')
