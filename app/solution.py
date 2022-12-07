@@ -17,7 +17,7 @@ class Solution(object):
         self.captcha_resolver = CaptchaResolver()
 
     def __del__(self):
-        time.sleep(10)
+        time.sleep(6)
         self.browser.close()
 
     def get_all_frames(self) -> List[WebElement]:
