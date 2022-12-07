@@ -1,10 +1,18 @@
-from environs import Env
+#from environs import Env
+import os,json
 
-env = Env()
-env.read_env()
+
+root_path =os.path.dirname(os.path.dirname(os.path.realpath(__file__)))+ '\\'
+def _get_key():
+    f = open(root_path + 'key.json')
+    data = json.load(f)
+    return data
+data = _get_key()
+capture = data["capture"]
+
 
 CAPTCHA_RESOLVER_API_URL = 'https://api.yescaptcha.com/createTask'
-CAPTCHA_RESOLVER_API_KEY = env.str('CAPTCHA_RESOLVER_API_KEY')
+CAPTCHA_RESOLVER_API_KEY =capture
 
 CAPTCHA_DEMO_URL = 'https://www.google.com/recaptcha/api2/demo'
 
