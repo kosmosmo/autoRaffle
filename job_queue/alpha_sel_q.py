@@ -250,10 +250,7 @@ class alphaJobs():
             #    if not fail or fail == "unknow":
             #        at_obj.update("alpha list", rid, {"fail reason": "captcha"})
             sol = solution.Solution(self.driver)
-            try:
-                sol.resolve()
-            except Exception as e:
-                print (e)
+            sol.resolve()
             #time.sleep(36000)
             #self.driver.quit()
         if not self._check_over():
