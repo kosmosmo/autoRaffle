@@ -259,7 +259,7 @@ class alphaJobs():
 
         try:
             time.sleep(4)
-            self.driver.switch_to.defaultContent()
+            self.driver.switch_to.default_content()
             reg_btn.click()
             time.sleep(10)
         except Exception as e:
