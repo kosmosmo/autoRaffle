@@ -239,7 +239,9 @@ class alphaJobs():
         return res
 
     def _click_reg(self):
-
+        if self._check_success_reg():
+            self.driver.quit()
+            return
         if not self._check_over():
             try:
                 at_obj.delete("alpha list",self.rid)
