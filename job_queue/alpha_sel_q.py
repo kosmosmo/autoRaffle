@@ -249,7 +249,6 @@ class alphaJobs():
             #    fail = find_rec[0].get('fields').get('fail reason', "")
             #    if not fail or fail == "unknow":
             #        at_obj.update("alpha list", rid, {"fail reason": "captcha"})
-
             sol = solution.Solution(self.driver)
             try:
                 sol.resolve()
@@ -257,7 +256,6 @@ class alphaJobs():
                 print (e)
             #time.sleep(36000)
             #self.driver.quit()
-            return
         if not self._check_over():
             try:
                 at_obj.delete("alpha list",self.rid)

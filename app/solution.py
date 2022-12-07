@@ -6,11 +6,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.remote.webelement import WebElement
 import time
-from loguru import logger
 from app.captcha_resolver import CaptchaResolver
 from app.settings import CAPTCHA_ENTIRE_IMAGE_FILE_PATH, CAPTCHA_SINGLE_IMAGE_FILE_PATH
 from app.utils import get_question_id_by_target_name, resize_base64_image
-
 
 class Solution(object):
     def __init__(self, driver):
@@ -72,8 +70,8 @@ class Solution(object):
         time.sleep(2)
         self.switch_to_captcha_content_iframe()
         entire_captcha_element: WebElement = self.get_entire_captcha_element()
-        if entire_captcha_element.is_displayed:
-            logger.debug('trigged captcha successfully')
+        #if entire_captcha_element.is_displayed:
+        #    logger.debug('trigged captcha successfully')
 
     def get_captcha_target_name(self) -> WebElement:
         captcha_target_name_element: WebElement = self.wait.until(EC.presence_of_element_located(
@@ -91,14 +89,14 @@ class Solution(object):
             (By.CSS_SELECTOR, '#rc-imageselect-target table td')))
         single_captcha_element: WebElement = elements[index]
         class_name = single_captcha_element.get_attribute('class')
-        logger.debug(f'verifiying single captcha {index}, class {class_name}')
+        #logger.debug(f'verifiying single captcha {index}, class {class_name}')
         if 'selected' in class_name:
-            logger.debug(f'no new single captcha displayed')
+            #logger.debug(f'no new single captcha displayed')
             return
-        logger.debug('new single captcha displayed')
+        #logger.debug('new single captcha displayed')
         single_captcha_url = single_captcha_element.find_element(By.CSS_SELECTOR,
             'img').get_attribute('src')
-        logger.debug(f'single_captcha_url {single_captcha_url}')
+        #logger.debug(f'single_captcha_url {single_captcha_url}')
         with open(CAPTCHA_SINGLE_IMAGE_FILE_PATH, 'wb') as f:
             f.write(requests.get(single_captcha_url).content)
         resized_single_captcha_base64_string = resize_base64_image(
@@ -106,15 +104,15 @@ class Solution(object):
         single_captcha_recognize_result = self.captcha_resolver.create_task(
             resized_single_captcha_base64_string, get_question_id_by_target_name(self.captcha_target_name))
         if not single_captcha_recognize_result:
-            logger.error('count not get single captcha recognize result')
+            #logger.error('count not get single captcha recognize result')
             return
         has_object = single_captcha_recognize_result.get(
             'solution', {}).get('hasObject')
         if has_object is None:
-            logger.error('count not get captcha recognized indices')
+            #logger.error('count not get captcha recognized indices')
             return
         if has_object is False:
-            logger.debug('no more object in this single captcha')
+            #logger.debug('no more object in this single captcha')
             return
         if has_object:
             single_captcha_element.click()
@@ -132,7 +130,7 @@ class Solution(object):
             By.ID, 'recaptcha-anchor'
         )))
         checked = anchor.get_attribute('aria-checked')
-        logger.debug(f'checked {checked}')
+        #logger.debug(f'checked {checked}')
         return str(checked) == 'true'
 
     def get_is_failed(self):
@@ -140,37 +138,37 @@ class Solution(object):
 
     def verify_entire_captcha(self):
         self.entire_captcha_natural_width = self.get_entire_captcha_natural_width()
-        logger.debug(
-            f'entire_captcha_natural_width {self.entire_captcha_natural_width}'
-        )
+        #logger.debug(
+        #    f'entire_captcha_natural_width {self.entire_captcha_natural_width}'
+        #)
         self.captcha_target_name = self.get_captcha_target_name()
-        logger.debug(
-            f'captcha_target_name {self.captcha_target_name}'
-        )
+        #logger.debug(
+        #    f'captcha_target_name {self.captcha_target_name}'
+        #)
         entire_captcha_element: WebElement = self.get_entire_captcha_element()
         entire_captcha_url = entire_captcha_element.find_element(By.CSS_SELECTOR,
             'td img').get_attribute('src')
-        logger.debug(f'entire_captcha_url {entire_captcha_url}')
+        #logger.debug(f'entire_captcha_url {entire_captcha_url}')
         with open(CAPTCHA_ENTIRE_IMAGE_FILE_PATH, 'wb') as f:
             f.write(requests.get(entire_captcha_url).content)
-        logger.debug(
-            f'saved entire captcha to {CAPTCHA_ENTIRE_IMAGE_FILE_PATH}')
+        #logger.debug(
+        #    f'saved entire captcha to {CAPTCHA_ENTIRE_IMAGE_FILE_PATH}')
         resized_entire_captcha_base64_string = resize_base64_image(
             CAPTCHA_ENTIRE_IMAGE_FILE_PATH, (self.entire_captcha_natural_width,
                                              self.entire_captcha_natural_width))
-        logger.debug(
-            f'resized_entire_captcha_base64_string, {resized_entire_captcha_base64_string[0:100]}...')
+        #logger.debug(
+        #    f'resized_entire_captcha_base64_string, {resized_entire_captcha_base64_string[0:100]}...')
         entire_captcha_recognize_result = self.captcha_resolver.create_task(
             resized_entire_captcha_base64_string,
             get_question_id_by_target_name(self.captcha_target_name)
         )
         if not entire_captcha_recognize_result:
-            logger.error('count not get captcha recognize result')
+        #    logger.error('count not get captcha recognize result')
             return
         recognized_indices = entire_captcha_recognize_result.get(
             'solution', {}).get('objects')
         if not recognized_indices:
-            logger.error('count not get captcha recognized indices')
+        #    logger.error('count not get captcha recognized indices')
             return
         single_captcha_elements = self.wait.until(EC.visibility_of_all_elements_located(
             (By.CSS_SELECTOR, '#rc-imageselect-target table td')))
@@ -188,10 +186,12 @@ class Solution(object):
 
         is_succeed = self.get_is_successful()
         if is_succeed:
-            logger.debug('verifed successfully')
+        #    logger.debug('verifed successfully')
+            print ('verifed successfully')
         else:
             verify_error_info = self.get_verify_error_info()
-            logger.debug(f'verify_error_info {verify_error_info}')
+            #logger.debug(f'verify_error_info {verify_error_info}')
+            print (verify_error_info)
             self.verify_entire_captcha()
 
     def resolve(self):
