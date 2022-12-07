@@ -287,7 +287,9 @@ class alphaJobs():
                     self.driver.execute_script("window.scrollTo(0, 2000)")
                     sol = solution.Solution(self.driver)
                     sol.resolve()
+                    time.sleep(8)
                     self.driver.switch_to.default_content()
+                    time.sleep(8)
                 reg_btn_new = self.driver.find_element(By.CSS_SELECTOR,
                                                    '.MuiButton-root[data-action ="view-project-register"]')
                 reg_btn_new.click()
