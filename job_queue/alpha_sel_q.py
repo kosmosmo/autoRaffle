@@ -263,6 +263,9 @@ class alphaJobs():
             time.sleep(3)
             reg_btn.click()
             time.sleep(10)
+            if self._check_success_reg():
+                self.driver.quit()
+                return
         except Exception as e:
             print(e)
         checker = self._find_error()
