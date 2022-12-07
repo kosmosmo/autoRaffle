@@ -1,5 +1,5 @@
 import time,random,json,os,sys
-#sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 import undetected_chromedriver as webdriver
 from airtable_wrapper import AirtableWrapper
 from selenium.webdriver.common.by import By
@@ -14,6 +14,7 @@ from urllib.parse import parse_qs
 from alpha_sel_profiles import profileJob
 import twitter_job,os
 import random
+import RecaptchaResolver.app.solution as solution
 
 filter_out = [
     "https://twitter.com/premint_nft",
@@ -245,13 +246,15 @@ class alphaJobs():
         if self._check_captcha():
             print ("captcha!!!!!!!!!!!!!!!!!!")
             self.driver.execute_script("window.scrollTo(0, 2000)")
-            find_rec = at_obj.get("alpha list", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
-                'records')
-            if find_rec:
-                rid = find_rec[0].get('id')
-                fail = find_rec[0].get('fields').get('fail reason', "")
-                if not fail or fail == "unknow":
-                    at_obj.update("alpha list", rid, {"fail reason": "captcha"})
+            #find_rec = at_obj.get("alpha list", filter_by_formula='FIND("{}", Url)'.format(self.url)).get(
+            #    'records')
+            #if find_rec:
+            #    rid = find_rec[0].get('id')
+            #    fail = find_rec[0].get('fields').get('fail reason', "")
+            #    if not fail or fail == "unknow":
+            #        at_obj.update("alpha list", rid, {"fail reason": "captcha"})
+            sol = solution.Solution(self.driver)
+            sol.trigger_captcha()
             time.sleep(36000)
             self.driver.quit()
             return
