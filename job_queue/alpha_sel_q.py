@@ -251,11 +251,14 @@ class alphaJobs():
             #        at_obj.update("alpha list", rid, {"fail reason": "captcha"})
             sol = solution.Solution(self.driver)
             sol.trigger_captcha()
-            text = sol.get_captcha_target_name()
-            print ('hi.....................')
-            print (text)
-            time.sleep(36000)
-            self.driver.quit()
+            try:
+                text = sol.get_captcha_target_name()
+                print ('hi.....................')
+                print (text)
+            except:
+                pass
+            #time.sleep(36000)
+            #self.driver.quit()
             return
         if not self._check_over():
             try:
