@@ -261,7 +261,7 @@ class alphaJobs():
 
 
         try:
-            self.driver.switch_to.default_content()
+            print (1)
             time.sleep(10)
             reg_btn.click()
             time.sleep(10)
