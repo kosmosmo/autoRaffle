@@ -117,7 +117,12 @@ class alphaJobs():
 
     def _check_over(self):
         try:
+            time.sleep(2)
+            self.driver.execute_script("window.scrollTo(0, 2000)")
             over = self.driver.find_element(By.CLASS_NAME, 'MuiTypography-root.MuiTypography-h5')
+            time.sleep(2)
+            self.driver.execute_script("window.scrollTo(0, 0)")
+            time.sleep(2)
             if "You're not a winner. Maybe next time!" in over.text or "You're a winner! Congratulations" in over.text or "Raffle is over." in over.text:
                 return False
             return True
@@ -150,7 +155,12 @@ class alphaJobs():
     def _check_success_reg(self):
         time.sleep(6)
         try:
+            time.sleep(2)
+            self.driver.execute_script("window.scrollTo(0, 2000)")
             checking = self.driver.find_element(By.CLASS_NAME, 'MuiTypography-root.MuiTypography-h5.css-uz8pyt')
+            time.sleep(2)
+            self.driver.execute_script("window.scrollTo(0, 0)")
+            time.sleep(2)
         except:
             return False
         if checking:
@@ -253,7 +263,6 @@ class alphaJobs():
         try:
             reg_btn = self.driver.find_element(By.CSS_SELECTOR, '.MuiButton-root[data-action ="view-project-register"]')
         except Exception as e:
-            print (e)
             return
         if self._check_captcha():
             self.driver.execute_script("window.scrollTo(0, 2000)")
@@ -264,7 +273,6 @@ class alphaJobs():
             try:
                 self.driver.switch_to.default_content()
             except Exception as e:
-                print(e)
                 return
             time.sleep(3)
             reg_btn.click()
@@ -273,7 +281,7 @@ class alphaJobs():
                 self.driver.quit()
                 return
         except Exception as e:
-            print(e)
+            pass
         checker = self._find_error()
         if checker:
             if self._check_success_reg():
