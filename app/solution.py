@@ -90,7 +90,7 @@ class Solution(object):
         return verify_button
 
     def verify_single_captcha(self, index):
-        time.sleep(10)
+        time.sleep(5)
         elements = self.wait.until(EC.visibility_of_all_elements_located(
             (By.CSS_SELECTOR, '#rc-imageselect-target table td')))
         single_captcha_element: WebElement = elements[index]
