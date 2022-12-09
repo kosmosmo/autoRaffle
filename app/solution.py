@@ -67,7 +67,7 @@ class Solution(object):
         captcha_entry = self.wait.until(EC.presence_of_element_located(
             (By.ID, 'recaptcha-anchor')))
         captcha_entry.click()
-        time.sleep(2)
+        time.sleep(6)
         try:
             self.switch_to_captcha_content_iframe()
             entire_captcha_element: WebElement = self.get_entire_captcha_element()
