@@ -104,8 +104,15 @@ class alphaJobs():
             self.driver.quit()
             time.sleep(8)
             self.on_start()
-
-        self._click_reg()
+        tried = 0
+        while tried < 3:
+            try:
+                self._click_reg()
+                tried = 4
+            except:
+                self.driver.quit()
+                self.on_start()
+                tried += 1
         self.driver.quit()
         #if profiles:
         #    for item in profiles:
