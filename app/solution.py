@@ -71,10 +71,8 @@ class Solution(object):
         try:
             self.switch_to_captcha_content_iframe()
             entire_captcha_element: WebElement = self.get_entire_captcha_element()
-            print ('hi')
             return True
         except:
-            print ('no pics')
             return False
         #if entire_captcha_element.is_displayed:
         #    logger.debug('trigged captcha successfully')
