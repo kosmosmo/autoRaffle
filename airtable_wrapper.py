@@ -50,4 +50,20 @@ class AirtableWrapper(airtable.Airtable):
                     return table.get("id")
         return None
 
+    def get_tables(self):
+        url = "https://api.airtable.com/v0/meta/bases/{}/tables".format(self.base_id)
+        headers = {
+            'Authorization': f'Bearer ' + self.api_key,
+            'Content-Type': 'application/json'
+        }
+        r = requests.get(url=url, headers=headers)
+        data = json.loads(r.text)
+        tables = data.get('tables')
+        res = []
+        for item in tables:
+            res.append(item.get('name'))
+        return res
 
+"""at_obj = AirtableWrapper("appyof5SI3rbjSBUU","keyjOuS4tcdZXj9jU")
+a = at_obj.get_tables()
+print (a)"""

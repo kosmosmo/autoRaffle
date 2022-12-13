@@ -18,6 +18,9 @@ import cloudscraper
 import json
 import utils as _u
 import time
+import datetime,discum,re
+from datetime import datetime as dt
+
 root_path = "C:\\Users\\kosmo\\PycharmProjects\\autoRaffle\\"
 def _get_keys():
     f = open(root_path + 'key.json')
@@ -26,6 +29,7 @@ def _get_keys():
 keys = _get_keys()
 bearer_token = keys["bearer_token"]
 at_key = keys['key']
+token = keys['token']
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 at_obj = AirtableWrapper("appNj4kFlbJGa6IOm",at_key)
@@ -39,12 +43,70 @@ save_location = os.getcwd()
 
 
 
+
+
 class GmailException(Exception):
     """gmail base exception class"""
 
 
 class NoEmailFound(GmailException):
     """no email found"""
+
+def convert_to_airtable_time(date_time):
+    date_time += datetime.timedelta(hours=5)
+    at_time =  date_time.strftime("%Y-%m-%dT%H:%M:%S"+".000Z")
+    return at_time
+
+
+def _syncing(data):
+    tables = [["appNj4kFlbJGa6IOm","projects"]]
+    sub_app_id = "appyof5SI3rbjSBUU"
+    for item in AirtableWrapper(sub_app_id,at_key).get_tables():
+        tables.append([sub_app_id,item])
+    for t in tables:
+        if t[1] == "projects":
+            tw_url_cache_path = 'cache\\tw_url_cache.json'
+        else:
+            tw_url_cache_path = 'cache\\{}_tw_url_cache.json'.format(t[1])
+        if os.path.isfile(tw_url_cache_path):
+            tw_url_cache = _u._get_cache(tw_url_cache_path)
+            if data["url"].lower() in tw_url_cache['twitter']:
+                print (data["url"])
+                rid = tw_url_cache['twitter'][data["url"]]
+                at_obj_temp = AirtableWrapper(t[0], at_key)
+                at_obj_temp.update(t[1], rid, {
+                    "time": str(data["time"]),
+                    "Name": data["Name"],
+                    "Price": str(data["Price"])
+                })
+
+def sync_projects():
+    token_mango = token
+    bot = discum.Client(token=token_mango, log=False)
+    feed = bot.getMessages("1003297461634351144", 1)
+    data = json.loads(feed.text)[0].get('embeds', [{}])[0].get('fields', [])
+    for item in data:
+        f_data = {}
+        f_url = ""
+        f_price = ""
+        name = item.get('name').split(":")[0]
+        time = item.get('name').split(' <t:')[-1].replace(":t>", '').replace(":d>", '')
+        dt_object = datetime.datetime.fromtimestamp(int(time))
+        f_name =  name
+        price = item.get('value').split('\n')[0].split('**|**')
+        for p in price:
+            if "Raise" in p or 'star' in p:
+                continue
+            f_price = p.replace("Price:","").strip()
+        links = item.get('value').split('\n')[1].split(' **|** ')
+        for item in links:
+            if item.startswith('[Twitter]'):
+                f_url = re.search("(?P<url>https?://[^\s]+)", item).group("url")
+        f_data["time"] = str(convert_to_airtable_time(dt_object))
+        f_data["Name"] = f_name
+        f_data["Price"] = f_price
+        f_data["url"] = f_url.replace(")","")
+        _syncing(f_data)
 
 def search_emails(query_stirng: str, label_ids: List = None,sr=service):
     try:
@@ -83,7 +145,10 @@ def _get_emails(email):
         return [email_link.get('id')]
     return None
 
+
+
 def get_emails(sr=service):
+    global at_obj_set
     email_messages = search_emails(query_string,sr=sr)
     if not email_messages:
         return
@@ -96,13 +161,14 @@ def get_emails(sr=service):
         if not messageBody:
             messageBody =  messageDetail.get('payload', {}).get('body',{}).get('data')
         b = messageBody
-        body = str(base64.urlsafe_b64decode(b))
+        body = str(base64.urlsafe_b64decode(b).decode("utf-8"))
         soup = BeautifulSoup(body, 'html.parser')
         soup_text = soup.get_text(separator="\n").split('\n')
         alpha_url = ''
         machine = ''
         by = ''
         action = ''
+        by_flag = False
         for i in range(len(soup_text)):
             if soup_text[i].startswith('https://www.alphabot.app'):
                 alpha_url = soup_text[i]
@@ -110,10 +176,13 @@ def get_emails(sr=service):
                 machine = soup_text[i+1]
             elif soup_text[i].startswith('Raffle hosted by'):
                 by = soup_text[i+1]
-            elif soup_text[i].startswith('\\xe2\\x9c\\x85'):
-                action =  soup_text[i].replace('\\xe2\\x9c\\x85','').strip()
+                by_flag = True
+            elif soup_text[i].startswith('✅'):
+                action =  str(soup_text[i].replace('✅','').strip())
         if not alpha_url:
             continue
+        if not by_flag:
+            by = "aaPLACEHOLDERaa"
         table = 'projects'
         at_obj_m = at_obj
         tw_url_cache_path = 'cache\\tw_url_cache.json'
@@ -160,6 +229,11 @@ def get_emails(sr=service):
             })
             rid = created_data.get('id')
             tw_url_cache['twitter'][tw_url] = rid
+        if not tw_url_cache['alpha'][alpha_url].get("source"):
+            source = get_source_from_alpha(alpha_url)
+            if source:
+                tw_url_cache['alpha'][alpha_url]['source'] = source
+        source = tw_url_cache['alpha'][alpha_url]['source']
         _u._write_cache(tw_url_cache_path, tw_url_cache)
         wallets = at_obj_m.get(table,rid).get("fields").get('wallets',[])
         wallets.append(machine)
@@ -168,10 +242,22 @@ def get_emails(sr=service):
         if p_index:
             p_index += '\n'
         p_index += index
-        at_obj_m.update(table, rid, {"index": p_index})
+        at_obj_m.update(table, rid, {"index": p_index.replace("aaPLACEHOLDERaa",source)})
         sr.users().messages().modify(userId='me', id=msg_id, body={'removeLabelIds': ['UNREAD']}).execute()
         time.sleep(0.5)
     return res
+
+def get_source_from_alpha(url):
+    try:
+        scraper = cloudscraper.create_scraper(delay=10, browser={'custom': 'ScraperBot/1.0', })
+        req = scraper.get(url)
+        soup = BeautifulSoup(req.content, 'lxml')
+        data = json.loads(soup.find('script', id='__NEXT_DATA__').text)
+        source = data.get('props').get('pageProps').get('project').get('alphaTeam',{}).get('name','')
+        return source
+    except:
+        return None
+
 
 def get_twitter_from_alpha(url):
     try:
@@ -190,8 +276,10 @@ def get_twitter_name(tw_url):
     return tw_obj.get_name(user_name)
 
 def batch_get_email():
+    global at_obj_set
     for i in range(6):
         sr = google_apis.create_service(CLIENT_FILE,API_NAME,API_VERSION,SCOPES,prefix='_' + str(i))
         get_emails(sr=sr)
 
 batch_get_email()
+sync_projects()

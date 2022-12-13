@@ -66,6 +66,8 @@ class alphaJobs():
 
     def on_start(self):
         self.driver = self.get_driver()
+        if len(self.driver.window_handles) >= 5:
+            time.sleep(36000)
         time.sleep(4)
         self.driver.maximize_window()
         time.sleep(4)
