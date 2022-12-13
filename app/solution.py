@@ -173,16 +173,15 @@ class Solution(object):
             return
         recognized_indices = entire_captcha_recognize_result.get(
             'solution', {}).get('objects')
-        if not recognized_indices:
+        if recognized_indices:
         #    logger.error('count not get captcha recognized indices')
-            return
-        single_captcha_elements = self.wait.until(EC.visibility_of_all_elements_located(
-            (By.CSS_SELECTOR, '#rc-imageselect-target table td')))
-        for recognized_index in recognized_indices:
-            single_captcha_element: WebElement = single_captcha_elements[recognized_index]
-            single_captcha_element.click()
-            # check if need verify single captcha
-            self.verify_single_captcha(recognized_index)
+            single_captcha_elements = self.wait.until(EC.visibility_of_all_elements_located(
+                (By.CSS_SELECTOR, '#rc-imageselect-target table td')))
+            for recognized_index in recognized_indices:
+                single_captcha_element: WebElement = single_captcha_elements[recognized_index]
+                single_captcha_element.click()
+                # check if need verify single captcha
+                self.verify_single_captcha(recognized_index)
 
         # after all captcha clicked
         verify_button: WebElement = self.get_verify_button()
