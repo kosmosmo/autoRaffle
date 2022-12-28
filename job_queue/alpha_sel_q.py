@@ -150,7 +150,7 @@ class alphaJobs():
                 return True
             return False
         except Exception as e:
-            print (ee)
+            print (e)
             return False
 
     def _find_error(self):
