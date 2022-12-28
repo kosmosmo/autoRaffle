@@ -143,10 +143,8 @@ class alphaJobs():
         try:
             self.driver.switch_to.default_content()
             captcha_entry_iframe = self.driver.find_elements(By.CSS_SELECTOR,
-                "iframe")
-            print('find h')
-            print (captcha_entry_iframe)
-            print (len(captcha_entry_iframe))
+                'iframe[title="Widget containing checkbox for hCaptcha security challenge"]')
+            print ('find h')
             print (captcha_entry_iframe)
             if captcha_entry_iframe:
                 return True
