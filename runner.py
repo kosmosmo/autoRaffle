@@ -129,7 +129,7 @@ while True:
     try:
         print ('starting........!')
 
-        rand_time = random.randint(1,120)
+        rand_time = random.randint(1,2)
         #if machine_name in ["watergua","pink","lemon","lychee","pear","grape","pineapple"]:  ####using shard mode
         #    rand_time = 2                                                                    ####using shard mode
         time.sleep(rand_time)

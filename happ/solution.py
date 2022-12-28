@@ -148,5 +148,6 @@ class Solution(object):
             self.verify_captcha()
 
     def resolve(self):
+        print ('test................')
         self.trigger_captcha()
         self.verify_captcha()

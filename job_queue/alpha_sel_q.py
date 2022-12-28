@@ -276,8 +276,11 @@ class alphaJobs():
             return
         if self._check_captcha():
             self.driver.execute_script("window.scrollTo(0, 2000)")
-            sol = solution.Solution(self.driver)
-            sol.resolve()
+            try:
+                sol = solution.Solution(self.driver)
+                sol.resolve()
+            except Exception as e:
+                print (e)
             time.sleep(3)
         try:
             try:
