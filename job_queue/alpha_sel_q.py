@@ -141,8 +141,10 @@ class alphaJobs():
 
     def _check_captcha(self):
         try:
-            over = self.driver.find_element(By.CLASS_NAME, 'g-recaptcha-response')
-            if over:
+            self.driver.switch_to.default_content()
+            captcha_entry_iframe = self.driver.find_element_by_css_selector(
+                '.h-captcha > iframe')
+            if captcha_entry_iframe:
                 return True
             return False
         except:
