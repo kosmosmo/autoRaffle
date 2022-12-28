@@ -27,7 +27,7 @@ class Solution(object):
 
     def get_captcha_entry_iframe(self) -> WebElement:
         self.browser.switch_to.default_content()
-        captcha_entry_iframe = self.browser.find_element_by_css_selector(
+        captcha_entry_iframe = self.browser.find_element(By.CSS_SELECTOR,
             '.h-captcha > iframe')
         return captcha_entry_iframe
 
@@ -37,7 +37,7 @@ class Solution(object):
 
     def get_captcha_content_iframe(self) -> WebElement:
         self.browser.switch_to.default_content()
-        captcha_content_iframe = self.browser.find_element_by_xpath(
+        captcha_content_iframe = self.browser.find_element(By.XPATH,
             '//iframe[contains(@title, "Main content")]')
         return captcha_content_iframe
 
