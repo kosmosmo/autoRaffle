@@ -149,7 +149,8 @@ class alphaJobs():
             if captcha_entry_iframe:
                 return True
             return False
-        except:
+        except Exception as e:
+            print (ee)
             return False
 
     def _find_error(self):
