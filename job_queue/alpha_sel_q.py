@@ -10,7 +10,8 @@ from urllib.parse import urlparse
 from urllib.parse import parse_qs
 import twitter_job,os
 import random
-import app.solution as solution
+import happ.solution as solution
+
 
 filter_out = [
     "https://twitter.com/premint_nft",
