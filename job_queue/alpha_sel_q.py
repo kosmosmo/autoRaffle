@@ -142,15 +142,12 @@ class alphaJobs():
     def _check_captcha(self):
         try:
             self.driver.switch_to.default_content()
-            captcha_entry_iframe = self.driver.find_elements(By.CSS_SELECTOR,
+            captcha_entry_iframe = self.driver.find_element(By.CSS_SELECTOR,
                 'iframe[tabindex="0"]')
-            print ('find h')
-            print (captcha_entry_iframe)
             if captcha_entry_iframe:
                 return True
             return False
         except Exception as e:
-            print (e)
             return False
 
     def _find_error(self):

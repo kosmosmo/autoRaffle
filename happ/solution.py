@@ -15,9 +15,8 @@ from app.utils import resize_base64_image
 
 
 class Solution(object):
-    def __init__(self, url):
-        self.browser = webdriver.Chrome()
-        self.browser.get(url)
+    def __init__(self, browser):
+        self.browser = browser
         self.wait = WebDriverWait(self.browser, 10)
         self.captcha_resolver = CaptchaResolver()
 
@@ -28,7 +27,7 @@ class Solution(object):
     def get_captcha_entry_iframe(self) -> WebElement:
         self.browser.switch_to.default_content()
         captcha_entry_iframe = self.browser.find_element(By.CSS_SELECTOR,
-            '.h-captcha > iframe')
+                'iframe[tabindex="0"]')
         return captcha_entry_iframe
 
     def switch_to_captcha_entry_iframe(self) -> None:
