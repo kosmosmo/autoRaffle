@@ -44,6 +44,8 @@ class Solution(object):
 
     def switch_to_captcha_content_iframe(self) -> None:
         captcha_content_iframe: WebElement = self.get_captcha_content_iframe()
+        print ('getting title')
+        print (captcha_content_iframe.get_attribute("title"))
         self.browser.switch_to.frame(captcha_content_iframe)
 
     def get_captcha_element(self) -> WebElement:
