@@ -38,6 +38,8 @@ class Solution(object):
         self.browser.switch_to.default_content()
         captcha_content_iframe = self.browser.find_element(By.CSS_SELECTOR,
             'iframe[frameborder="0"]')
+        print ('content iframe..........................................')
+        print (captcha_content_iframe)
         return captcha_content_iframe
 
     def switch_to_captcha_content_iframe(self) -> None:
@@ -81,7 +83,7 @@ class Solution(object):
 
     def verify_captcha(self):
         # get target text
-        print ('get text')
+        print ('get text.............................')
         self.captcha_target_text = self.get_captcha_target_text()
         print (self.captcha_target_text)
         logger.debug(
