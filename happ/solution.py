@@ -41,7 +41,7 @@ class Solution(object):
         print (len(captcha_entry_iframe))
         for item in captcha_entry_iframe:
             print (item.get_attribute("title"))
-            if item.get_attribute("title") == "Main content of the hCaptcha challenge":
+            if item.get_attribute("title") and item.get_attribute("title") == "Main content of the hCaptcha challenge":
                 return item
 
     def switch_to_captcha_content_iframe(self) -> None:
