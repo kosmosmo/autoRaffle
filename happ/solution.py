@@ -48,12 +48,12 @@ class Solution(object):
 
     def get_captcha_element(self) -> WebElement:
         try:
-            captcha_element = self.browser.find_element(
-                (By.CLASS_NAME, 'task-grid'))
+            captcha_element = self.browser.find_element(By.CLASS_NAME, 'task-grid')
+            return captcha_element
         except Exception as e:
             print ('cant')
             print (e)
-        return captcha_element
+
 
     def trigger_captcha(self) -> None:
         self.switch_to_captcha_entry_iframe()
