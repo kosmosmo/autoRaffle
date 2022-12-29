@@ -151,6 +151,24 @@ class twitterJobs():
         except:
             pass
 
+    def check_login_bug2(self,url):
+        time.sleep(3)
+        try:
+            bug_pop = self.driver.find_element(By.CSS_SELECTOR,
+                                                               '.css-4rbku5[data-testid ="login"]')
+            if bug_pop:
+                print("bugged!2")
+                time.sleep(5)
+                self.driver.get("https://twitter.com/home")
+                time.sleep(4)
+                self.driver.refresh()
+                time.sleep(4)
+                self.driver.get(url)
+                time.sleep(4)
+                self.check_login_bug2(url)
+        except:
+            pass
+
     def actions(self,url,status):
         #status "unretweet" for retweet
         #status "unlike" for like
@@ -162,9 +180,11 @@ class twitterJobs():
             main = self.driver.window_handles[0]
             self.driver.switch_to.window(main)
             self.check_limited(url)
-            time.sleep(5)
+            time.sleep(2)
             self.check_login_bug(url)
-            time.sleep(5)
+            time.sleep(2)
+            self.check_login_bug2(url)
+            time.sleep(2)
             try:
                 WebDriverWait(self.driver, 30).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="confirmationSheetConfirm"]')))
@@ -248,7 +268,9 @@ class twitterJobs_undo(twitterJobs):
                 self.check_limited(new_url)
                 sleep_time = random.randint(10, 15)
                 time.sleep(sleep_time)
-                self.check_limited(new_url)
+                self.check_login_bug(new_url)
+                time.sleep(sleep_time)
+                self.check_login_bug2(new_url)
                 time.sleep(sleep_time)
 
 
