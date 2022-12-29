@@ -66,8 +66,9 @@ class Solution(object):
         #    logger.debug('trigged captcha successfully')
 
     def get_captcha_target_text(self) -> WebElement:
-        time.sleep(3)
-        captcha_target_name_element: WebElement = self.browser.find_element(By.CLASS_NAME,"prompt-text")
+        print ('oh yea')
+        captcha_target_name_element: WebElement = self.wait.until(EC.presence_of_element_located(
+            (By.CSS_SELECTOR, '.prompt-text')))
         return captcha_target_name_element.text
 
     def get_verify_button(self) -> WebElement:
@@ -88,6 +89,7 @@ class Solution(object):
         # get target text
         print ('get text.............................')
         self.captcha_target_text = self.get_captcha_target_text()
+        print ('get text hi!')
         print (self.captcha_target_text)
         logger.debug(
             f'captcha_target_text {self.captcha_target_text}'
