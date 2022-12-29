@@ -101,10 +101,10 @@ class Solution(object):
                 1) if match_result else None
             logger.debug(
                 f'single_captcha_element_url {single_captcha_element_url}')
-            with open(CAPTCHA_SINGLE_IMAGE_FILE_PATH % (i,), 'wb') as f:
+            with open(CAPTCHA_SINGLE_IMAGE_FILE_PATH % (str(i),), 'wb') as f:
                 f.write(requests.get(single_captcha_element_url).content)
             resized_single_captcha_base64_string = resize_base64_image(
-                CAPTCHA_SINGLE_IMAGE_FILE_PATH % (i,), (100, 100))
+                CAPTCHA_SINGLE_IMAGE_FILE_PATH % (str(i),), (100, 100))
             resized_single_captcha_base64_strings.append(
                 resized_single_captcha_base64_string)
 
