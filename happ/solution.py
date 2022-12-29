@@ -41,6 +41,9 @@ class Solution(object):
         for item in captcha_entry_iframe:
             if item.get_attribute("title") and item.get_attribute("title") == "Main content of the hCaptcha challenge":
                 return item
+            if item.get_attribute("title") and item.get_attribute("title") == "hCaptcha挑战的主要内容":
+                return item
+
 
     def switch_to_captcha_content_iframe(self) -> None:
         captcha_content_iframe: WebElement = self.get_captcha_content_iframe()
@@ -84,9 +87,6 @@ class Solution(object):
     def verify_captcha(self):
         # get target text
         self.captcha_target_text = self.get_captcha_target_text()
-        print('..........................................')
-        print(self.captcha_target_text)
-        print('..........................................')
         logger.debug(
             f'captcha_target_text {self.captcha_target_text}'
         )
