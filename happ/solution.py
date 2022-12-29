@@ -49,7 +49,7 @@ class Solution(object):
     def get_captcha_element(self) -> WebElement:
         try:
             captcha_element = self.browser.find_element(
-                (By.CLASS_NAME, '.task-grid'))
+                (By.CLASS_NAME, 'task-grid'))
         except Exception as e:
             print ('cant')
             print (e)
