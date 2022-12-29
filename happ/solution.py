@@ -110,8 +110,8 @@ class Solution(object):
             resized_single_captcha_base64_strings.append(
                 resized_single_captcha_base64_string)
 
-        logger.debug(
-            f'length of single_captcha_element_urls {len(resized_single_captcha_base64_strings)}')
+        #logger.debug(
+        #    f'length of single_captcha_element_urls {len(resized_single_captcha_base64_strings)}')
 
         # try to verify using API
         captcha_recognize_result = self.captcha_resolver.create_task(
