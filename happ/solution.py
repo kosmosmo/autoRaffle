@@ -58,17 +58,20 @@ class Solution(object):
         captcha_entry.click()
         time.sleep(2)
         self.switch_to_captcha_content_iframe()
-        #captcha_element: WebElement = self.get_captcha_element()
+        try:
+            captcha_element: WebElement = self.get_captcha_element()
+        except Exception as e:
+            print (e)
         time.sleep(3)
         print('hey1........................')
-        #if captcha_element.is_displayed:
-        #    print ('hey2........................')
-        #    logger.debug('trigged captcha successfully')
+        if captcha_element.is_displayed:
+            print ('hey2........................')
+            logger.debug('trigged captcha successfully')
 
     def get_captcha_target_text(self) -> WebElement:
         print ('oh yea')
-        time.sleep(3)
-        captcha_target_name_element= self.browser.find_element(By.CLASS_NAME, 'prompt-text')
+        captcha_target_name_element: WebElement = self.wait.until(EC.presence_of_element_located(
+            (By.CSS_SELECTOR, '.prompt-text')))
         return captcha_target_name_element.text
 
     def get_verify_button(self) -> WebElement:
