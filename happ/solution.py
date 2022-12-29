@@ -149,6 +149,7 @@ class Solution(object):
         if is_succeed:
             logger.debug('verifed successfully')
         else:
+            self.switch_to_captcha_content_iframe()
             self.verify_captcha()
 
     def resolve(self):
