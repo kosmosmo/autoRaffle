@@ -63,7 +63,6 @@ class Solution(object):
             logger.debug('trigged captcha successfully')
 
     def get_captcha_target_text(self) -> WebElement:
-        print ('oh yea')
         captcha_target_name_element: WebElement = self.wait.until(EC.presence_of_element_located(
             (By.CSS_SELECTOR, '.prompt-text')))
         return captcha_target_name_element.text
@@ -84,10 +83,7 @@ class Solution(object):
 
     def verify_captcha(self):
         # get target text
-        print ('get text.............................')
         self.captcha_target_text = self.get_captcha_target_text()
-        print ('get text hi!')
-        print (self.captcha_target_text)
         logger.debug(
             f'captcha_target_text {self.captcha_target_text}'
         )
@@ -96,6 +92,7 @@ class Solution(object):
             (By.CSS_SELECTOR, '.task-image .image-wrapper .image')))
         resized_single_captcha_base64_strings = []
         for i, single_captcha_element in enumerate(single_captcha_elements):
+            print (i,single_captcha_element)
             single_captcha_element_style = single_captcha_element.get_attribute(
                 'style')
             pattern = re.compile('url\("(https.*?)"\)')
