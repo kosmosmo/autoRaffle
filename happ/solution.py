@@ -36,10 +36,13 @@ class Solution(object):
 
     def get_captcha_content_iframe(self) -> WebElement:
         self.browser.switch_to.default_content()
-        captcha_content_iframe = self.browser.find_element(By.XPATH,"//iframe[@title='Main content of the hCaptcha challenge']")
-        print ('content iframe..........................................')
-        print (captcha_content_iframe)
-        return captcha_content_iframe
+        captcha_entry_iframe = self.browser.find_elements(By.CSS_SELECTOR,
+                                                         'iframe[frameborder="0"]')
+        print (len(captcha_entry_iframe))
+        for item in captcha_entry_iframe:
+            print (item.get_attribute("title"))
+            if item.get_attribute("title") == "Main content of the hCaptcha challenge":
+                return item
 
     def switch_to_captcha_content_iframe(self) -> None:
         captcha_content_iframe: WebElement = self.get_captcha_content_iframe()
