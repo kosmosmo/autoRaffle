@@ -1,5 +1,5 @@
 from loguru import logger
-from app.settings import CAPTCHA_RESOLVER_API_KEY, CAPTCHA_RESOLVER_API_URL
+from happ.settings import CAPTCHA_RESOLVER_API_KEY, CAPTCHA_RESOLVER_API_URL
 import requests
 
 

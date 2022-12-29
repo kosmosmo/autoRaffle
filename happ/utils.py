@@ -1,6 +1,6 @@
 from PIL import Image
 import base64
-from app.settings import CAPTCHA_RESIZED_IMAGE_FILE_PATH
+from happ.settings import CAPTCHA_RESIZED_IMAGE_FILE_PATH
 
 
 def resize_base64_image(filename, size):
