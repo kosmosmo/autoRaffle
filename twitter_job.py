@@ -133,6 +133,24 @@ class twitterJobs():
         except:
             pass
 
+    def check_login_bug(self,url):
+        time.sleep(3)
+        try:
+            bug_pop = self.driver.find_element(By.CSS_SELECTOR,
+                                                               '.css-1dbjc4n[data-testid ="IntentLoginSheet_Login_Sheet"]')
+            if bug_pop:
+                print("bugged!")
+                time.sleep(5)
+                self.driver.get("https://twitter.com/home")
+                time.sleep(4)
+                self.driver.refresh()
+                time.sleep(4)
+                self.driver.get(url)
+                time.sleep(4)
+                self.check_login_bug(url)
+        except:
+            pass
+
     def actions(self,url,status):
         #status "unretweet" for retweet
         #status "unlike" for like
@@ -144,6 +162,8 @@ class twitterJobs():
             main = self.driver.window_handles[0]
             self.driver.switch_to.window(main)
             self.check_limited(url)
+            time.sleep(5)
+            self.check_login_bug(url)
             time.sleep(5)
             try:
                 WebDriverWait(self.driver, 30).until(
@@ -227,6 +247,8 @@ class twitterJobs_undo(twitterJobs):
                 self.driver.switch_to.window(main)
                 self.check_limited(new_url)
                 sleep_time = random.randint(10, 15)
+                time.sleep(sleep_time)
+                self.check_limited(new_url)
                 time.sleep(sleep_time)
 
 
