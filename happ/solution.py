@@ -36,8 +36,8 @@ class Solution(object):
 
     def get_captcha_content_iframe(self) -> WebElement:
         self.browser.switch_to.default_content()
-        captcha_content_iframe = self.browser.find_element(By.XPATH,
-            '//iframe[contains(@title, "Main content")]')
+        captcha_content_iframe = self.browser.find_element(By.CSS_SELECTOR,
+            'iframe[frameborder="0"]')
         return captcha_content_iframe
 
     def switch_to_captcha_content_iframe(self) -> None:
