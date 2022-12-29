@@ -37,27 +37,19 @@ class Solution(object):
     def get_captcha_content_iframe(self) -> WebElement:
         self.browser.switch_to.default_content()
         captcha_entry_iframe = self.browser.find_elements(By.CSS_SELECTOR,
-                                                         'iframe[frameborder="0"]')
-        print (len(captcha_entry_iframe))
+                                                          'iframe[frameborder="0"]')
         for item in captcha_entry_iframe:
-            print (item.get_attribute("title"))
             if item.get_attribute("title") and item.get_attribute("title") == "Main content of the hCaptcha challenge":
                 return item
 
     def switch_to_captcha_content_iframe(self) -> None:
         captcha_content_iframe: WebElement = self.get_captcha_content_iframe()
-        print ('getting title')
-        print (captcha_content_iframe.get_attribute("title"))
         self.browser.switch_to.frame(captcha_content_iframe)
 
     def get_captcha_element(self) -> WebElement:
-        try:
-            captcha_element = self.browser.find_element(By.CLASS_NAME, 'task-grid')
-            return captcha_element
-        except Exception as e:
-            print ('cant')
-            print (e)
-
+        captcha_element: WebElement = self.wait.until(EC.element_to_be_clickable(
+            (By.CSS_SELECTOR, '.task-grid')))
+        return captcha_element
 
     def trigger_captcha(self) -> None:
         self.switch_to_captcha_entry_iframe()
@@ -66,14 +58,8 @@ class Solution(object):
         captcha_entry.click()
         time.sleep(2)
         self.switch_to_captcha_content_iframe()
-        try:
-            captcha_element: WebElement = self.get_captcha_element()
-        except Exception as e:
-            print (e)
-        time.sleep(3)
-        print('hey1........................')
+        captcha_element: WebElement = self.get_captcha_element()
         if captcha_element.is_displayed:
-            print ('hey2........................')
             logger.debug('trigged captcha successfully')
 
     def get_captcha_target_text(self) -> WebElement:
