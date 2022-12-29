@@ -99,8 +99,14 @@ class Solution(object):
             match_result = re.search(pattern, single_captcha_element_style)
             single_captcha_element_url = match_result.group(
                 1) if match_result else None
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!")
+            print(single_captcha_element_url)
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!")
             logger.debug(
                 f'single_captcha_element_url {single_captcha_element_url}')
+            print (".......................................")
+            print (CAPTCHA_SINGLE_IMAGE_FILE_PATH % (i,))
+            print(".......................................")
             with open(CAPTCHA_SINGLE_IMAGE_FILE_PATH % (str(i),), 'wb') as f:
                 f.write(requests.get(single_captcha_element_url).content)
             resized_single_captcha_base64_string = resize_base64_image(
