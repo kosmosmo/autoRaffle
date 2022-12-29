@@ -59,7 +59,9 @@ class Solution(object):
         time.sleep(2)
         self.switch_to_captcha_content_iframe()
         captcha_element: WebElement = self.get_captcha_element()
+        print('hey1........................')
         if captcha_element.is_displayed:
+            print ('hey2........................')
             logger.debug('trigged captcha successfully')
 
     def get_captcha_target_text(self) -> WebElement:
