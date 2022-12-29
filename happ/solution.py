@@ -81,7 +81,9 @@ class Solution(object):
 
     def verify_captcha(self):
         # get target text
+        print ('get text')
         self.captcha_target_text = self.get_captcha_target_text()
+        print (self.captcha_target_text)
         logger.debug(
             f'captcha_target_text {self.captcha_target_text}'
         )
@@ -147,6 +149,5 @@ class Solution(object):
             self.verify_captcha()
 
     def resolve(self):
-        print ('test................')
         self.trigger_captcha()
         self.verify_captcha()
