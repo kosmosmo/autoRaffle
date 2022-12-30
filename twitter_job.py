@@ -172,7 +172,7 @@ class twitterJobs():
     def check_phone(self):
         time.sleep(5)
         try:
-            phone = self.driver.find_element(By.CLASS_NAME,'PageHeader Edge')
+            phone = self.driver.find_element(By.CLASS_NAME,'PageContainer')
             if phone:
                 print ('PHONE!!!!!!!!!!!!!!!!!!!!!!')
                 time.sleep(60000)
