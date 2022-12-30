@@ -169,6 +169,18 @@ class twitterJobs():
         except:
             pass
 
+    def check_phone(self):
+        time.sleep(5)
+        try:
+            phone = self.driver.find_element(By.CLASS_NAME,'PageHeader Edge')
+            if phone:
+                print ('PHONE!!!!!!!!!!!!!!!!!!!!!!')
+                time.sleep(60000)
+        except:
+            pass
+        time.sleep(5)
+
+
     def actions(self,url,status):
         #status "unretweet" for retweet
         #status "unlike" for like
@@ -185,6 +197,7 @@ class twitterJobs():
             time.sleep(2)
             self.check_login_bug2(url)
             time.sleep(2)
+            self.check_phone()
             try:
                 WebDriverWait(self.driver, 30).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, '.css-18t94o4[data-testid ="confirmationSheetConfirm"]')))
@@ -271,6 +284,7 @@ class twitterJobs_undo(twitterJobs):
                 self.check_login_bug(new_url)
                 time.sleep(sleep_time)
                 self.check_login_bug2(new_url)
+                self.check_phone()
                 time.sleep(sleep_time)
 
 
