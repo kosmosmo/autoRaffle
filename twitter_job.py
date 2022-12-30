@@ -119,7 +119,7 @@ class twitterJobs():
         return duser
 
     def check_limited(self,url):
-        time.sleep(3)
+        time.sleep(2)
         try:
             limited_btn = self.driver.find_element(By.CLASS_NAME, "Button.EdgeButton.EdgeButton--primary")
             if limited_btn:
@@ -134,7 +134,7 @@ class twitterJobs():
             pass
 
     def check_login_bug(self,url):
-        time.sleep(3)
+        time.sleep(2)
         try:
             bug_pop = self.driver.find_element(By.CSS_SELECTOR,
                                                                '.css-1dbjc4n[data-testid ="IntentLoginSheet_Login_Sheet"]')
@@ -152,7 +152,7 @@ class twitterJobs():
             pass
 
     def check_login_bug2(self,url):
-        time.sleep(3)
+        time.sleep(2)
         try:
             bug_pop = self.driver.find_element(By.CSS_SELECTOR,
                                                                '.css-4rbku5[data-testid ="login"]')
@@ -170,7 +170,7 @@ class twitterJobs():
             pass
 
     def check_phone(self):
-        time.sleep(5)
+        time.sleep(2)
         try:
             phone = self.driver.find_element(By.CLASS_NAME,'PageContainer')
             if phone:
@@ -188,15 +188,13 @@ class twitterJobs():
         flag = True
         while flag:
             self.driver.get(url)
-            time.sleep(5)
+
             main = self.driver.window_handles[0]
             self.driver.switch_to.window(main)
+            time.sleep(5)
             self.check_limited(url)
-            time.sleep(2)
             self.check_login_bug(url)
-            time.sleep(2)
             self.check_login_bug2(url)
-            time.sleep(2)
             self.check_phone()
             try:
                 WebDriverWait(self.driver, 30).until(
@@ -278,11 +276,10 @@ class twitterJobs_undo(twitterJobs):
                 time.sleep(3)
                 main = self.driver.window_handles[0]
                 self.driver.switch_to.window(main)
-                self.check_limited(new_url)
                 sleep_time = random.randint(10, 15)
                 time.sleep(sleep_time)
+                self.check_limited(new_url)
                 self.check_login_bug(new_url)
-                time.sleep(sleep_time)
                 self.check_login_bug2(new_url)
                 self.check_phone()
                 time.sleep(sleep_time)
